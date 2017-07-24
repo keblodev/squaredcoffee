@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
+import Button from 'react-native-button'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-
-import { Route, Link } from 'react-router-native';
 
 import AppActions from '../../actions';
 
@@ -31,19 +30,22 @@ class Home extends Component {
 		return (
 			<View>
 
-		      <Button
-		        title="About"
-		        onPress={() =>
-		          navigate('About', { name: 'Jane' })
-		        }
-		      />
-		      <Button
-		        title="Drinks"
-		        onPress={() =>
-		          navigate('Drinks', { name: 'Jane' })
-		        }
-		      />
-
+				<Button
+					style={styles.buttonStyle}
+					onPress={() =>
+						navigate('About', { name: 'Jane' })
+					}
+				>
+					About
+				</Button>
+				<Button
+					style={styles.buttonStyle}
+					onPress={() =>
+						navigate('Drinks', { name: 'Jane' })
+					}
+				>
+					Drinks
+				</Button>
 			</View>
 		);
 	}
@@ -64,3 +66,26 @@ export default
 	// withRouter(
 		connect(mapState, mapDispatch)(Home)
 	// );
+
+const buttonStyle = {
+		padding:10,
+		margin: 10,
+		height:45,
+		overflow:'hidden',
+		borderRadius:4,
+		backgroundColor: 'white',
+		fontSize: 20,
+		color: 'grey'
+    };
+
+const styles = StyleSheet.create({
+    buttonStyle,
+    buttonDisabledStyle: {
+		...buttonStyle,
+        backgroundColor: '#DDDDDD',
+        borderWidth: 0,
+    },
+    buttonDisabledTextStyle: {
+        color: '#BCBCBC',
+    },
+});
