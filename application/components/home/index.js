@@ -29,7 +29,6 @@ class Home extends Component {
 		const { navigate } = this.props.navigation;
 		return (
 			<View>
-
 				<Button
 					style={styles.buttonStyle}
 					onPress={() =>
@@ -46,11 +45,28 @@ class Home extends Component {
 				>
 					Drinks
 				</Button>
+				<Button
+					disabled={true}
+					style={styles.buttonDisabledStyle}
+					onPress={() =>
+						navigate('Drinks', { name: 'Jane' })
+					}
+				>
+					Foods
+				</Button>
+				<Button
+					disabled={true}
+					style={styles.buttonDisabledStyle}
+					onPress={() =>
+						navigate('Drinks', { name: 'Jane' })
+					}
+				>
+					Checkout
+				</Button>
 			</View>
 		);
 	}
 };
-
 
 const mapState = (state, ownProps) => {
 	return {

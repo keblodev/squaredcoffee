@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
+import Button from 'react-native-button'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,16 +25,17 @@ class About extends Component {
 	render = () => {
 		return (
 			<View>
-				<Text> Some About </Text>
 				<Button
-				onPress={::this.testClick}
-				title='ok'
+					style={styles.buttonStyle}
+					onPress={::this.testClick}
 				>
+					TestAction #1
 				</Button>
 				<Button
-				onPress={::this.testClickDva}
-				title='okDva'
+					style={styles.buttonStyle}
+					onPress={::this.testClickDva}
 				>
+					TestAction #2
 				</Button>
 			</View>
 		);
@@ -53,3 +56,26 @@ export default
 	// withRouter(
 		connect(mapState, mapDispatch)(About)
 	// );
+
+const buttonStyle = {
+		padding:10,
+		margin: 10,
+		height:45,
+		overflow:'hidden',
+		borderRadius:4,
+		backgroundColor: 'white',
+		fontSize: 20,
+		color: 'grey'
+    };
+
+const styles = StyleSheet.create({
+    buttonStyle,
+    buttonDisabledStyle: {
+		...buttonStyle,
+        backgroundColor: '#DDDDDD',
+        borderWidth: 0,
+    },
+    buttonDisabledTextStyle: {
+        color: '#BCBCBC',
+    },
+});

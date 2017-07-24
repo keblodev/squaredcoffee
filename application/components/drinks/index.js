@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
+
+import ListItem from './listitem';
 
 class Drinks extends Component {
 
@@ -22,19 +24,24 @@ class Drinks extends Component {
 
 	render = () => {
 		return (
-			<View>
-				<Text> Some DRINKS </Text>
-				<Button
-				onPress={::this.testClick}
-				title='ok'
-				>
-				</Button>
-				<Button
-				onPress={::this.testClickDva}
-				title='okDva'
-				>
-				</Button>
-			</View>
+			<ScrollView>
+				<ListItem
+					testClick={::this.testClick}
+					testClickDva={::this.testClickDva}
+				/>
+				<ListItem
+					testClick={::this.testClick}
+					testClickDva={::this.testClickDva}
+				/>
+				<ListItem
+					testClick={::this.testClick}
+					testClickDva={::this.testClickDva}
+				/>
+				<ListItem
+					testClick={::this.testClick}
+					testClickDva={::this.testClickDva}
+				/>
+			</ScrollView>
 		);
 	}
 };
