@@ -1,42 +1,36 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { Route, Link } from 'react-router-native';
+import { addNavigationHelpers } from 'react-navigation';
 
-
-import {
-  StackNavigator,
-} from 'react-navigation';
-
-import Home from './components/home';
-import About from './components/about';
-import Drinks from './components/drinks';
-
-const AppNav = StackNavigator({
-  Home: { screen: Home },
-  About: { screen: About },
-  Drinks: { screen: Drinks },
-});
-
-AppRegistry.registerComponent('SquaredCoffeApp', () => AppNav);
+import Navigator from './containers/navigator';
 
 class App extends Component {
 
 	render () {
 		return (
-			<AppNav
-				style = {styles.container}
-			/>
+			<View
+				style={{height:'100%',width:'100%'}}
+			>
+				<Navigator
+					navigation={
+						addNavigationHelpers({
+							dispatch: 	this.props.dispatch,
+							state:		this.props.nav,
+						})
+					}
+				/>
+			</View>
 		);
 	}
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  nav: state.nav
+});
 
-const styles = StyleSheet.create({
-  container: {
-		width: '100%'
-  }
-})
+export default connect(mapStateToProps)(App);
+
