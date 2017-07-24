@@ -6,7 +6,6 @@ const initialState = [{
 }];
 
 export default function testReducer(state = initialState, action) {
-	console.log("Heyo!");
 	switch (action.type) {
 		case APP_TEST_ACTION_DVA:
 			return [{
