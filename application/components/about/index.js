@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
+import styles from '../../statics/styles';
+
 class About extends Component {
 
 	static navigationOptions = {
@@ -53,29 +55,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default
-	// withRouter(
 		connect(mapState, mapDispatch)(About)
-	// );
-
-const buttonStyle = {
-		padding:10,
-		margin: 10,
-		height:45,
-		overflow:'hidden',
-		borderRadius:4,
-		backgroundColor: 'white',
-		fontSize: 20,
-		color: 'grey'
-    };
-
-const styles = StyleSheet.create({
-    buttonStyle,
-    buttonDisabledStyle: {
-		...buttonStyle,
-        backgroundColor: '#DDDDDD',
-        borderWidth: 0,
-    },
-    buttonDisabledTextStyle: {
-        color: '#BCBCBC',
-    },
-});

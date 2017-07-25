@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -11,7 +11,18 @@ import AppActions from '../../actions';
 import About from '../about';
 import Drinks from '../drinks';
 
+// import  ListPopover from 'react-native-list-popover';
+
+const coffeshops = ['shop1', 'shop2'];
+
 class Home extends Component {
+
+	componentWillMount() {
+		this.setState({
+			item: "Select Item",
+			isVisible: false,
+		})
+	}
 
 	static navigationOptions = {
 		title: 'Welcome',
@@ -25,10 +36,22 @@ class Home extends Component {
 		this.props.actions.appTestActionDva('some text');
 	}
 
+	showPopover() {
+		this.setState({isVisible: true});
+	}
+
+	closePopover() {
+		this.setState({isVisible: false});
+	}
+
+	setItem(item) {
+		this.setState({item: item});
+	}
+
 	render = () => {
 		const { navigate } = this.props.navigation;
 		return (
-			<View>
+			<View style={styles.container}>
 				<Button
 					style={styles.buttonStyle}
 					onPress={() =>
@@ -55,10 +78,9 @@ class Home extends Component {
 					Foods
 				</Button>
 				<Button
-					disabled={true}
-					style={styles.buttonDisabledStyle}
+					style={styles.buttonStyle}
 					onPress={() =>
-						navigate('Drinks', { name: 'Jane' })
+						navigate('Checkout', { name: 'Jane' })
 					}
 				>
 					Checkout
@@ -84,17 +106,22 @@ export default
 	// );
 
 const buttonStyle = {
-		padding:10,
+		padding:20,
 		margin: 10,
-		height:45,
+		height:65,
 		overflow:'hidden',
 		borderRadius:4,
 		backgroundColor: 'white',
 		fontSize: 20,
-		color: 'grey'
+		color: 'grey',
     };
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
     buttonStyle,
     buttonDisabledStyle: {
 		...buttonStyle,

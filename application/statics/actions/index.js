@@ -1,9 +1,16 @@
 export const APP_TEST_ACTION = 'APP_TEST_ACTION';
-
 export const APP_TEST_ACTION_DVA = 'APP_TEST_ACTION_DVA';
 
-export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
+//CHECKOUT/CART
+export const CART_ADD = 'CART_ADD';
+export const CART_REMOVE = 'CART_REMOVE';
 
+//NAV
+export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
 export const NAV_BACK = 'Navigation/BACK';
+
+//WEBVIEWS
+export const WEBVIEW_CHEKOUT_MESSAGE_IN='WEBVIEW_CHEKOUT_MESSAGE_IN'
+export const WEBVIEW_CHEKOUT_MESSAGE_OUT='WEBVIEW_CHEKOUT_MESSAGE_OUT'
 
 export const NONE = 'NONE';

@@ -14,34 +14,41 @@ class Drinks extends Component {
 		title: 'Coffee and stuff',
 	};
 
-	testClick() {
-		this.props.actions.appTestAction('some text');
+	addItem(item) {
+		this.props.actions.cartAdd(item);
 	}
 
-	testClickDva() {
+	checkoutItem() {
 		this.props.actions.appTestActionDva('some text');
 	}
 
+	onSelect(data) {
+		alert(data);
+	}
+
 	render = () => {
+
+		const items = [1,2,3,4].map((val,ind) => ({
+			id: val,
+			title: 'some_title_' + ind,
+			desc: 'some_description_' + ind
+		}));
+
 		return (
-			<ScrollView>
-				<ListItem
-					testClick={::this.testClick}
-					testClickDva={::this.testClickDva}
-				/>
-				<ListItem
-					testClick={::this.testClick}
-					testClickDva={::this.testClickDva}
-				/>
-				<ListItem
-					testClick={::this.testClick}
-					testClickDva={::this.testClickDva}
-				/>
-				<ListItem
-					testClick={::this.testClick}
-					testClickDva={::this.testClickDva}
-				/>
-			</ScrollView>
+			<View>
+				<ScrollView>
+					{
+						items.map((ch, ind) => (
+							<ListItem
+								key={ch.id}
+								item={ch}
+								addItem={this.addItem.bind(this,ch)}
+								checkoutItem={this.checkoutItem.bind(this, ch)}
+							/>
+						))
+					}
+				</ScrollView>
+			</View>
 		);
 	}
 };
@@ -57,6 +64,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default
-	// withRouter(
 		connect(mapState, mapDispatch)(Drinks)
-	// );
