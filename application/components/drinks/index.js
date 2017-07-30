@@ -18,8 +18,11 @@ class Drinks extends Component {
 		this.props.actions.cartAdd(item);
 	}
 
-	checkoutItem() {
-		this.props.actions.appTestActionDva('some text');
+	checkoutItem(item) {
+		this.props.actions.cartAdd(item);
+
+		const { navigate } = this.props.navigation;
+		navigate('Checkout');
 	}
 
 	onSelect(data) {
@@ -43,7 +46,8 @@ class Drinks extends Component {
 								key={ch.id}
 								item={ch}
 								addItem={this.addItem.bind(this,ch)}
-								checkoutItem={this.checkoutItem.bind(this, ch)}
+								checkoutItem={this.checkoutItem
+								.bind(this, ch)}
 							/>
 						))
 					}
