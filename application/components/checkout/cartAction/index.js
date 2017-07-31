@@ -11,16 +11,21 @@ import {
   CardAction
 } from 'react-native-card-view';
 
-export default ({postMessageCb}) =>
-	<Card>
-		<View>
-			<CardAction>
-				<Button
-					style={styles.buttonStyle}
-					onPress={postMessageCb}
-				>
-					Place the order
-				</Button>
-			</CardAction>
-		</View>
-	</Card>
+export default ({placeOrderCb, disabled}) => {
+	return (
+		<Card>
+			<View>
+				<CardAction>
+					<Button
+						disabled={disabled}
+						style={disabled ? styles.buttonDisabledStyle :styles.buttonStyle}
+						onPress={placeOrderCb}
+					>
+						Place Order
+					</Button>
+				</CardAction>
+			</View>
+		</Card>
+	);
+}
+

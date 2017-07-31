@@ -155,9 +155,9 @@
         cardNonceResponseReceived: function(errors, nonce, cardData) {
           if (errors){
             var error_html = "";
-              window.postMessage({
-                error: JSON.stringify(errors)
-              });
+              window.postMessage(JSON.stringify({
+                error: errors
+              }));
             for (var i =0; i < errors.length; i++){
               error_html += "<li> " + errors[i].message + " </li>";
             }
@@ -165,7 +165,10 @@
             //- document.getElementById('submit').disabled = false;
           }else{
             document.getElementById("card-errors").innerHTML = "";
-            chargeCardWithNonce(nonce);
+			window.postMessage(JSON.stringify({
+				nonce: nonce
+			}));
+            //chargeCardWithNonce(nonce);
           }
 
 
@@ -220,21 +223,21 @@
           if(http.readyState == 4 && http.status == 200) {
             var data = JSON.parse(http.responseText)
             if (data.status == 200) {
-              window.postMessage({
+              window.postMessage(JSON.stringify({
                 success: {
-                  data: JSON.stringify(data)
+                  data: data
                 }
-              });
+              }));
               document.getElementById("successNotification").style.display = "block";
               document.getElementById("payment-form").style.display = "none";
               window.scrollTo(0, 0);
             }else if (data.status == 400){
               var error_html = "";
-              window.postMessage({
+              window.postMessage(JSON.stringify({
                 error: {
-                  data: JSON.stringify(data)
+                  data: data
                 }
-              });
+              }));
               for (var i =0; i < data.errors.length; i++){
                 error_html += "<li> " + data.errors[i].detail + " </li>";
               }

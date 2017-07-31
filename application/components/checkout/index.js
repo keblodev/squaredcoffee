@@ -17,9 +17,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppActions from '../../actions';
 
-import CheckoutWebView from './checkoutWebView';
+import PaymentMethodsView from './paymentMethodsView';
 import CheckoutSummary from './checkoutSummary';
 import CartAction from './cartAction';
+import ProgressOverlay from './progressOverlay';
 
 class Checkout extends Component {
 
@@ -27,28 +28,13 @@ class Checkout extends Component {
 		title: 'Checkout',
 	};
 
-	checkoutNewMessage = null
-	checkoutLastMessageId = null
-
-	componentWillReceiveProps({checkoutOutput}) {
-		if (checkoutOutput.length) {
-			const msgObj = checkoutOutput[0];
-			if (msgObj.id !== this.checkoutLastMessageId) {
-				console.log(msgObj);
-				this.checkoutNewMessage = msgObj;
-				this.checkoutLastMessageId = msgObj.id;
-			}
-		}
-	}
-
-	postMessage = () => {
-		this.props.actions.postCheckoutMsgIn({
-			val: 'messsage in'
-		});
+	placeOrder = () => {
+		this.props.actions.placeOrder();
 	}
 
 	render = () => {
-		const {cart} = this.props;
+		const {cart, user} = this.props;
+		const lastPayment = user.payments.length && user.payments[0]
 
 		return (
 			<View
@@ -65,19 +51,25 @@ class Checkout extends Component {
 					<View>
 						<CheckoutSummary />
 					</View>
-					<View
-						style={{height: 300}}
-					>
-						<CheckoutWebView />
+					<View>
+						{
+							cart.ids.length ?
+							<PaymentMethodsView /> : null
+						}
 					</View>
 				</ScrollView>
 				<View
 					style={{flex: 0.15}}
 				>
 					<CartAction
-						postMessageCb={this.postMessage.bind(this)}
+						disabled={!cart.ids.length}
+						placeOrderCb={this.placeOrder.bind(this)}
 					/>
 				</View>
+				{
+					lastPayment && lastPayment.state === 'PAYMENT_PENDING' ?
+					(<ProgressOverlay />) : null
+				}
 			</View>
 		);
 	}
@@ -85,7 +77,9 @@ class Checkout extends Component {
 
 const mapState = (state) => {
 	return {
-		checkoutOutput: state.webviews.checkout.output
+		checkoutWebViewOutput: state.webviews.checkout.output,
+		user: state.user,
+		cart: state.cart
 	};
 };
 

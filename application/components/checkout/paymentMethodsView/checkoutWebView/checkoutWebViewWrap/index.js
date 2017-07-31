@@ -3,7 +3,7 @@ import { WebView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AppActions from '../../../../actions';
+import AppActions from '../../../../../actions';
 
 class CheckoutWebViewWrap extends Component {
 
@@ -20,7 +20,11 @@ class CheckoutWebViewWrap extends Component {
 
 	onMessageReceived = (messageEvent = {}) => {
 		messageEvent.persist();//cuz it's a SynteticEvent
-		this.props.actions.postCheckoutMsgOut(messageEvent.nativeEvent);
+
+		//TODO: guard
+		const dataResponse = JSON.parse(messageEvent.nativeEvent.data);
+
+		this.props.actions.postCheckoutMsgOut(dataResponse);
 	}
 
 	componentWillReceiveProps({checkoutInput}) {

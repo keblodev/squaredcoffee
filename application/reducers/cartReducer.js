@@ -1,18 +1,18 @@
-import { CART_ADD, CART_REMOVE, NONE } from '../statics/actions';
+import {
+	CART_ADD,
+	CART_REMOVE,
+	NONE } from '../statics/actions';
+
+import {
+	PURCHASE_SUCCESS,
+} from '../statics/actions/api';
 
 const initialState = {
-	byId: {
-		'someId': {
-			id: 	'someId',
-			title:  'someTitle',
-			desc:	'someDesc',
-			qty: 	1,
-		}
-	},
-	ids: ['someId']
+	byId: {},
+	ids: []
 };
 
-const byId = (state = initialState, action) => {
+const byId = (state = initialState.byId, action) => {
 	const update_item = state[action.item.id] || action.item;
 
 	switch (action.type) {
@@ -40,6 +40,9 @@ const byId = (state = initialState, action) => {
 
 export default cart = (state = initialState, action) => {
 	switch (action.type) {
+		case PURCHASE_SUCCESS:
+			//clearing the cart on success purchase
+			return initialState;
 		case CART_ADD:
 		case CART_REMOVE:
 			const byIdState = byId(state.byId, action);
