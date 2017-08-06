@@ -1,4 +1,8 @@
-import { WEBVIEW_CHEKOUT_MESSAGE_IN, WEBVIEW_CHEKOUT_MESSAGE_OUT , NONE } from '../statics/actions';
+import {
+	WEBVIEW_CHEKOUT_MESSAGE_IN,
+	WEBVIEW_CHEKOUT_MESSAGE_OUT,
+	WEBVIEW_CHEKOUT_CLEAN_QUE,
+	NONE } from '../statics/actions';
 
 const initialState = {
 	checkout: {
@@ -50,6 +54,8 @@ const checkout = (state = initialState.checkout, action) => {
 
 export default webviews = (state = initialState, action) => {
 	switch (action.type) {
+		case WEBVIEW_CHEKOUT_CLEAN_QUE:
+			return initialState;
 		case WEBVIEW_CHEKOUT_MESSAGE_IN:
 		case WEBVIEW_CHEKOUT_MESSAGE_OUT:
 			return {

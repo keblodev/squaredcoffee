@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import Button from 'react-native-button'
+
+import {
+  Card,
+  CardImage,
+  CardTitle,
+  CardContent,
+  CardAction
+} from 'react-native-card-view';
 
 import AppActions from '../../actions';
 
@@ -18,17 +28,6 @@ class Drinks extends Component {
 		this.props.actions.cartAdd(item);
 	}
 
-	checkoutItem(item) {
-		this.props.actions.cartAdd(item);
-
-		const { navigate } = this.props.navigation;
-		navigate('Checkout');
-	}
-
-	onSelect(data) {
-		alert(data);
-	}
-
 	render = () => {
 
 		const items = [1,2,3,4].map((val,ind) => ({
@@ -37,21 +36,46 @@ class Drinks extends Component {
 			desc: 'some_description_' + ind
 		}));
 
+		const { navigate } = this.props.navigation;
+
 		return (
-			<View>
-				<ScrollView>
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center'
+				}}
+			>
+				<ScrollView
+					style={{flex: 1}}
+				>
 					{
 						items.map((ch, ind) => (
 							<ListItem
 								key={ch.id}
 								item={ch}
 								addItem={this.addItem.bind(this,ch)}
-								checkoutItem={this.checkoutItem
-								.bind(this, ch)}
 							/>
 						))
 					}
 				</ScrollView>
+				<View
+					style={{flex: 0.15}}
+				>
+					<Card>
+						<View>
+							<CardAction>
+								<Button
+									style={styles.buttonStyle}
+									onPress={()=> {
+										navigate('Checkout');
+									}}
+								>
+									Checkout
+								</Button>
+							</CardAction>
+						</View>
+					</Card>
+				</View>
 			</View>
 		);
 	}

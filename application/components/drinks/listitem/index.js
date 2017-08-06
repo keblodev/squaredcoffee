@@ -13,7 +13,7 @@ import {
 
 import styles from '../../../statics/styles';
 
-export default ({item, addItem,checkoutItem}) => {
+export default ({item, addItem}) => {
 	return (
 		<View>
 			<Card>
@@ -29,12 +29,6 @@ export default ({item, addItem,checkoutItem}) => {
 					onPress={addItem}
 					>
 						+ to Cart
-					</Button>
-					<Button
-					style={styles.buttonStyle}
-					onPress={checkoutItem}
-					>
-						Checkout Now
 					</Button>
 				</CardAction>
 			</Card>

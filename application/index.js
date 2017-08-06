@@ -7,7 +7,7 @@ import App from './app';
 
 import configureStore from './store';
 
-const store = configureStore();
+export const store = configureStore();
 
 export default class ApplicationRoot extends Component {
   render() {

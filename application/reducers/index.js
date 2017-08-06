@@ -4,14 +4,18 @@ import testReducerDva from "./testReducerDva";
 
 import nav from './navReducer';
 import cart from './cartReducer';
+import user from './userReducer';
 import webviews from './webviewsReducer';
+import modal from './modalReducer';
 
 const rootReducer = combineReducers({
   testReducer,
   testReducerDva,
   nav,
   cart,
-  webviews
+  user,
+  webviews,
+  modal
 });
 
 export default rootReducer;

@@ -18,31 +18,51 @@ import AppActions from '../../../actions';
 import CartListItem from './cartListItem';
 
 import styles from '../../../statics/styles';
+import strings from '../../../statics/strings';
 
 class CheckoutSummary extends Component {
+
 	render() {
 		const {cart} = this.props;
+
 		return (
 			<Card>
-				<View>
-				<CardTitle style={{cardTitle: {fontSize: 40}}}>
-					<Text style={styles.title}>in cart:</Text>
-					</CardTitle>
-					<CardContent>
-						<ScrollView>
-							{ cart.ids.map(itemId => {
-									const storeItem = cart.byId[itemId];
-									return <CartListItem
-										key={itemId}
-										storeItem={storeItem}
-										onAddCartItem={this.props.actions.cartAdd.bind(this, storeItem)}
-										onRemoveCartItem={this.props.actions.cartRemove.bind(this, storeItem)}
-									/>
-								})
-							}
-						</ScrollView>
-					</CardContent>
-				</View>
+				{
+					cart.ids.length > 0 ? (
+						<View>
+							<CardTitle>
+								<Text style={styles.title}>in cart:</Text>
+							</CardTitle>
+							<CardContent>
+								<ScrollView>
+									{ cart.ids.map(itemId => {
+											const storeItem = cart.byId[itemId];
+											return <CartListItem
+												key={itemId}
+												storeItem={storeItem}
+												onAddCartItem={this.props.actions.cartAdd.bind(this, storeItem)}
+												onRemoveCartItem={this.props.actions.cartRemove.bind(this, storeItem)}
+											/>
+										})
+									}
+								</ScrollView>
+							</CardContent>
+						</View>
+					) :
+					(
+						<View>
+							<CardContent>
+								<Card>
+									<CardContent>
+										<Text style={{textAlign: 'center'}}>Nothing to display</Text>
+										<Text style={{textAlign: 'center'}}>Buy something</Text>
+									</CardContent>
+								</Card>
+							</CardContent>
+						</View>
+					)
+
+				}
 			</Card>
 		);
 	}

@@ -6,14 +6,30 @@ import Button from 'react-native-button'
 import About from '../about';
 import Drinks from '../drinks';
 
-export default class Home extends Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import AppActions from '../../actions';
+
+class Home extends Component {
 
 	static navigationOptions = {
 		title: 'Welcome',
 	};
 
+	handleLoginLogout(isLoggedIn) {
+		if (isLoggedIn) {
+			this.props.actions.logoutUser();
+		} else {
+			//TODO: this currently signs up
+			this.props.actions.createUser({some: 'config'})
+				.then(response => console.log(response))
+		}
+	}
+
 	render = () => {
 		const { navigate } = this.props.navigation;
+		const isLoggedIn = !!this.props.user.auth;
 		return (
 			<View style={styles.container}>
 				<Button
@@ -49,10 +65,30 @@ export default class Home extends Component {
 				>
 					Checkout
 				</Button>
+
+				<Button
+					style={styles.buttonStyle}
+					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+				>
+					{ isLoggedIn ? 'LogOut' : 'SignIn'}
+				</Button>
 			</View>
 		);
 	}
 };
+
+const mapState = (state) => {
+	return {
+		user: state.user
+	};
+};
+
+const mapDispatch = dispatch => ({
+	actions: bindActionCreators(AppActions, dispatch)
+});
+
+export default
+		connect(mapState, mapDispatch)(Home)
 
 const buttonStyle = {
 		padding:20,
