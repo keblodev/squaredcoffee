@@ -8,16 +8,18 @@ import user from './userReducer';
 import webviews from './webviewsReducer';
 import modal from './modalReducer';
 import geo from './geoReducer';
+import notification from './notifyReducer';
 
 const rootReducer = combineReducers({
-  testReducer,
-  testReducerDva,
-  nav,
-  cart,
-  user,
-  webviews,
-  modal,
-  geo
+	testReducer,
+	testReducerDva,
+	nav,
+	cart,
+	user,
+	webviews,
+	modal,
+	geo,
+	notification
 });
 
 export default rootReducer;

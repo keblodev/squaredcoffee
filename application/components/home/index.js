@@ -17,6 +17,9 @@ class Home extends Component {
 
 	static navigationOptions = {
 		title: 'Welcome',
+        headerStyle: {
+            backgroundColor: 'white'
+        }
 	};
 
 	handleLoginLogout(isLoggedIn) {
