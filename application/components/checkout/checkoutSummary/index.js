@@ -54,8 +54,8 @@ class CheckoutSummary extends Component {
 							<CardContent>
 								<Card>
 									<CardContent>
-										<Text style={{textAlign: 'center'}}>Nothing to display</Text>
-										<Text style={{textAlign: 'center'}}>Buy something</Text>
+										<Text style={{textAlign: 'center'}}>This cart is too empty</Text>
+										<Text style={{textAlign: 'center'}}>Buy something dude</Text>
 									</CardContent>
 								</Card>
 							</CardContent>

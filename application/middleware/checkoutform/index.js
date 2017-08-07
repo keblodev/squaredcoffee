@@ -23,7 +23,8 @@ import {
 
 import actions from '../../actions';
 
-const processReceivedNonce = (state, dispatch) => {
+const processReceivedNonce = () => {
+	const {state, dispatch} = stateAndDispatch;
 	const {cart} = state.cart;
 	const {persistPaymentMethod} = state.user;
 
@@ -35,7 +36,8 @@ const processReceivedNonce = (state, dispatch) => {
 	}));
 };
 
-const processPayment = (state, dispatch) => {
+const processPayment = () => {
+	const {state, dispatch} = stateAndDispatch;
 	const {payments} = state.user;
 	const {nonce} = state.user
 	const lastPayment = payments[0];
@@ -68,7 +70,8 @@ chargeNonce = ({nonce, dispatch}) => {
 	dispatch(actions.chargeNonce({nonce}));
 }
 
-const processCreatedCard = (state, dispatch) => {
+const processCreatedCard = () => {
+	const {state, dispatch} = stateAndDispatch;
 	const {payments, paymentInstrument, auth} = state.user;
 	const {card} = paymentInstrument
 	const lastPayment = payments[0];
@@ -86,7 +89,8 @@ const processCreatedCard = (state, dispatch) => {
 	}
 };
 
-const processOrder = (state, dispatch) => {
+const processOrder = () => {
+	const {state, dispatch} = stateAndDispatch;
 	const {paymentInstrument, persistPaymentMethod} = state.user;
 	//we always need to request new nonce
 	//unless we have saved card
@@ -105,7 +109,9 @@ const processOrder = (state, dispatch) => {
 	}
 }
 
-const processPurchaseSuccess = (state, dispatch) => {
+const processPurchaseSuccess = () => {
+	const {state, dispatch} = stateAndDispatch;
+
 	console.log('[processPurchaseSuccess] SUCCESS');
 	const {payments} = state.user;
 	//todo: refak or rethink or explain
@@ -121,7 +127,8 @@ const processPurchaseSuccess = (state, dispatch) => {
 	}
 };
 
-const processWebViewMsgIn = (state, dispatch) => {
+const processWebViewMsgIn = () => {
+	const 	{state, dispatch} = stateAndDispatch;
 	const 	checkoutWebViewOutput = state.webviews.checkout.output,
 			 {user} = state;
 	if (checkoutWebViewOutput.length) {
@@ -137,29 +144,32 @@ const processWebViewMsgIn = (state, dispatch) => {
 	}
 };
 
+let stateAndDispatch = {};
+
 export default store => next => action => {
 	Promise.resolve().then(_=> {
 		const state = store.getState();
 		const dispatch = store.dispatch;
+		stateAndDispatch = {state, dispatch};
 
 		switch(action.type) {
 			case PLACE_ORDER:
-				processOrder(state, dispatch);
+				processOrder();
 				break;
 			case WEBVIEW_CHEKOUT_MESSAGE_OUT:
-				processWebViewMsgIn(state, dispatch);
+				processWebViewMsgIn();
 				break;
 			case CREATED_USER_CARD:
-				processCreatedCard(state, dispatch);
+				processCreatedCard();
 				break;
 			case RECEIVED_USER_CARD_NONCE:
-				processReceivedNonce(state, dispatch);
+				processReceivedNonce();
 				break;
 			case PAYMENT_CREATE_NEW:
-				processPayment(state, dispatch);
+				processPayment();
 				break;
 			case PURCHASE_SUCCESS:
-				processPurchaseSuccess(state, dispatch);
+				processPurchaseSuccess();
 				break;
 		}
 	});

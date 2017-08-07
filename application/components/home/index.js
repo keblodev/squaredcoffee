@@ -11,6 +11,8 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
+import {GEO_ACTIVE} from '../../statics/strings/geo';
+
 class Home extends Component {
 
 	static navigationOptions = {
@@ -27,9 +29,18 @@ class Home extends Component {
 		}
 	}
 
+	handleGeoStartStop(isGeoActive) {
+		if (isGeoActive) {
+			this.props.actions.stopGeo();
+		} else {
+			this.props.actions.startGeo();
+		}
+	}
+
 	render = () => {
 		const { navigate } = this.props.navigation;
 		const isLoggedIn = !!this.props.user.auth;
+		const isGeoActive = this.props.geoStatus === GEO_ACTIVE
 		return (
 			<View style={styles.container}>
 				<Button
@@ -72,6 +83,12 @@ class Home extends Component {
 				>
 					{ isLoggedIn ? 'LogOut' : 'SignIn'}
 				</Button>
+				<Button
+					style={styles.buttonStyle}
+					onPress={this.handleGeoStartStop.bind(this, isGeoActive)}
+				>
+					{ isGeoActive ? 'StopGeo' : 'StartGeo'}
+				</Button>
 			</View>
 		);
 	}
@@ -79,7 +96,8 @@ class Home extends Component {
 
 const mapState = (state) => {
 	return {
-		user: state.user
+		user: 		state.user,
+		geoStatus: 	state.geo.status
 	};
 };
 

@@ -1,0 +1,2 @@
+export const GEO_ACTIVE='GEO_ACTIVE'
+export const GEO_INACTIVE='GEO_INACTIVE'

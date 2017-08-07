@@ -2,6 +2,8 @@ import * as types from '../statics/actions';
 
 import api from './api';
 import user from './user';
+import pushNotifications from './pushNotifications';
+import geo from './geo';
 
 const appTestAction = val => ({ type: types.APP_TEST_ACTION, val });
 const appTestActionDva = val => ({ type: types.APP_TEST_ACTION_DVA, val });
@@ -25,7 +27,6 @@ const updatePayment = paymentUpdated => ({type: types.PAYMENT_UPDATE, paymentUpd
 
 const placeOrder = _ => ({type: types.PLACE_ORDER});
 
-
 export default {
 	appTestAction,
 	appTestActionDva,
@@ -38,5 +39,7 @@ export default {
 	updatePayment,
 	placeOrder,
 	...api,
-	...user
+	...user,
+	...pushNotifications,
+	...geo
 };

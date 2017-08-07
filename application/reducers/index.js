@@ -7,6 +7,7 @@ import cart from './cartReducer';
 import user from './userReducer';
 import webviews from './webviewsReducer';
 import modal from './modalReducer';
+import geo from './geoReducer';
 
 const rootReducer = combineReducers({
   testReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   cart,
   user,
   webviews,
-  modal
+  modal,
+  geo
 });
 
 export default rootReducer;
