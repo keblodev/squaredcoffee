@@ -18,6 +18,7 @@ const middleware = storage.createMiddleware(engine);
 
 import checkoutFormMw from '../middleware/checkoutform';
 import geoMw from '../middleware/geo';
+import notifierMw from '../middleware/notifier';
 
 export default function configureStore(initialState) {
 
@@ -27,6 +28,7 @@ export default function configureStore(initialState) {
 				thunk,
 				checkoutFormMw,
 				geoMw,
+				notifierMw,
 				middleware
 			),
   		)

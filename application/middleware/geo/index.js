@@ -29,6 +29,7 @@ class GeoOperator {
 		this.watcherId = this.geo.watchPosition(
 			newPos => {
 				console.log(newPos);
+				this.__notify('HEY HOW!!');
 				// believe there should be
 				// daily promotions fetch
 				// so no need to fetch every time

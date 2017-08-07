@@ -8,13 +8,33 @@ import { addNavigationHelpers } from 'react-navigation';
 
 import Navigator from './containers/navigator';
 
-class App extends Component {
+import StatusBarAlert from 'react-native-statusbar-alert';
 
+class App extends Component {
+	componentWillMount() {
+		this.setState({
+			showMsg: true
+		});
+	}
 	render () {
 		return (
 			<View
-				style={{height:'100%',width:'100%'}}
+				style={{
+					height:'100%',width:'100%',
+				}}
 			>
+				<View>
+					<StatusBarAlert
+						visible={this.props.notification.active}
+						message={this.props.notification.message}
+						backgroundColor="#3CC29E"
+						color="white"
+						onPress={() => {
+							console.log('NAV REQUESTED');
+							//todo navigate here or watevor
+						}}
+					/>
+				</View>
 				<Navigator
 					navigation={
 						addNavigationHelpers({
@@ -29,7 +49,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  nav: state.nav
+  nav: 			state.nav,
+  notification: state.notification
 });
 
 export default connect(mapStateToProps)(App);

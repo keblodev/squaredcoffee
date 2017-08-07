@@ -59,7 +59,8 @@ const buttonStyle = {
     };
 
 const stylesLocal = StyleSheet.create({
-	...styles,
+	//dis makes android cry with Object.freeze
+	// ...styles,
 	container: {
 		flex: 1,
 		backgroundColor: 'rgba(0,0,0,0.0)',
