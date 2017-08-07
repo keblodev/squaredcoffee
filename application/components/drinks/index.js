@@ -20,10 +20,6 @@ import ListItem from './listitem';
 
 class Drinks extends Component {
 
-	static navigationOptions = {
-		title: 'Coffee and stuff',
-	};
-
 	addItem(item) {
 		this.props.actions.cartAdd(item);
 	}
@@ -41,8 +37,9 @@ class Drinks extends Component {
 		return (
 			<View
 				style={{
+					...styles.container,
 					flex: 1,
-					justifyContent: 'center'
+					justifyContent: 'center',
 				}}
 			>
 				<ScrollView

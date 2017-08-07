@@ -41,5 +41,5 @@ export default {
 	...api,
 	...user,
 	...pushNotifications,
-	...geo
+	...geo,
 };

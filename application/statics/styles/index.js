@@ -11,7 +11,7 @@ const buttonStyle = {
 		color: 'white',
     };
 
-export default styles = StyleSheet.create({
+export default styles = {
   title: {
     fontSize: 38,
     backgroundColor: 'transparent'
@@ -22,6 +22,9 @@ export default styles = StyleSheet.create({
   card: {
     width: 300
   },
+  	container: {
+		backgroundColor: '#1f232b',
+	},
 	buttonStyle,
 	buttonDisabledStyle: {
 		...buttonStyle,
@@ -31,4 +34,4 @@ export default styles = StyleSheet.create({
 	buttonDisabledTextStyle: {
 		color: '#BCBCBC',
 	},
-});
+};

@@ -10,17 +10,15 @@ import Navigator from './containers/navigator';
 
 import StatusBarAlert from 'react-native-statusbar-alert';
 
+
 class App extends Component {
-	componentWillMount() {
-		this.setState({
-			showMsg: true
-		});
-	}
 	render () {
 		return (
 			<View
 				style={{
-					height:'100%',width:'100%',
+					backgroundColor: '#2A2F3A',
+					height:'100%',
+					width:'100%',
 				}}
 			>
 				<View>

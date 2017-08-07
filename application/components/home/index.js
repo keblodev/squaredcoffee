@@ -15,12 +15,9 @@ import {GEO_ACTIVE} from '../../statics/strings/geo';
 
 class Home extends Component {
 
-	static navigationOptions = {
-		title: 'Welcome',
-        headerStyle: {
-            backgroundColor: 'white'
-        }
-	};
+	static navigationOptions = ({navigation}) => ({
+		title: `${navigation.state.params.title}`,
+	})
 
 	handleLoginLogout(isLoggedIn) {
 		if (isLoggedIn) {
@@ -117,13 +114,14 @@ const buttonStyle = {
 		height:65,
 		overflow:'hidden',
 		borderRadius:4,
-		backgroundColor: 'white',
+		backgroundColor: '#41495a',
 		fontSize: 20,
 		color: 'grey',
     };
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: '#1f232b',
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
@@ -131,7 +129,7 @@ const styles = StyleSheet.create({
     buttonStyle,
     buttonDisabledStyle: {
 		...buttonStyle,
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#313744',
         borderWidth: 0,
     },
     buttonDisabledTextStyle: {
