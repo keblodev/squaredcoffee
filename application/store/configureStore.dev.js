@@ -16,7 +16,8 @@ const localStorageKey = "mySquaredCoffeeAppDev";
 const engine = createEngine(localStorageKey);
 const middleware = storage.createMiddleware(engine);
 
-import checkoutFormMw from '../middleware/checkoutformmw';
+import checkoutFormMw from '../middleware/checkoutform';
+import geoMw from '../middleware/geo';
 
 export default function configureStore(initialState) {
 
@@ -25,6 +26,7 @@ export default function configureStore(initialState) {
 	    	applyMiddleware(
 				thunk,
 				checkoutFormMw,
+				geoMw,
 				middleware
 			),
   		)

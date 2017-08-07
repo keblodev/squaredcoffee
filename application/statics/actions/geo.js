@@ -1,0 +1,2 @@
+export const GEO_START_WATCH='GEO_START_WATCH';
+export const GEO_END_WATCH='GEO_END_WATCH';
