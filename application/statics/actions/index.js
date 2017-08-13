@@ -33,4 +33,8 @@ export const HIDE_NOTIFY='HIDE_NOTIFY';
 //ORDERS
 export const PLACE_ORDER='PLACE_ORDER';
 
+//SHOPS
+export const SHOPS_ADDED='SHOPS_ADDED';
+export const SHOP_SELECTED='SHOP_SELECTED';
+
 export const NONE = 'NONE';

@@ -15,6 +15,7 @@ import {
 const initialState = {
 	auth: 					null,
 	nonce: 					null,
+	currency:				'USD',
 	cards: 					[],
 	orders:					[], //todo
 	payments:				[],

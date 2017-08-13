@@ -12,10 +12,6 @@ import styles from '../../statics/styles';
 
 class About extends Component {
 
-	static navigationOptions = {
-		title: 'About',
-	};
-
 	testClick() {
 		this.props.actions.appTestAction('some text');
 	}
@@ -26,7 +22,12 @@ class About extends Component {
 
 	render = () => {
 		return (
-			<View>
+			<View
+				style={{
+					...styles.container,
+					height: '100%'
+				}}
+			>
 				<Button
 					style={styles.buttonStyle}
 					onPress={::this.testClick}

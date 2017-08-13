@@ -24,10 +24,6 @@ import ProgressOverlay from './progressOverlay';
 
 class Checkout extends Component {
 
-	static navigationOptions = {
-		title: 'Checkout',
-	};
-
 	placeOrder = () => {
 		this.props.actions.placeOrder();
 	}
@@ -39,6 +35,7 @@ class Checkout extends Component {
 		return (
 			<View
 				style={{
+					...styles.container,
 					flex: 1,
 					justifyContent: 'center'
 				}}
