@@ -57,7 +57,6 @@ export default class StoreListItem extends Component {
 	render = () => {
 		const {shop, shopId, shopImg, navigate} = this.props;
 		let loadingStyles = [styles.loadingScreen, {
-			// backgroundColor: 'green',
 			position: 'relative',
 			top: this.state.top,
             opacity: this.state.fadeOut
