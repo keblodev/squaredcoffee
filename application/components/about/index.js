@@ -16,10 +16,6 @@ class About extends Component {
 		this.props.actions.appTestAction('some text');
 	}
 
-	testClickDva() {
-		this.props.actions.appTestActionDva('some text');
-	}
-
 	render = () => {
 		return (
 			<View
@@ -33,12 +29,6 @@ class About extends Component {
 					onPress={::this.testClick}
 				>
 					TestAction #1
-				</Button>
-				<Button
-					style={styles.buttonStyle}
-					onPress={::this.testClickDva}
-				>
-					TestAction #2
 				</Button>
 			</View>
 		);

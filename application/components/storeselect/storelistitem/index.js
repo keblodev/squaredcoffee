@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Animated, Easing } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -12,48 +12,102 @@ import {
   CardAction
 } from 'react-native-card-view';
 
-export default ({shop, shopId, shopImg, navigate}) => (
-	<Button
-		onPress={() =>
-			navigate('Home', {
-					title: 	shop.name,
-					shopId: shopId
-				})
-		}
-	>
-		<Card>
-			<Image
-				style={{
-					height: 	'100%',
-					flex: 		1,
-					position: 	'absolute',
-					width: 		'100%',
-				}}
-				source={shopImg}
-			/>
-			<View
-				style={styles.card}
-			>
-				<CardTitle>
-					<View
-						style={styles.titleView}
-					>
-						<Text style={styles.title}>{shop.name}</Text>
-					</View>
-				</CardTitle>
-				<CardContent>
-					<View
-						style={styles.cardViewContent}
-					>
-						<Text
-							style={styles.text}
-						>{shop.desc}</Text>
-					</View>
-				</CardContent>
-			</View>
-		</Card>
-	</Button>
-);
+export default class StoreListItem extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: 	false,
+			bg: 		new Animated.Value(0),
+			top:		new Animated.Value((Math.random() > 0.5 ? -1 : 1) * Math.random() * 100),
+            fadeOut: 	new Animated.Value(0)
+        }
+    }
+
+	componentDidMount() {
+		this.animate()
+	}
+
+	animate() {
+		Animated.sequence([
+			Animated.delay(Math.random()*700),
+			Animated.parallel([
+				Animated.timing(
+					this.state.fadeOut,
+					{
+						toValue: 	1,
+						duration: 	700,
+					}
+				),
+				Animated.timing(
+					this.state.top,
+					{
+						toValue: 	0,
+						duration: 	700,
+						easing: 	Easing.out(Easing.cubic)
+					}
+				),
+			])
+		]).start( () => {
+			//this.animate();
+			//this.setState({loading: false})
+		});
+	}
+
+	render = () => {
+		const {shop, shopId, shopImg, navigate} = this.props;
+		let loadingStyles = [styles.loadingScreen, {
+			// backgroundColor: 'green',
+			position: 'relative',
+			top: this.state.top,
+            opacity: this.state.fadeOut
+        }];
+		return (
+			<Animated.View key="Fuego" style={loadingStyles}>
+				<Button
+					onPress={() =>
+						navigate('Home', {
+								title: 	shop.name,
+								shopId: shopId
+							})
+					}
+				>
+					<Card>
+						<Image
+							style={{
+								height: 	'100%',
+								flex: 		1,
+								position: 	'absolute',
+								width: 		'100%',
+							}}
+							source={shopImg}
+						/>
+						<View
+							style={styles.card}
+						>
+							<CardTitle>
+								<View
+									style={styles.titleView}
+								>
+									<Text style={styles.title}>{shop.name}</Text>
+								</View>
+							</CardTitle>
+							<CardContent>
+								<View
+									style={styles.cardViewContent}
+								>
+									<Text
+										style={styles.text}
+									>{shop.desc}</Text>
+								</View>
+							</CardContent>
+						</View>
+					</Card>
+				</Button>
+			</Animated.View>
+		)
+	}
+};
 
 const styles = {
 	card: {
