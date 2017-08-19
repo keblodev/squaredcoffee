@@ -8,6 +8,7 @@ import { StackNavigator, DrawerButton } from 'react-navigation';
 import Home from '../components/home';
 import About from '../components/about';
 import Drinks from '../components/drinks';
+import Drink from '../components/drinks/drink';
 import Checkout from '../components/checkout';
 import StoreSelect from '../components/storeselect'
 
@@ -83,7 +84,33 @@ export default StackNavigator({
 				>back</Button></View>
 			)
 		}
+	},
+	Drink: {
+		screen: Drink,
+		navigationOptions: {
+			title: 'Checkout',
+
+			header: ({navigation}) => (
+				<View
+					style={{
+						backgroundColor: 	'#2A2F3A',
+						height: 			40,
+						//TODO: to be removed this whole thing
+						flex: 				0.08,
+						justifyContent: 	'center',
+					}}
+				><Button
+				style={{
+					color: '#8393b1'
+				}}
+				onPress={()=>{
+					navigation.goBack();
+				}}
+				>back</Button></View>
+			)
+		}
 	}
+
 },{
 	mode: 'modal',
 	initialRouteName:'MainCardNavigator',

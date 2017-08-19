@@ -18,6 +18,8 @@ import AppActions from '../../actions';
 
 import ListItem from './listitem';
 
+import DrinksMock from '../../statics/mocks/drinks';
+
 class Drinks extends Component {
 
 	addItem(item) {
@@ -26,14 +28,8 @@ class Drinks extends Component {
 
 	render = () => {
 
-		const items = [1,2,3,4].map((val,ind) => ({
-			id: val,
-			title: 'some_title_' + ind,
-			desc: 'some_description_' + ind
-		}));
-
 		const { navigate } = this.props.navigation;
-
+		const { shopId } = this.props;
 		return (
 			<View
 				style={{
@@ -46,23 +42,36 @@ class Drinks extends Component {
 					style={{flex: 1}}
 				>
 					{
-						items.map((ch, ind) => (
+						DrinksMock[shopId].map((ch, ind) => (
 							<ListItem
 								key={ch.id}
 								item={ch}
 								addItem={this.addItem.bind(this,ch)}
+								navigate={navigate}
 							/>
 						))
 					}
 				</ScrollView>
 				<View
-					style={{flex: 0.15}}
+					style={{
+						position: 'absolute',
+						bottom: 0,
+						right: 	0
+					}}
 				>
-					<Card>
+					<Card
+						styles={{card: {
+								backgroundColor: 'transparent'
+							}
+						}}
+					>
 						<View>
 							<CardAction>
 								<Button
-									style={styles.buttonStyle}
+									style={{
+										...styles.buttonStyle,
+										borderRadius: 22
+									}}
 									onPress={()=> {
 										navigate('Checkout');
 									}}
@@ -80,7 +89,7 @@ class Drinks extends Component {
 
 const mapState = (state) => {
 	return {
-		justAWholeState: state.testReducer
+		shopId:	state.shops.selected.shopId
 	};
 };
 

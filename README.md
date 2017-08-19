@@ -2,6 +2,26 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
+## Initing the project
+	* 1. In root folder run:
+		```npm i && npm i -g localtunnel```
+	* 2. In server folder run:
+		```bundle install && rake db:create db:migrate```
+
+## Running the project
+
+* 1. open 3 terminal windows
+	- 2 in root folder
+	- one in server/
+* 2. In 1st terminal in root folder run:
+	```npm run start```
+	or ```npm run ios```
+	or ```npm run android```
+* 3. In 2nd terminal in root folder run:
+	```lt -p 3000 -s superroman```
+* 4. In 3rd terminal in server/ folder run:
+	```bundle exec foreman start```
+
 ## Table of Contents
 
 * [Updating to New Releases](#updating-to-new-releases)

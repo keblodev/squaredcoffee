@@ -27,6 +27,8 @@ const updatePayment = paymentUpdated => ({type: types.PAYMENT_UPDATE, paymentUpd
 
 const placeOrder = _ => ({type: types.PLACE_ORDER});
 
+const selectShop = shopId => ({type: types.SHOP_SELECTED, shopId})
+
 export default {
 	appTestAction,
 	appTestActionDva,
@@ -38,6 +40,7 @@ export default {
 	createNewPayment,
 	updatePayment,
 	placeOrder,
+	selectShop,
 	...api,
 	...user,
 	...pushNotifications,

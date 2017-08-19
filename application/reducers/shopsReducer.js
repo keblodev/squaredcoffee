@@ -10,7 +10,27 @@
 		coverImg:	URL,
 		lat:		'0.11',
 		lan:		'-23.233',
+		timezoneOffset: 8,
 		schedule:	{
+			yeah: [
+				{
+					start: '1-1',
+					end: '11-1',
+					type: 'NO_BUSINESS'
+				},
+				{
+					start: '14-2',
+					end: '14-2',
+					type: 'NO_BUSINESS'
+				}
+			],
+			month: [
+				{
+					start: 1,
+					end: 1,
+					type: 'NO_BUSINESS'
+				}
+			],
 			week: [
 				{
 					start: 	'Mon',
@@ -67,6 +87,34 @@
 					]
 				}
 			],
+
+			day: [
+				{
+					start: '8:00:00 December 6th, 2017',
+					end: '16:00:00 December 6th, 2017',
+					type: 'BOOKING' // 'NO_BUSINESS'
+				}
+			]
+
+			years: [{
+				months: [{
+					weeks: [{
+						days: [{
+							start: 'mon',
+							end: 'mon'
+						}]
+					}],
+					dates: [{
+						start: '1',
+						end: '1'
+					}]
+				}],
+				dates: [{
+					start: '1-12',
+					end: '1-12'
+				}]
+			}]
+
 		},
 		products: [
 			{
@@ -141,7 +189,10 @@ export default shops = (state = initialState, action) => {
 		case SHOP_SELECTED:
 			return {
 				...state,
-				selected: state.byId(action.shopId)
+				selected: {
+					shopId: action.shopId,
+					...state.byId[action.shopId]
+				}
 			}
 		default:
 			return state;
