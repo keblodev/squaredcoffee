@@ -21,8 +21,6 @@ tmp/
 .env
 .byebug_history
 Gemfile.lock
-Procfile
-server/bin/
 
 .expo/
 
