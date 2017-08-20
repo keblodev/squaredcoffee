@@ -6,7 +6,7 @@ const buttonStyle = {
 		margin: 5,
 		overflow:'hidden',
 		borderRadius:4,
-		backgroundColor: '#86DB9A',
+		backgroundColor: 'rgba(0,0,0, .5)',
 		fontSize: 20,
 		color: 'white',
     };

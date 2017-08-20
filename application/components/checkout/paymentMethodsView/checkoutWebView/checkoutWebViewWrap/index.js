@@ -59,7 +59,7 @@ class CheckoutWebViewWrap extends Component {
 		return <WebView
 				source={{
 						//html: this.htmlTxt
-						uri: 'http://localhost:3000'
+						uri: 'https://superroman.localtunnel.me'
 					}}
 				//localhost renders properly on emulator, but full address not
 				//most likely due to ATS

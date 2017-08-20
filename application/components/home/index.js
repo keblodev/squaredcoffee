@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -12,6 +12,23 @@ import { bindActionCreators } from 'redux';
 import AppActions from '../../actions';
 
 import {GEO_ACTIVE} from '../../statics/strings/geo';
+
+import HomeListItem from './homelistitem';
+
+const staticImagesBullShit = [
+	//TODO: images should come from uri
+	//TODO: cache remote images
+	[
+		require('../../statics/images/shopscontent/0/home/about.jpg'),
+		require('../../statics/images/shopscontent/0/home/drinks.jpg'),
+		require('../../statics/images/shopscontent/0/home/food.jpg'),
+	],
+	[
+		require('../../statics/images/shopscontent/1/home/about.jpg'),
+		require('../../statics/images/shopscontent/1/home/drinks.jpg'),
+		require('../../statics/images/shopscontent/1/home/food.jpg'),
+	]
+];
 
 class Home extends Component {
 
@@ -39,35 +56,35 @@ class Home extends Component {
 
 	render = () => {
 		const { navigate } = this.props.navigation;
+		const { shopId } = this.props.navigation.state.params;
 		const isLoggedIn = !!this.props.user.auth;
 		const isGeoActive = this.props.geoStatus === GEO_ACTIVE
 		return (
 			<View style={styles.container}>
-				<Button
-					style={styles.buttonStyle}
-					onPress={() =>
-						navigate('About', { name: 'Jane' })
-					}
+				<ScrollView
+					scrollEnabled={false}
+					centerContent={true}
 				>
-					About
-				</Button>
-				<Button
-					style={styles.buttonStyle}
-					onPress={() =>
-						navigate('Drinks', { name: 'Jane' })
-					}
-				>
-					Drinks
-				</Button>
-				<Button
-					disabled={true}
-					style={styles.buttonDisabledStyle}
-					onPress={() =>
-						navigate('Drinks', { name: 'Jane' })
-					}
-				>
-					Foods
-				</Button>
+					<HomeListItem
+						shopImg={staticImagesBullShit[shopId][0]}
+						navToRouteId='About'
+						navRouteTitle='About Us'
+						navigate={navigate}
+					/>
+					<HomeListItem
+						shopImg={staticImagesBullShit[shopId][1]}
+						navToRouteId='Drinks'
+						navRouteTitle='Coffee?'
+						navigate={navigate}
+					/>
+					<HomeListItem
+						disabled={true}
+						shopImg={staticImagesBullShit[shopId][2]}
+						navToRouteId='Foods'
+						navRouteTitle='Something to eat'
+						navigate={navigate}
+					/>
+				</ScrollView>
 				<Button
 					style={styles.buttonStyle}
 					onPress={() =>
@@ -121,10 +138,10 @@ const buttonStyle = {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#1f232b',
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 		'center',
+		backgroundColor: 	'#1f232b',
+		flex: 				1,
+		justifyContent: 	'center',
 	},
     buttonStyle,
     buttonDisabledStyle: {

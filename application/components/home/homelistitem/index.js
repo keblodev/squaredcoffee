@@ -49,13 +49,13 @@ export default class StoreListItem extends Component {
 				),
 			])
 		]).start( () => {
-			//TODO: set some state here?
+			//this.animate();
 			//this.setState({loading: false})
 		});
 	}
 
 	render = () => {
-		const {shop, shopId, shopImg, navigate, actionCb} = this.props;
+		const {navToRouteId, navRouteTitle, disabled, shopImg, navigate} = this.props;
 		let loadingStyles = [styles.loadingScreen, {
 			position: 'relative',
 			top: this.state.top,
@@ -64,13 +64,9 @@ export default class StoreListItem extends Component {
 		return (
 			<Animated.View key="Fuego" style={loadingStyles}>
 				<Button
-					onPress={() => {
-							actionCb && actionCb();
-							navigate('Home', {
-									title: 	shop.name,
-									shopId: shopId
-								})
-						}
+					disabled={disabled}
+					onPress={() =>
+						navigate(navToRouteId)
 					}
 				>
 					<Card
@@ -81,33 +77,31 @@ export default class StoreListItem extends Component {
 						}}
 					>
 						<Image
-							style={{
-								height: 	'100%',
-								flex: 		1,
-								position: 	'absolute',
-								width: 		'100%',
-							}}
+							style={styles.image}
 							source={shopImg}
 						/>
 						<View
-							style={styles.card}
+							style={
+								disabled ?
+									{
+										...styles.card,
+										...styles.cardDisabled
+									} : styles.card
+							}
 						>
 							<CardTitle>
 								<View
 									style={styles.titleView}
 								>
-									<Text style={styles.title}>{shop.name}</Text>
+									<Text style={
+										disabled ?
+											{
+												...styles.title,
+												...styles.titleDisabled
+											} : styles.title
+										}>{navRouteTitle}</Text>
 								</View>
 							</CardTitle>
-							<CardContent>
-								<View
-									style={styles.cardViewContent}
-								>
-									<Text
-										style={styles.text}
-									>{shop.desc}</Text>
-								</View>
-							</CardContent>
 						</View>
 					</Card>
 				</Button>
@@ -119,11 +113,18 @@ export default class StoreListItem extends Component {
 const styles = {
 	card: {
 		backgroundColor: 'transparent',
+
 	},
 	cardViewContent: {
 		backgroundColor: 	'rgba(0,0,0, .6)',
 		borderRadius:		2,
 		padding:			10,
+	},
+	image: {
+		height: 	'100%',
+		flex: 		1,
+		position: 	'absolute',
+		width: 		'100%',
 	},
 	text: {
 		color: 		'white',
@@ -138,5 +139,14 @@ const styles = {
 		color:		 		'white',
 		fontSize:		 	40,
 		textAlign:		 	'center',
+	},
+	titleDisabled: {
+		color: 	'rgba(255,255,255, .6)',
+	},
+	cardDisabled: {
+		backgroundColor: 	'rgba(0,0,0, .6)',
+	},
+	imageDisabled: {
+
 	}
 };

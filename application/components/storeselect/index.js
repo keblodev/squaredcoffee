@@ -16,6 +16,7 @@ const staticImagesBullShit = [
 ]
 
 class StoreSelect extends Component {
+	actionCb = shopId => this.props.actions.selectShop(shopId);
 
 	render = () => {
 		const { navigate } = this.props.navigation;
@@ -36,6 +37,7 @@ class StoreSelect extends Component {
 									return (
 										<StoreListItem
 											key={key}
+											actionCb={this.actionCb.bind(this, shopId)}
 											shop={shop}
 											shopId={shopId}
 											shopImg={shopImg}
