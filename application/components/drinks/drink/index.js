@@ -17,7 +17,11 @@ export default class Drink extends Component {
 	render = () => {
 		const {item, addItem, disabled, navigate} = this.props.navigation.state.params;
 		return (
-			<View>
+			<View
+				style={{
+					height: '100%'
+				}}
+			>
 				<ScrollView>
 						<Card
 							styles={{
