@@ -18,7 +18,8 @@ export const MainCardNavigator = StackNavigator({
 	StoreSelect: {
 		screen: StoreSelect,
 		navigationOptions: {
-			header: null
+			// header: null
+			title: 'Select a store'
 		}
 	},
   	Home: {
@@ -26,9 +27,6 @@ export const MainCardNavigator = StackNavigator({
 		navigationOptions: {
 			headerStyle: {
 				backgroundColor: '#2A2F3A',
-				//TODO: this not really working
-				elevation: 0,       //remove shadow on Android
-				shadowOpacity: 0,   //remove shadow on iOS
 			}
 		}
 	},
@@ -115,11 +113,7 @@ export default StackNavigator({
 	mode: 'modal',
 	initialRouteName:'MainCardNavigator',
 	navigationOptions: {
-        headerStyle: {
-			display: 'none',
-			backgroundColor: '#2A2F3A',
-		},
-		headerTintColor: '#8393b1',
+		header: null
 	}
 }
 );
