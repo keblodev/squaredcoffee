@@ -91,7 +91,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.squaredcoffee"
@@ -131,6 +131,8 @@ android {
         }
     }
 }
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])

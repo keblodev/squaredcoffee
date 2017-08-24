@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppActions from '../../actions';
 
-import PaymentMethodsView from './paymentMethodsView';
+import PaymentMethodsView from '../shared/paymentMethodsView';
 import CheckoutSummary from './checkoutSummary';
 import CartAction from './cartAction';
 import ProgressOverlay from './progressOverlay';

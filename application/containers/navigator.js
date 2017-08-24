@@ -12,9 +12,37 @@ import Drink from '../components/drinks/drink';
 import Checkout from '../components/checkout';
 import StoreSelect from '../components/storeselect'
 
+import User from '../components/user';
+import Account from '../components/user/account';
+import PaymentMethods from '../components/user/paymentmethods';
+
+import Login from '../components/login';
+
 import styles from '../statics/styles';
 
 export const MainCardNavigator = StackNavigator({
+	User: {
+		screen: User,
+		navigationOptions: {
+			// header: null
+			title: 'Account Info'
+		}
+	},
+
+	Account: {
+		screen: Account,
+		navigationOptions: {
+			title: 'Account information'
+		}
+	},
+
+	PaymentMethods: {
+		screen: PaymentMethods,
+		navigationOptions: {
+			title: 'Payment Methods'
+		}
+	},
+
 	StoreSelect: {
 		screen: StoreSelect,
 		navigationOptions: {
@@ -107,7 +135,33 @@ export default StackNavigator({
 				>back</Button></View>
 			)
 		}
-	}
+	},
+
+	Login: {
+		screen: Login,
+		navigationOptions: {
+			title: 'Login',
+
+			header: ({navigation}) => (
+				<View
+					style={{
+						backgroundColor: 	'#2A2F3A',
+						height: 			40,
+						//TODO: to be removed this whole thing
+						flex: 				0.08,
+						justifyContent: 	'center',
+					}}
+				><Button
+				style={{
+					color: '#8393b1'
+				}}
+				onPress={()=>{
+					navigation.goBack();
+				}}
+				>back</Button></View>
+			)
+		}
+	},
 
 },{
 	mode: 'modal',

@@ -6,11 +6,11 @@ import Button from 'react-native-button'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import AppActions from '../../actions';
+import AppActions from '../../../actions';
 
-import styles from '../../statics/styles';
+import styles from '../../../statics/styles';
 
-class About extends Component {
+class Orders extends Component {
 
 	testClick() {
 		this.props.actions.appTestAction('some text');
@@ -46,4 +46,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default
-		connect(mapState, mapDispatch)(About)
+		connect(mapState, mapDispatch)(Orders)

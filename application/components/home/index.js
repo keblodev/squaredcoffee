@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -14,6 +14,14 @@ import AppActions from '../../actions';
 import {GEO_ACTIVE} from '../../statics/strings/geo';
 
 import HomeListItem from './homelistitem';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+
+const userIcon = (<Icon name="user-o" size={30} color="grey" />)
+const cartIcon = (<Icon name="shopping-cart" size={30} color="grey" />)
+
+const matIcon1 = (<MaterialIcon name="face" size={30} color="grey"/>);
 
 const staticImagesBullShit = [
 	//TODO: images should come from uri
@@ -36,29 +44,10 @@ class Home extends Component {
 		title: `${navigation.state.params.title}`,
 	})
 
-	handleLoginLogout(isLoggedIn) {
-		if (isLoggedIn) {
-			this.props.actions.logoutUser();
-		} else {
-			//TODO: this currently signs up
-			this.props.actions.createUser({some: 'config'})
-				.then(response => console.log(response))
-		}
-	}
-
-	handleGeoStartStop(isGeoActive) {
-		if (isGeoActive) {
-			this.props.actions.stopGeo();
-		} else {
-			this.props.actions.startGeo();
-		}
-	}
-
 	render = () => {
 		const { navigate } = this.props.navigation;
 		const { shopId } = this.props.navigation.state.params;
 		const isLoggedIn = !!this.props.user.auth;
-		const isGeoActive = this.props.geoStatus === GEO_ACTIVE
 		return (
 			<View style={styles.container}>
 				<ScrollView
@@ -85,27 +74,45 @@ class Home extends Component {
 						navigate={navigate}
 					/>
 				</ScrollView>
-				<Button
-					style={styles.buttonStyle}
-					onPress={() =>
-						navigate('Checkout', { name: 'Jane' })
+				<View
+					style={{
+						flexDirection: 'row'
+					}}
+				>
+					{
+						isLoggedIn ? (
+							<Button
+								style={styles.buttonStyle}
+								onPress={()=>navigate('User')}
+							>
+								<View
+									style={{
+										flex:  	1,
+										alignItems: 'center',
+										justifyContent: 'center',
+										padding:40,
+										width: 150
+									}}
+								>
+									{userIcon}
+								</View>
+							</Button>
+						) : (
+							<Button
+								style={styles.buttonStyle}
+								onPress={()=>navigate('Login')}
+							>
+								Login
+							</Button>
+						)
 					}
-				>
-					Checkout
-				</Button>
-
-				<Button
-					style={styles.buttonStyle}
-					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
-				>
-					{ isLoggedIn ? 'LogOut' : 'SignIn'}
-				</Button>
-				<Button
-					style={styles.buttonStyle}
-					onPress={this.handleGeoStartStop.bind(this, isGeoActive)}
-				>
-					{ isGeoActive ? 'StopGeo' : 'StartGeo'}
-				</Button>
+					<Button
+						style={styles.buttonStyle}
+						onPress={()=>navigate('Checkout')}
+					>
+						Checkout
+					</Button>
+				</View>
 			</View>
 		);
 	}
@@ -113,8 +120,7 @@ class Home extends Component {
 
 const mapState = (state) => {
 	return {
-		user: 		state.user,
-		geoStatus: 	state.geo.status
+		user: 		state.user
 	};
 };
 
@@ -136,7 +142,7 @@ const buttonStyle = {
 		color: 'grey',
     };
 
-const styles = StyleSheet.create({
+const styles = {
 	container: {
 		alignItems: 		'center',
 		backgroundColor: 	'#1f232b',
@@ -152,4 +158,4 @@ const styles = StyleSheet.create({
     buttonDisabledTextStyle: {
         color: '#BCBCBC',
     },
-});
+};
