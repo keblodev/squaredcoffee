@@ -123,7 +123,7 @@ const processOrder = () => {
 			state: PAYMENT_PENDING
 		}));
 	} else {
-		this.getNonce();
+		getNonce();
 	}
 }
 

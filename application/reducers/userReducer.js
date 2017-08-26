@@ -83,7 +83,8 @@ export default user = (state = initialState, action) => {
 					...state.cards,
 					action.card
 				],
-				userAction: NONE
+				//TODO: refak dis :/
+				userAction: state.userAction === MAKING_ORDER ? state.userAction : NONE
 			};
 		case PLACE_ORDER:
 			return {
