@@ -23,6 +23,8 @@ import CheckoutWebView from './checkoutWebView';
 import styles from '../../../statics/styles';
 import strings from '../../../statics/strings';
 
+import { ADDING_CARD, REMOVING_CARD, MAKING_ORDER } from '../../../statics/actions/user';
+
 class PaymentMethodsView extends Component {
 
 	onCardSelected(card) {
@@ -38,9 +40,22 @@ class PaymentMethodsView extends Component {
 		this.props.actions.persistPaymentMethod(!checked);
 	}
 
+	handleAddSaveCard(isUserAddingCard) {
+		if (isUserAddingCard) {
+			this.props.actions.saveCard();
+		} else {
+			this.props.actions.addCard();
+		}
+	}
+
 	render() {
-		const {cards, persistPaymentMethod} = this.props;
+		const {cards, persistPaymentMethod, paymentInstrument, userAction} = this.props;
 		let paymentMethodView;
+
+		let selectedCardId = paymentInstrument && paymentInstrument.card && paymentInstrument.card.id;
+
+		let isUserAddingCard = userAction === ADDING_CARD;
+
 		if (cards.length) {
 			paymentMethodView = (
 				<View>
@@ -49,22 +64,28 @@ class PaymentMethodsView extends Component {
 							return <CardsListItem
 								key={idx}
 								{...card}
+								idx={idx}
+								isSelected={idx===selectedCardId}
 								onCardsSelected={this.onCardSelected.bind(this, card)}
 							/>
 						})
 					}
-					<View
-						style={{height: 300}}
-					>
-						<CheckoutWebView />
-					</View>
+					{
+						isUserAddingCard ? (
+							<View
+								style={{height: 300}}
+							>
+								<CheckoutWebView />
+							</View>
+						) : null
+					}
 					<Card>
 						<CardContent>
 							<Button
-								disabled={true}
-								style={styles.buttonDisabledStyle}
+								style={styles.buttonStyle}
+								onPress={this.handleAddSaveCard.bind(this, isUserAddingCard)}
 							>
-								+ add new card
+								{isUserAddingCard ? 'save card' : '+ add new card'}
 							</Button>
 						</CardContent>
 					</Card>
@@ -137,6 +158,8 @@ const mapState = (state) => {
 	return {
 		auth:					state.user.auth,
 		cards: 					state.user.cards,
+		userAction:				state.user.userAction,
+		paymentInstrument:		state.user.paymentInstrument,
 		persistPaymentMethod: 	state.user.persistPaymentMethod
 	};
 };

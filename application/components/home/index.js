@@ -87,11 +87,9 @@ class Home extends Component {
 							>
 								<View
 									style={{
-										flex:  	1,
-										alignItems: 'center',
-										justifyContent: 'center',
 										padding:40,
-										width: 150
+										paddingLeft: 80,
+										paddingRight: 80,
 									}}
 								>
 									{userIcon}
@@ -99,10 +97,22 @@ class Home extends Component {
 							</Button>
 						) : (
 							<Button
-								style={styles.buttonStyle}
 								onPress={()=>navigate('Login')}
 							>
-								Login
+								<View
+									style={{
+										padding:40,
+										paddingLeft: 80,
+										paddingRight: 80,
+									}}
+								>
+									<Text
+										style={{
+											fontSize: 20,
+											color: 'grey',
+										}}
+									>Login/Sign Up</Text>
+								</View>
 							</Button>
 						)
 					}
@@ -110,7 +120,15 @@ class Home extends Component {
 						style={styles.buttonStyle}
 						onPress={()=>navigate('Checkout')}
 					>
-						Checkout
+						<View
+							style={{
+								padding:40,
+								paddingLeft: 80,
+								paddingRight: 80,
+							}}
+						>
+							{cartIcon}
+						</View>
 					</Button>
 				</View>
 			</View>
