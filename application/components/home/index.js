@@ -15,11 +15,11 @@ import {GEO_ACTIVE} from '../../statics/strings/geo';
 
 import HomeListItem from './homelistitem';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-const userIcon = (<Icon name="user-o" size={30} color="grey" />)
-const cartIcon = (<Icon name="shopping-cart" size={30} color="grey" />)
+const userIcon = (<AwesomeIcon name="user-o" size={30} color="grey" />)
+const cartIcon = (<AwesomeIcon name="shopping-cart" size={30} color="grey" />)
 
 const matIcon1 = (<MaterialIcon name="face" size={30} color="grey"/>);
 

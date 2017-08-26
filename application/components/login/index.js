@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -10,6 +10,8 @@ import AppActions from '../../actions';
 
 import {GEO_ACTIVE} from '../../statics/strings/geo';
 // import styles from '../../statics/styles';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Hoshi } from 'react-native-textinput-effects';
 
 class Login extends Component {
 
@@ -23,6 +25,15 @@ class Login extends Component {
 		}
 	}
 
+	componentDidUpdate() {
+		const { navigation } = this.props;
+		const isLoggedIn = !!this.props.user.auth;
+
+		if (isLoggedIn) {
+			navigation.goBack();
+		}
+	}
+
 	handleGeoStartStop(isGeoActive) {
 		if (isGeoActive) {
 			this.props.actions.stopGeo();
@@ -32,23 +43,117 @@ class Login extends Component {
 	}
 
 	render = () => {
-		const { navigate } = this.props.navigation;
+		const { navigation } = this.props;
 		const isLoggedIn = !!this.props.user.auth;
-		const isGeoActive = this.props.geoStatus === GEO_ACTIVE
 
 		return (
 			<View
 				style={{
 					...styles.container,
-					height: '100%'
 				}}
 			>
-				<Button
-					style={styles.buttonStyle}
-					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+				<ScrollView
+					contentContainerStyle={{
+						...styles.container,
+					}}
+					style={{
+						height: '100%',
+						width: '100%'
+					}}
 				>
-					{ isLoggedIn ? 'LogOut' : 'SignIn'}
-				</Button>
+					<View
+						style={{
+							width: '90%',
+							overflow: 'hidden',
+						}}
+					>
+						<View
+							style={{
+								marginTop: 10,
+								marginBottom: 10
+							}}
+						>
+							<Hoshi
+								style={{
+									borderBottomColor: 'gray',
+								}}
+								defaultValue="test@mail.com"
+								label={'Email Address'}
+								iconClass={AwesomeIcon}
+								iconColor={'gray'}
+								// TextInput props
+								borderColor={'#313744'}
+								autoCapitalize={'none'}
+								autoCorrect={false}
+							/>
+						</View>
+						<View
+								style={{
+									marginTop: 10,
+									marginBottom: 10
+								}}
+						>
+							<Hoshi
+								style={{
+									borderBottomColor: 'gray',
+								}}
+								defaultValue="Password123"
+								label={'Password'}
+								iconClass={AwesomeIcon}
+								iconColor={'gray'}
+								borderColor={'#313744'}
+								autoCorrect={false}
+							/>
+						</View>
+						<View
+								style={{
+									marginTop: 10,
+									marginBottom: 10
+								}}
+						>
+							<Hoshi
+								style={{
+									borderBottomColor: 'gray',
+								}}
+								defaultValue="Password123"
+								label={'Confirm password'}
+								iconClass={AwesomeIcon}
+								autoCapitalize={'none'}
+								borderColor={'#313744'}
+								autoCorrect={false}
+							/>
+						</View>
+					</View>
+				</ScrollView>
+				<View>
+					<Button
+						style={{
+							...styles.buttonStyle,
+
+						}}
+						onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+					>
+						- Forgto Pass?
+					</Button>
+					<Button
+						style={{
+							...styles.buttonStyle,
+
+						}}
+						onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+					>
+						Log In
+					</Button>
+					<Button
+						style={{
+							...styles.buttonStyle,
+
+						}}
+						onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+					>
+						Sign In -
+					</Button>
+				</View>
 			</View>
 		);
 	}
@@ -67,7 +172,6 @@ const mapDispatch = dispatch => ({
 
 export default
 		connect(mapState, mapDispatch)(Login)
-
 
 const buttonStyle = {
 	padding:15,

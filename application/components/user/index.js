@@ -13,6 +13,15 @@ import {GEO_ACTIVE} from '../../statics/strings/geo';
 
 class User extends Component {
 
+	componentDidUpdate() {
+		const { navigation } = this.props;
+		const isLoggedIn = !!this.props.user.auth;
+
+		if (!isLoggedIn) {
+			navigation.goBack();
+		}
+	}
+
 	handleLoginLogout(isLoggedIn) {
 		if (isLoggedIn) {
 			this.props.actions.logoutUser();
