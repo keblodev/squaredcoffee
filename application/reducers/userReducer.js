@@ -3,14 +3,25 @@ import {
 	CREATED_USER_CARD,
 	LOGOUT_USER,
 	PURCHASE_SUCCESS,
-	NONE } from '../statics/actions/api';
+} from '../statics/actions/api';
 
 import {
 	PERSIST_PAYMENT_METHOD,
 	PAYMENT_CREATE_NEW,
 	RECEIVED_USER_CARD_NONCE,
-	PAYMENT_UPDATE
+	PAYMENT_UPDATE,
+	PLACE_ORDER,
+	NONE
 } from '../statics/actions';
+
+import {
+	ADDING_CARD,
+	REMOVING_CARD,
+	MAKING_ORDER,
+	USER_CARD_NEW,
+	USER_CARD_REMOVE,
+	USER_CARD_SELECT
+} from '../statics/actions/user';
 
 const initialState = {
 	auth: 					null,
@@ -20,7 +31,8 @@ const initialState = {
 	orders:					[], //todo
 	payments:				[],
 	paymentInstrument:		null, //  {nonce: String}, {card: Object}
-	persistPaymentMethod: 	false
+	persistPaymentMethod: 	false,
+	userAction:				NONE
 };
 
 const updatePayment = (state = initialState.payments, action) => {
@@ -33,7 +45,8 @@ export default user = (state = initialState, action) => {
 		case PAYMENT_UPDATE:
 			return {
 				...state,
-				payments: updatePayment(state.payments, action.paymentUpdated)
+				payments: updatePayment(state.payments, action.paymentUpdated),
+				userAction: NONE
 			}
 		case PAYMENT_CREATE_NEW:
 			return {
@@ -56,6 +69,7 @@ export default user = (state = initialState, action) => {
 				...state,
 				auth:	action.auth
 			};
+
 		case CREATED_USER_CARD:
 			return {
 				...state,
@@ -68,8 +82,14 @@ export default user = (state = initialState, action) => {
 				cards:	[
 					...state.cards,
 					action.card
-				]
+				],
+				userAction: NONE
 			};
+		case PLACE_ORDER:
+			return {
+				...state,
+				userAction: action.userAction
+			}
 		case RECEIVED_USER_CARD_NONCE:
 			return {
 				...state,
@@ -78,6 +98,40 @@ export default user = (state = initialState, action) => {
 					nonce: action.nonce
 				},
 			};
+		case USER_CARD_SELECT:
+			return {
+				...state,
+				paymentInstrument: {
+					card: {
+						id: action.cardId,
+						val: state.cards[action.cardId]
+					}
+				}
+			}
+		case USER_CARD_REMOVE:
+			const cardsNewState = state.cards.filter((item,idx) => idx !== action.cardId);
+			const selectedCard = state.paymentInstrument.card
+			const newSelectedCardId = 0;
+			if (selectedCard) {
+				if (selectedCard.id !== action.cardId) {
+					newSelectedCardId = selectedCard.id
+				}
+			}
+			return {
+				...state,
+				paymentInstrument: {
+					card: {
+						id: newSelectedCardId,
+						val: cardsNewState[newSelectedCardId]
+					}
+				},
+				cards:	cardsNewState,
+			}
+		case USER_CARD_NEW:
+			return {
+				...state,
+				userAction: action.userAction
+			}
 		default:
 			return state;
 	}

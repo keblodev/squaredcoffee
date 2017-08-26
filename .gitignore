@@ -21,7 +21,11 @@ tmp/
 .env
 .byebug_history
 Gemfile.lock
+android/app/build/
 
+.gradle/
+.idea/
+android/build/
 .expo/
 
 .DS_Store

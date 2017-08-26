@@ -26,7 +26,7 @@ class About extends Component {
 			>
 				<Button
 					style={styles.buttonStyle}
-					onPress={::this.testClick}
+					onPress={this.testClick.bind(this)}
 				>
 					TestAction #1
 				</Button>

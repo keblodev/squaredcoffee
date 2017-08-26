@@ -1,6 +1,8 @@
 import * as types from '../../statics/actions/api';
 
-const baseUrl = 'https://superroman.localtunnel.me'
+import {BASE_URL} from '../../statics/configs';
+
+const baseUrl = BASE_URL;
 
 const createUser = userConfig => {
 

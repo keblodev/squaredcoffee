@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppActions from '../../../../../actions';
 
+import {BASE_URL} from '../../../../../statics/configs';
+
 class CheckoutWebViewWrap extends Component {
 
 	webview = null
@@ -59,7 +61,7 @@ class CheckoutWebViewWrap extends Component {
 		return <WebView
 				source={{
 						//html: this.htmlTxt
-						uri: 'https://superroman.localtunnel.me'
+						uri: BASE_URL
 					}}
 				//localhost renders properly on emulator, but full address not
 				//most likely due to ATS

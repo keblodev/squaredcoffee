@@ -25,8 +25,6 @@ const createNewPayment = payment => ({ type: types.PAYMENT_CREATE_NEW, payment }
 
 const updatePayment = paymentUpdated => ({type: types.PAYMENT_UPDATE, paymentUpdated});
 
-const placeOrder = _ => ({type: types.PLACE_ORDER});
-
 const selectShop = shopId => ({type: types.SHOP_SELECTED, shopId})
 
 export default {
@@ -39,7 +37,6 @@ export default {
 	cardNonceReceived,
 	createNewPayment,
 	updatePayment,
-	placeOrder,
 	selectShop,
 	...api,
 	...user,

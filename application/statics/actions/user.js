@@ -1,0 +1,14 @@
+export const ADDING_CARD='ADDING_CARD';
+export const REMOVING_CARD='REMOVING_CARD';
+
+export const USER_CARD_NEW='USER_CARD_ADD';
+export const USER_CARD_SAVE='USER_CARD_SAVE';
+export const USER_CARD_SELECT='USER_CARD_SELECT';
+export const USER_CARD_REMOVE='USER_CARD_REMOVE';
+
+export const MAKING_ORDER='MAKING_ORDER';
+
+export const EDITING_ACCOUNT='EDITING_ACCOUNT';
+
+export const LOGIN_IN='LOGIN_IN';
+export const LOGIN_OUT='LOGIN_OUT';

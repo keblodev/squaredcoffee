@@ -21,19 +21,29 @@ import {
 	PURCHASE_ERROR
 } from '../../statics/actions/api';
 
+import {
+	ADDING_CARD,
+	MAKING_ORDER,
+	USER_CARD_SAVE
+} from '../../statics/actions/user';
+
 import actions from '../../actions';
 
 const processReceivedNonce = () => {
 	const {state, dispatch} = stateAndDispatch;
 	const {cart} = state.cart;
-	const {persistPaymentMethod} = state.user;
+	const {persistPaymentMethod, userAction, nonce, auth} = state.user;
 
-	dispatch(actions.createNewPayment({
-		//refact this to be a different logic on selecting the payement mthd
-		paymentMethod: persistPaymentMethod? PAYMENT_BY_CARD : PAYMENT_BY_NONCE,
-		cart,
-		state: PAYMENT_PENDING
-	}));
+	if (userAction === ADDING_CARD) {
+		saveCard({nonce, auth, dispatch});
+	} else if (userAction === MAKING_ORDER) {
+		dispatch(actions.createNewPayment({
+			//refact this to be a different logic on selecting the payement mthd
+			paymentMethod: persistPaymentMethod? PAYMENT_BY_CARD : PAYMENT_BY_NONCE,
+			cart,
+			state: PAYMENT_PENDING
+		}));
+	}
 };
 
 const processPayment = () => {
@@ -72,22 +82,32 @@ chargeNonce = ({nonce, dispatch}) => {
 
 const processCreatedCard = () => {
 	const {state, dispatch} = stateAndDispatch;
-	const {payments, paymentInstrument, auth} = state.user;
+	const {payments, paymentInstrument, auth, userAction} = state.user;
 	const {card} = paymentInstrument
 	const lastPayment = payments[0];
 
-	switch(lastPayment.state) {
-		case PAYMENT_PENDING:
-			chargeCard({card: card.val, auth, dispatch})
-			break;
-		case PAYMENT_SUCCESS:
-			//todo
-			break;
-		case PAYMENT_FAILED:
-			//todo
-			break;
+	if (userAction === MAKING_ORDER) {
+		switch(lastPayment.state) {
+			case PAYMENT_PENDING:
+				chargeCard({card: card.val, auth, dispatch})
+				break;
+			case PAYMENT_SUCCESS:
+				debugger;
+				break;
+			case PAYMENT_FAILED:
+				debugger;
+				break;
+		}
 	}
 };
+
+const getNonce = () => {
+	const {state, dispatch} = stateAndDispatch;
+
+	dispatch(actions.postCheckoutMsgIn({
+		message: 'GET_NONCE'
+	}));
+}
 
 const processOrder = () => {
 	const {state, dispatch} = stateAndDispatch;
@@ -103,9 +123,7 @@ const processOrder = () => {
 			state: PAYMENT_PENDING
 		}));
 	} else {
-		dispatch(actions.postCheckoutMsgIn({
-			message: 'GET_NONCE'
-		}));
+		this.getNonce();
 	}
 }
 
@@ -127,10 +145,11 @@ const processPurchaseSuccess = () => {
 	}
 };
 
-const processWebViewMsgIn = () => {
+const processWebViewMsgOut = () => {
 	const 	{state, dispatch} = stateAndDispatch;
 	const 	checkoutWebViewOutput = state.webviews.checkout.output,
 			 {user} = state;
+
 	if (checkoutWebViewOutput.length) {
 		const msgObj = checkoutWebViewOutput[0];
 		console.log(msgObj);
@@ -153,11 +172,14 @@ export default store => next => action => {
 		stateAndDispatch = {state, dispatch};
 
 		switch(action.type) {
+			case USER_CARD_SAVE:
+				getNonce();
+				break;
 			case PLACE_ORDER:
 				processOrder();
 				break;
 			case WEBVIEW_CHEKOUT_MESSAGE_OUT:
-				processWebViewMsgIn();
+				processWebViewMsgOut();
 				break;
 			case CREATED_USER_CARD:
 				processCreatedCard();
