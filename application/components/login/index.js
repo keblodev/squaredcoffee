@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { PureComponent } from 'react';
+import { Text, View, ScrollView } from 'react-native';
+import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 
 import Button from 'react-native-button'
 
@@ -8,10 +9,30 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
-import {GEO_ACTIVE} from '../../statics/strings/geo';
 // import styles from '../../statics/styles';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Hoshi } from 'react-native-textinput-effects';
 
-class Login extends Component {
+class TabbedLogin extends PureComponent {
+  state = {
+    index: 1,
+    routes: [
+      { key: '1', title: 'Forgot' },
+	  { key: '2', title: 'Login' },
+	  { key: '3', title: 'Sign Up' },
+    ],
+  };
+
+  _handleIndexChange = index => this.setState({ index });
+
+  _renderHeader = props => <TabBar
+  	style={{
+		  backgroundColor: 'transparent'
+	  }}
+	indicatorStyle={{
+		backgroundColor: 'gray'
+	}}
+  {...props} />
 
 	handleLoginLogout(isLoggedIn) {
 		if (isLoggedIn) {
@@ -23,6 +44,15 @@ class Login extends Component {
 		}
 	}
 
+	componentDidUpdate() {
+		const { navigation } = this.props;
+		const isLoggedIn = !!this.props.user.auth;
+
+		if (isLoggedIn) {
+			navigation.goBack();
+		}
+	}
+
 	handleGeoStartStop(isGeoActive) {
 		if (isGeoActive) {
 			this.props.actions.stopGeo();
@@ -31,28 +61,232 @@ class Login extends Component {
 		}
 	}
 
-	render = () => {
-		const { navigate } = this.props.navigation;
-		const isLoggedIn = !!this.props.user.auth;
-		const isGeoActive = this.props.geoStatus === GEO_ACTIVE
-
-		return (
-			<View
-				style={{
+  render() {
+	const { navigation } = this.props;
+	const isLoggedIn = !!this.props.user.auth;
+	//TODO -> unify routes to components
+	// need to figure validation before that
+	const LoginRoute = () => <View style={[ styles.container ]} >
+			<ScrollView
+				contentContainerStyle={{
 					...styles.container,
-					height: '100%'
+				}}
+				style={{
+					height: '100%',
+					width: '100%'
 				}}
 			>
+				<View
+					style={{
+						width: '90%',
+						overflow: 'hidden',
+					}}
+				>
+					<View
+						style={{
+							marginTop: 10,
+							marginBottom: 10
+						}}
+					>
+						<Hoshi
+							style={{
+								borderBottomColor: 'gray',
+							}}
+
+							label={'Email Address'}
+							iconClass={AwesomeIcon}
+							iconColor={'gray'}
+							// TextInput props
+							borderColor={'#313744'}
+							autoCapitalize={'none'}
+							autoCorrect={false}
+						/>
+					</View>
+					<View
+							style={{
+								marginTop: 10,
+								marginBottom: 10
+							}}
+					>
+						<Hoshi
+							style={{
+								borderBottomColor: 'gray',
+							}}
+
+							label={'Password'}
+							iconClass={AwesomeIcon}
+							iconColor={'gray'}
+							borderColor={'#313744'}
+							autoCorrect={false}
+						/>
+					</View>
+				</View>
+				<View>
+					<Button
+						style={{
+							...styles.buttonStyle,
+
+						}}
+						onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+					>
+						Log In
+					</Button>
+				</View>
+			</ScrollView>
+	</View>;
+	const SignUpRoute = () => <View style={[ styles.container ]} >
+			<ScrollView
+			contentContainerStyle={{
+				...styles.container,
+			}}
+			style={{
+				height: '100%',
+				width: '100%'
+			}}
+		>
+			<View
+				style={{
+					width: '90%',
+					overflow: 'hidden',
+				}}
+			>
+				<View
+					style={{
+						marginTop: 10,
+						marginBottom: 10
+					}}
+				>
+					<Hoshi
+						style={{
+							borderBottomColor: 'gray',
+						}}
+
+						label={'Email Address'}
+						iconClass={AwesomeIcon}
+						iconColor={'gray'}
+						// TextInput props
+						borderColor={'#313744'}
+						autoCapitalize={'none'}
+						autoCorrect={false}
+					/>
+				</View>
+				<View
+						style={{
+							marginTop: 10,
+							marginBottom: 10
+						}}
+				>
+					<Hoshi
+						style={{
+							borderBottomColor: 'gray',
+						}}
+
+						label={'Password'}
+						iconClass={AwesomeIcon}
+						iconColor={'gray'}
+						borderColor={'#313744'}
+						autoCorrect={false}
+					/>
+				</View>
+				<View
+						style={{
+							marginTop: 10,
+							marginBottom: 10
+						}}
+				>
+					<Hoshi
+						style={{
+							borderBottomColor: 'gray',
+						}}
+
+						label={'Confirm password'}
+						iconClass={AwesomeIcon}
+						autoCapitalize={'none'}
+						borderColor={'#313744'}
+						autoCorrect={false}
+					/>
+				</View>
+			</View>
+			<View>
 				<Button
-					style={styles.buttonStyle}
+					style={{
+						...styles.buttonStyle,
+
+					}}
 					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
 				>
-					{ isLoggedIn ? 'LogOut' : 'SignIn'}
+					Sign Up
 				</Button>
 			</View>
-		);
-	}
-};
+		</ScrollView>
+	</View>;
+	const ForgotRoute = () => <View style={[ styles.container ]} >
+			<ScrollView
+			contentContainerStyle={{
+				...styles.container,
+			}}
+			style={{
+				height: '100%',
+				width: '100%'
+			}}
+		>
+			<View
+				style={{
+					width: '90%',
+					overflow: 'hidden',
+				}}
+			>
+				<View
+					style={{
+						marginTop: 10,
+						marginBottom: 10
+					}}
+				>
+					<Hoshi
+						style={{
+							borderBottomColor: 'gray',
+						}}
+
+						label={'Email Address'}
+						iconClass={AwesomeIcon}
+						iconColor={'gray'}
+						// TextInput props
+						borderColor={'#313744'}
+						autoCapitalize={'none'}
+						autoCorrect={false}
+					/>
+				</View>
+			</View>
+			<View>
+				<Button
+					style={{
+						...styles.buttonStyle,
+
+					}}
+					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+				>
+					Submit
+				</Button>
+			</View>
+		</ScrollView>
+	</View>;
+
+    return (
+
+		<TabViewAnimated
+			style={styles.tabContainer}
+			navigationState={this.state}
+			renderScene={SceneMap({
+				'1': ForgotRoute,
+				'2': LoginRoute,
+				'3': SignUpRoute,
+			})}
+			renderFooter={this._renderHeader}
+			onIndexChange={this._handleIndexChange}
+		/>
+    );
+  }
+}
 
 const mapState = (state) => {
 	return {
@@ -66,8 +300,7 @@ const mapDispatch = dispatch => ({
 });
 
 export default
-		connect(mapState, mapDispatch)(Login)
-
+		connect(mapState, mapDispatch)(TabbedLogin)
 
 const buttonStyle = {
 	padding:15,
@@ -81,6 +314,10 @@ const buttonStyle = {
 };
 
 const styles = {
+	tabContainer: {
+		flex: 1,
+		backgroundColor: 	'#1f232b',
+	},
 	container: {
 		alignItems: 		'center',
 		backgroundColor: 	'#1f232b',
