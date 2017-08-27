@@ -9,9 +9,7 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
-// import styles from '../../statics/styles';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import { Hoshi } from 'react-native-textinput-effects';
+import LoginTypeForm from './loginTypeForm';
 
 class TabbedLogin extends PureComponent {
   state = {
@@ -67,208 +65,103 @@ class TabbedLogin extends PureComponent {
 	//TODO -> unify routes to components
 	// need to figure validation before that
 	const LoginRoute = () => <View style={[ styles.container ]} >
-			<ScrollView
-				contentContainerStyle={{
-					...styles.container,
+			<LoginTypeForm
+				action={{
+					actionCb: this.handleLoginLogout.bind(this, isLoggedIn),
+					actionLabel: 'Log In'
 				}}
-				style={{
-					height: '100%',
-					width: '100%'
-				}}
-			>
-				<View
-					style={{
-						width: '90%',
-						overflow: 'hidden',
-					}}
-				>
-					<View
-						style={{
-							marginTop: 10,
-							marginBottom: 10
-						}}
-					>
-						<Hoshi
-							style={{
-								borderBottomColor: 'gray',
-							}}
-
-							label={'Email Address'}
-							iconClass={AwesomeIcon}
-							iconColor={'gray'}
-							// TextInput props
-							borderColor={'#313744'}
-							autoCapitalize={'none'}
-							autoCorrect={false}
-						/>
-					</View>
-					<View
-							style={{
-								marginTop: 10,
-								marginBottom: 10
-							}}
-					>
-						<Hoshi
-							style={{
-								borderBottomColor: 'gray',
-							}}
-
-							label={'Password'}
-							iconClass={AwesomeIcon}
-							iconColor={'gray'}
-							borderColor={'#313744'}
-							autoCorrect={false}
-						/>
-					</View>
-				</View>
-				<View>
-					<Button
-						style={{
-							...styles.buttonStyle,
-
-						}}
-						onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
-					>
-						Log In
-					</Button>
-				</View>
-			</ScrollView>
+				formControls={[
+					{
+						label: 'Email Address',
+						keyboardType: 'email-address',
+						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
+						isRequired: true,
+						secureTextEntry: false,
+						errorMessages: [
+							"%w not a valid email.",
+							"%w not a valid email.",
+						]
+					},
+					{
+						label: 'Password',
+						keyboardType: 'default',
+						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+						isRequired: true,
+						secureTextEntry: true,
+						errorMessages: [
+							"8 symbols, Aa and at least one number.",
+							"don't forget the password.",
+						]
+					}
+				]}
+			/>
 	</View>;
 	const SignUpRoute = () => <View style={[ styles.container ]} >
-			<ScrollView
-			contentContainerStyle={{
-				...styles.container,
-			}}
-			style={{
-				height: '100%',
-				width: '100%'
-			}}
-		>
-			<View
-				style={{
-					width: '90%',
-					overflow: 'hidden',
+			<LoginTypeForm
+				action={{
+					actionCb: this.handleLoginLogout.bind(this, isLoggedIn),
+					actionLabel: 'Sign Up'
 				}}
-			>
-				<View
-					style={{
-						marginTop: 10,
-						marginBottom: 10
-					}}
-				>
-					<Hoshi
-						style={{
-							borderBottomColor: 'gray',
-						}}
-
-						label={'Email Address'}
-						iconClass={AwesomeIcon}
-						iconColor={'gray'}
-						// TextInput props
-						borderColor={'#313744'}
-						autoCapitalize={'none'}
-						autoCorrect={false}
-					/>
-				</View>
-				<View
-						style={{
-							marginTop: 10,
-							marginBottom: 10
-						}}
-				>
-					<Hoshi
-						style={{
-							borderBottomColor: 'gray',
-						}}
-
-						label={'Password'}
-						iconClass={AwesomeIcon}
-						iconColor={'gray'}
-						borderColor={'#313744'}
-						autoCorrect={false}
-					/>
-				</View>
-				<View
-						style={{
-							marginTop: 10,
-							marginBottom: 10
-						}}
-				>
-					<Hoshi
-						style={{
-							borderBottomColor: 'gray',
-						}}
-
-						label={'Confirm password'}
-						iconClass={AwesomeIcon}
-						autoCapitalize={'none'}
-						borderColor={'#313744'}
-						autoCorrect={false}
-					/>
-				</View>
-			</View>
-			<View>
-				<Button
-					style={{
-						...styles.buttonStyle,
-
-					}}
-					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
-				>
-					Sign Up
-				</Button>
-			</View>
-		</ScrollView>
+				formControls={[
+					{
+						label: 'Email Address',
+						keyboardType: 'email-address',
+						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
+						isRequired: true,
+						secureTextEntry: false,
+						errorMessages: [
+							"%w not a valid email.",
+							"%w not a valid email.",
+						]
+					},
+					{
+						label: 'Password',
+						keyboardType: 'default',
+						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+						isRequired: true,
+						secureTextEntry: true,
+						errorMessages: [
+							"8 symbols, Aa and at least one number.",
+							"don't forget the password.",
+						]
+					},
+					{
+						label: 'Confirm Password',
+						keyboardType: 'default',
+						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+						isRequired: true,
+						secureTextEntry: true,
+						errorMessages: [
+							"8 symbols, Aa and at least one number.",
+							"don't forget the password.",
+						],
+						//todolmlm
+						customValidator: (value1, value2) => value1 === value2,
+						customValidatorErrorMessage: "Passwords should match"
+					}
+				]}
+			/>
 	</View>;
 	const ForgotRoute = () => <View style={[ styles.container ]} >
-			<ScrollView
-			contentContainerStyle={{
-				...styles.container,
-			}}
-			style={{
-				height: '100%',
-				width: '100%'
-			}}
-		>
-			<View
-				style={{
-					width: '90%',
-					overflow: 'hidden',
+			<LoginTypeForm
+				action={{
+					actionCb: this.handleLoginLogout.bind(this, isLoggedIn),
+					actionLabel: 'Get Password Reset'
 				}}
-			>
-				<View
-					style={{
-						marginTop: 10,
-						marginBottom: 10
-					}}
-				>
-					<Hoshi
-						style={{
-							borderBottomColor: 'gray',
-						}}
-
-						label={'Email Address'}
-						iconClass={AwesomeIcon}
-						iconColor={'gray'}
-						// TextInput props
-						borderColor={'#313744'}
-						autoCapitalize={'none'}
-						autoCorrect={false}
-					/>
-				</View>
-			</View>
-			<View>
-				<Button
-					style={{
-						...styles.buttonStyle,
-
-					}}
-					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
-				>
-					Submit
-				</Button>
-			</View>
-		</ScrollView>
+				formControls={[
+					{
+						label: 'Email Address',
+						keyboardType: 'email-address',
+						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
+						isRequired: true,
+						secureTextEntry: false,
+						errorMessages: [
+							"%w not a valid email.",
+							"%w not a valid email.",
+						]
+					}
+				]}
+			/>
 	</View>;
 
     return (
