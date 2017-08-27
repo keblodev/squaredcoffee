@@ -20,6 +20,27 @@ import Login from '../components/login';
 
 import styles from '../statics/styles';
 
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+const backIcon = (<AwesomeIcon name="chevron-up" size={20} color="grey" />)
+
+const BackButton= ({navigation}) => (<Button
+					style={{
+						flex: 1,
+					}}
+					onPress={()=>{
+						navigation.goBack();
+					}}
+				>
+					<View
+						style={{
+							alignSelf: 'center',
+						}}
+					>
+						{backIcon}
+					</View>
+				</Button>
+)
+
 export const MainCardNavigator = StackNavigator({
 	User: {
 		screen: User,
@@ -100,14 +121,11 @@ export default StackNavigator({
 						flex: 				0.08,
 						justifyContent: 	'center',
 					}}
-				><Button
-				style={{
-					color: '#8393b1'
-				}}
-				onPress={()=>{
-					navigation.goBack();
-				}}
-				>back</Button></View>
+				>
+				<BackButton
+					navigation={navigation}
+				/>
+				</View>
 			)
 		}
 	},
@@ -125,14 +143,11 @@ export default StackNavigator({
 						flex: 				0.08,
 						justifyContent: 	'center',
 					}}
-				><Button
-				style={{
-					color: '#8393b1'
-				}}
-				onPress={()=>{
-					navigation.goBack();
-				}}
-				>back</Button></View>
+				>
+				<BackButton
+					navigation={navigation}
+				/>
+				</View>
 			)
 		}
 	},
@@ -151,14 +166,11 @@ export default StackNavigator({
 						flex: 				0.08,
 						justifyContent: 	'center',
 					}}
-				><Button
-				style={{
-					color: '#8393b1'
-				}}
-				onPress={()=>{
-					navigation.goBack();
-				}}
-				>back</Button></View>
+				>
+				<BackButton
+					navigation={navigation}
+				/>
+				</View>
 			)
 		}
 	},
