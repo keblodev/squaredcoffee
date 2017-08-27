@@ -93,6 +93,7 @@ class PaymentMethodsView extends Component {
 			)
 		} else {
 			const isAuthorized = this.props.auth;
+			const {navigate} = this.props;
 			const SaveCardView = ({style}) => isAuthorized ?
 								<CheckBox
 									style={style}
@@ -113,7 +114,7 @@ class PaymentMethodsView extends Component {
 									</Text>
 									<Button
 										style={styles.buttonStyle}
-										onPress={this.props.actions.createUser.bind(this, {some: 'config'})}
+										onPress={()=>navigate('Login')}
 									>
 										login
 									</Button>

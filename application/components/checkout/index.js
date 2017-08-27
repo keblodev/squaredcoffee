@@ -29,6 +29,7 @@ class Checkout extends Component {
 	}
 
 	render = () => {
+		const { navigate } = this.props.navigation;
 		const {cart, user} = this.props;
 		const lastPayment = user.payments.length && user.payments[0]
 
@@ -51,7 +52,9 @@ class Checkout extends Component {
 					<View>
 						{
 							cart.ids.length ?
-							<PaymentMethodsView /> : null
+							<PaymentMethodsView
+								navigate={navigate}
+							/> : null
 						}
 					</View>
 				</ScrollView>
