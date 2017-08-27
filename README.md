@@ -5,8 +5,7 @@ Below you'll find information about performing common tasks. The most recent ver
 ## Initing the project
 	* 1. In root folder run:
 		```npm i && npm i -g localtunnel```
-	* 2. In server folder run:
-		```bundle install && rake db:create db:migrate```
+	* 2. Ig you are running local server -> contact me
 
 ## Running the project
 
@@ -17,9 +16,9 @@ Below you'll find information about performing common tasks. The most recent ver
 	```npm run start```
 	or ```npm run ios```
 	or ```npm run android```
-* 3. In 2nd terminal in root folder run:
+* 3. [LOCAL_SERVER]In 2nd terminal in root folder run:
 	```lt -p 3000 -s superroman```
-* 4. In 3rd terminal in server/ folder run:
+* 4. [LOCAL_SERVER]In 3rd terminal in server/ folder run:
 	```bundle exec foreman start```
 
 ## Table of Contents
