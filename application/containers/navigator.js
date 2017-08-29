@@ -173,7 +173,30 @@ export default StackNavigator({
 				</View>
 			)
 		}
-	},
+    },
+
+    AccountModal: {
+        screen: Account,
+        navigationOptions: {
+            title: 'Account information',
+
+            header: ({navigation}) => (
+                <View
+                    style={{
+                        backgroundColor: 	'#2A2F3A',
+                        height: 			40,
+                        //TODO: to be removed this whole thing
+                        flex: 				0.08,
+                        justifyContent: 	'center',
+                    }}
+                >
+                <BackButton
+                    navigation={navigation}
+                />
+                </View>
+            )
+        }
+    },
 
 },{
 	mode: 'modal',

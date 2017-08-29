@@ -42,7 +42,7 @@ class Drinks extends Component {
 					style={{flex: 1}}
 				>
 					{
-						DrinksMock[shopId].map((ch, ind) => (
+						shopId && DrinksMock[shopId].map((ch, ind) => (
 							<ListItem
 								key={ch.id}
 								item={ch}
@@ -89,7 +89,8 @@ class Drinks extends Component {
 
 const mapState = (state) => {
 	return {
-		shopId:	state.shops.selected.shopId
+        //todo: selector
+		shopId:	state.shops.selected && state.shops.selected.shopId
 	};
 };
 

@@ -13,9 +13,15 @@ import {
 
 import styles from '../../../statics/styles';
 
-export default class Drink extends Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import AppActions from '../../../actions';
+
+class Drink extends Component {
 	render = () => {
-		const {item, addItem, disabled, navigate} = this.props.navigation.state.params;
+		const {item, disabled} = this.props.navigation.state.params;
+		const {navigate} = this.props.navigation;
 		return (
 			<View
 				style={{
@@ -104,7 +110,7 @@ export default class Drink extends Component {
 								<CardAction >
 									<Button
 									style={itemStyles.buttonStyle}
-									onPress={addItem}
+									onPress={this.props.actions.cartAdd.bind(this, item)}
 									>
 										+ to Cart
 									</Button>
@@ -145,6 +151,19 @@ export default class Drink extends Component {
 		);
 	}
 };
+
+const mapState = (state) => {
+	return {
+		shopId:	state.shops.selected.shopId
+	};
+};
+
+const mapDispatch = dispatch => ({
+	actions: bindActionCreators(AppActions, dispatch)
+});
+
+export default
+		connect(mapState, mapDispatch)(Drink)
 
 const itemStyles = {
 	...styles,

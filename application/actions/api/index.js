@@ -9,12 +9,53 @@ const createUser = userConfig => {
 	return dispatch => {
 		dispatch({ type: types.CREATE_USER, userConfig });
 
-		return fetch(baseUrl + '/signup')
+		return fetch(baseUrl + '/signup', {
+					method: 'POST',
+					body: JSON.stringify({...userConfig}),
+					headers: { 'Content-Type': 'application/json' },
+				})
 				.then(response => response.json())
 				.then(json => dispatch(userCreated(json.data)))
+				.then(data => console.log(data))
 	};
 };
 
+const createRemoteUser = remoteUserConfig => {
+
+	return dispatch => {
+		dispatch({ type: types.CREATE_USER, remoteUserConfig });
+
+		return fetch(baseUrl + '/signup_remote', {
+					method: 'POST',
+					body: JSON.stringify({...remoteUserConfig}),
+					headers: { 'Content-Type': 'application/json' },
+				})
+				.then(response => response.json())
+				.then(json => dispatch(userRemoteCreated(json.data)))
+				.then(data => console.log(data))
+	};
+};
+
+const loginUser = loginConfig => {
+
+	return dispatch => {
+		dispatch({ type: types.LOGIN_USER, loginConfig });
+
+		return fetch(baseUrl + '/login',{
+					method: 'POST',
+					body: JSON.stringify({...loginConfig}),
+					headers: { 'Content-Type': 'application/json' },
+				})
+				.then(response => {
+                    console.log(response);
+                    return response.json();
+                })
+				.then(json => dispatch(userCreated(json.data)))
+				.then(data => console.log(data))
+	};
+};
+
+const userRemoteCreated = auth => ({ type: types.CREATED_REMOTE_USER, auth });
 const userCreated = auth => ({ type: types.CREATED_USER, auth });
 const userCardCreated = card => ({ type: types.CREATED_USER_CARD, card });
 
@@ -29,7 +70,8 @@ const createUserCard = ({nonce, auth}) => {
 			headers: { 'Content-Type': 'application/json' },
 		})
 				.then(response => response.json())
-				.then(json => dispatch(userCardCreated(json.data)))
+                .then(json => dispatch(userCardCreated(json.data)))
+                .then(data => console.log(data))
 	};
 };
 
@@ -45,7 +87,8 @@ const chargeUserCard = ({auth, card}) => dispatch => {
 		headers: { 'Content-Type': 'application/json' },
 	})
 		.then(response => response.json())
-		.then(json => dispatch(purchaseSuccess(json)))
+        .then(json => dispatch(purchaseSuccess(json)))
+        .then(data => console.log(data))
 };
 
 const chargeNonce = ({nonce}) => dispatch => {
@@ -60,10 +103,27 @@ const chargeNonce = ({nonce}) => dispatch => {
 		.then(json => dispatch(purchaseSuccess(json)))
 };
 
-const logoutUser = () => ({ type: types.LOGOUT_USER})
+const logoutUser = () => {
+	return dispatch => {
+		dispatch({ type: types.LOGOUT_USER, user });
+
+		return fetch(baseUrl + '/logout', {
+					method: 'POST',
+					body: JSON.stringify({...user}),
+					headers: { 'Content-Type': 'application/json' },
+				})
+				.then(response => response.json())
+				.then(json => dispatch(userRemoteCreated(json.data)))
+				.then(data => console.log(data))
+	};
+}
+
+const userLoggedOut = message => ({ type: types.USER_LOGGEDOUT, message });
 
 export default {
-	createUser,
+    createUser,
+    createRemoteUser,
+	loginUser,
 	createUserCard,
 	logoutUser,
 	chargeUserCard,
