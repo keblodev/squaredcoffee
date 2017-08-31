@@ -14,11 +14,13 @@ import {
 	NONE } from '../../statics/actions';
 
 import {
-	CREATED_USER,
-	CREATED_USER_CARD,
-	LOGOUT_USER,
-	PURCHASE_SUCCESS,
-	PURCHASE_ERROR
+	USER_CREATED,
+	USER_CARD_CREATED,
+    LOGOUT_USER,
+    NONCE_CHARGED,
+    USER_CARD_CHARGED,
+    CHARGE_NONCE_ERROR,
+    CHARGE_USER_CARD_ERROR,
 } from '../../statics/actions/api';
 
 import {
@@ -181,7 +183,7 @@ export default store => next => action => {
 			case WEBVIEW_CHEKOUT_MESSAGE_OUT:
 				processWebViewMsgOut();
 				break;
-			case CREATED_USER_CARD:
+			case USER_CARD_CREATED:
 				processCreatedCard();
 				break;
 			case RECEIVED_USER_CARD_NONCE:
@@ -189,8 +191,9 @@ export default store => next => action => {
 				break;
 			case PAYMENT_CREATE_NEW:
 				processPayment();
-				break;
-			case PURCHASE_SUCCESS:
+                break;
+            case NONCE_CHARGED:
+			case USER_CARD_CHARGED:
 				processPurchaseSuccess();
 				break;
 		}

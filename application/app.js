@@ -10,9 +10,12 @@ import Navigator from './containers/navigator';
 
 import StatusBarAlert from 'react-native-statusbar-alert';
 
+import ProgressOverlay from './components/shared/progressOverlay';
 
 class App extends Component {
 	render () {
+        const isLoading = !!this.props.sync.loading;
+        const loadingMsg = this.props.sync.loading;
 		return (
 			<View
 				style={{
@@ -41,6 +44,12 @@ class App extends Component {
 						})
 					}
 				/>
+                {
+                isLoading ?
+                    (<ProgressOverlay
+                        msg={loadingMsg}
+                    />) : null
+                }
 			</View>
 		);
 	}
@@ -48,6 +57,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
   nav: 			state.nav,
+  sync:         state.sync,
   notification: state.notification
 });
 

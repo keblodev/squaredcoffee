@@ -37,4 +37,10 @@ export const PLACE_ORDER='PLACE_ORDER';
 export const SHOPS_ADDED='SHOPS_ADDED';
 export const SHOP_SELECTED='SHOP_SELECTED';
 
-export const NONE = 'NONE';
+//SYNC
+export const LOADING_ACTIVE='LOADING_ACTIVE';
+export const LOADING_NOT_ACTIVE='LOADING_NOT_ACTIVE';
+export const FETCHING_ACTIVE='FETCHING_ACTIVE';
+export const FETCHING_NOT_ACTIVE='FETCHING_NOT_ACTIVE';
+
+export const NONE = null;

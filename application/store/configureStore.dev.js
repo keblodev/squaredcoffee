@@ -14,25 +14,20 @@ import createEngine from 'redux-storage-engine-reactnativeasyncstorage'
 const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || composeWithDevTools({ port: 5678 , realtime: true });
 const localStorageKey = "mySquaredCoffeeAppDev";
 const engine = createEngine(localStorageKey);
-const middleware = storage.createMiddleware(engine);
+const storeMiddleware = storage.createMiddleware(engine);
 
-import checkoutFormMw from '../middleware/checkoutform';
-import geoMw from '../middleware/geo';
-import notifierMw from '../middleware/notifier';
+import middleware from '../middleware';
 
 export default function configureStore(initialState) {
-
-	const store = createStore(reducer, initialState,
-	  	composeEnhancers(
-	    	applyMiddleware(
-				thunk,
-				checkoutFormMw,
-				geoMw,
-				notifierMw,
-				middleware
-			),
-  		)
-	);
+    const store = createStore(reducer, initialState,
+        composeEnhancers(
+            applyMiddleware(
+                thunk,
+                ...middleware,
+                storeMiddleware
+            ),
+        )
+    );
 
 	const load = storage.createLoader(engine);
 

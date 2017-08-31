@@ -20,7 +20,6 @@ import AppActions from '../../actions';
 import PaymentMethodsView from '../shared/paymentMethodsView';
 import CheckoutSummary from './checkoutSummary';
 import CartAction from './cartAction';
-import ProgressOverlay from './progressOverlay';
 
 class Checkout extends Component {
 
@@ -66,10 +65,6 @@ class Checkout extends Component {
 						placeOrderCb={this.placeOrder.bind(this)}
 					/>
 				</View>
-				{
-					lastPayment && lastPayment.state === 'PAYMENT_PENDING' ?
-					(<ProgressOverlay />) : null
-				}
 			</View>
 		);
 	}

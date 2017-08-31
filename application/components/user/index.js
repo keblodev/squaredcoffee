@@ -17,7 +17,7 @@ class User extends Component {
 		const { navigation } = this.props;
 		const isLoggedIn = !!this.props.user.auth;
 
-		if (!isLoggedIn) {
+        if (!isLoggedIn) {
 			navigation.goBack();
 		}
 	}

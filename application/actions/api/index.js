@@ -16,14 +16,15 @@ const createUser = userConfig => {
 				})
 				.then(response => response.json())
 				.then(json => dispatch(userCreated(json.data)))
-				.then(data => console.log(data))
+                .then(data => console.log(data))
+                .catch(error => dispatch(createUserError(error)))
 	};
 };
 
 const createRemoteUser = remoteUserConfig => {
 
 	return dispatch => {
-		dispatch({ type: types.CREATE_USER, remoteUserConfig });
+		dispatch({ type: types.CREATE_REMOTE_USER, remoteUserConfig });
 
 		return fetch(baseUrl + '/signup_remote', {
 					method: 'POST',
@@ -32,7 +33,8 @@ const createRemoteUser = remoteUserConfig => {
 				})
 				.then(response => response.json())
 				.then(json => dispatch(userRemoteCreated(json.data)))
-				.then(data => console.log(data))
+                .then(data => console.log(data))
+                .catch(error => dispatch(userRemoteCreateError(error)))
 	};
 };
 
@@ -48,17 +50,17 @@ const loginUser = loginConfig => {
 				})
 				.then(response => {
                     //todo
-                    cookie = response.headers.map['set-cookie'];
+                    //cookie = response.headers.map['set-cookie'];
                     return response.json();
                 })
-				.then(json => dispatch(userCreated({...json.data, cookie})))
-				.then(data => console.log(data))
+				.then(json => dispatch(userLoggedIn(
+                    json.data,
+                    //  cookie
+                    )))
+                .then(data => console.log(data))
+                .catch(error => dispatch(createUserError(error)))
 	};
 };
-
-const userRemoteCreated = auth => ({ type: types.CREATED_REMOTE_USER, auth });
-const userCreated = auth => ({ type: types.CREATED_USER, auth });
-const userCardCreated = card => ({ type: types.CREATED_USER_CARD, card });
 
 const createUserCard = ({nonce, auth}) => {
 
@@ -78,11 +80,28 @@ const createUserCard = ({nonce, auth}) => {
 				.then(response => response.json())
                 .then(json => dispatch(userCardCreated(json.data)))
                 .then(data => console.log(data))
+                .catch(error => dispatch(createUserCardError(error)))
 	};
 };
 
-const purchaseSuccess = success => ({ type: types.PURCHASE_SUCCESS, success});
-const purchaseFail = error => ({ type: types.PURCHASE_ERROR, error});
+const userRemoteCreated = auth => ({ type: types.REMOTE_USER_CREATED, auth });
+const userCreated = auth => ({ type: types.USER_CREATED, auth });
+const userLoggedIn = auth => ({ type: types.USER_LOGGEDIN, auth });
+const userCardCreated = card => ({ type: types.USER_CARD_CREATED, card });
+
+const createUserError = error => ({type: types.CREATE_USER_ERROR, error});
+const userRemoteCreateError = error => ({type: types.CREATE_REMOTE_USER_ERROR, error});
+const userLoginError = error => ({type: types.LOGIN_USER_ERROR, error});
+const userLogOutError = error => ({type: types.LOGOUT_USER_ERROR, error});
+const chargeNonceError = error => ({type: types.CHARGE_NONCE_ERROR, error});
+const chargeUserCardError = error => ({type: types.CHARGE_USER_CARD_ERROR, error});
+const createUserCardError = error => ({type: types.CREATE_USER_CARD_ERROR, error});
+
+const logoutUserError = error => ({type: types.LOGOUT_USER_ERROR, error});
+
+
+const userCardCharged = success => ({ type: types.USER_CARD_CHARGED, success })
+const nonceCharged = success => ({ type: types.NONCE_CHARGED, success })
 
 const chargeUserCard = ({auth, card}) => dispatch => {
 	dispatch({ type: types.CHARGE_USER_CARD });
@@ -93,8 +112,11 @@ const chargeUserCard = ({auth, card}) => dispatch => {
 		headers: { 'Content-Type': 'application/json' },
 	})
 		.then(response => response.json())
-        .then(json => dispatch(purchaseSuccess(json)))
+        .then(json =>
+            dispatch(userCardCharged(json))
+        )
         .then(data => console.log(data))
+        .catch(error => dispatch(chargeUserCardError(error)));
 };
 
 const chargeNonce = ({nonce}) => dispatch => {
@@ -106,7 +128,10 @@ const chargeNonce = ({nonce}) => dispatch => {
 		headers: { 'Content-Type': 'application/json' },
 	})
 		.then(response => response.json())
-		.then(json => dispatch(purchaseSuccess(json)))
+        .then(json =>
+            dispatch(nonceCharged(json))
+    )
+        .catch(error => dispatch(chargeNonceError(error)));
 };
 
 const logoutUser = () => {
@@ -120,7 +145,8 @@ const logoutUser = () => {
 				})
 				.then(response => response.json())
 				.then(json => dispatch(userLoggedOut(json.data)))
-				.then(data => console.log(data))
+                .then(data => console.log(data))
+                .catch(error => dispatch(logoutUserError(error)));
 	};
 }
 

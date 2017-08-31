@@ -67,7 +67,7 @@ class TabbedLogin extends PureComponent {
 
   render() {
 	const { navigation } = this.props;
-	const isLoggedIn = !!this.props.user.auth;
+    const isLoggedIn = !!this.props.user.auth;
 	//TODO -> unify routes to components
 	// need to figure validation before that
 	const LoginRoute = () => <View style={[ styles.container ]} >
@@ -177,26 +177,25 @@ class TabbedLogin extends PureComponent {
 	</View>;
 
     return (
-
-		<TabViewAnimated
-			style={styles.tabContainer}
-			navigationState={this.state}
-			renderScene={SceneMap({
-				'1': ForgotRoute,
-				'2': LoginRoute,
-				'3': SignUpRoute,
-			})}
-			renderFooter={this._renderHeader}
-			onIndexChange={this._handleIndexChange}
-		/>
+        <TabViewAnimated
+            style={styles.tabContainer}
+            navigationState={this.state}
+            renderScene={SceneMap({
+                '1': ForgotRoute,
+                '2': LoginRoute,
+                '3': SignUpRoute,
+            })}
+            renderFooter={this._renderHeader}
+            onIndexChange={this._handleIndexChange}
+        />
     );
   }
 }
 
 const mapState = (state) => {
 	return {
-		user: 		state.user,
-		geoStatus: 	state.geo.status
+        user: 		state.user,
+        geoStatus: 	state.geo.status
 	};
 };
 
@@ -224,10 +223,8 @@ const styles = {
 		backgroundColor: 	'#1f232b',
 	},
 	container: {
-		alignItems: 		'center',
-		backgroundColor: 	'#1f232b',
-		flex: 				1,
-		justifyContent: 	'center',
+        backgroundColor: 	'#1f232b',
+        height:             '100%',
 	},
     buttonStyle,
     buttonDisabledStyle: {
