@@ -119,15 +119,20 @@ export default user = (state = initialState, action) => {
 				if (selectedCard.id !== action.cardId) {
 					newSelectedCardId = selectedCard.id
 				}
-			}
-			return {
-				...state,
-				paymentInstrument: {
+            }
+            const newPaymentInstrument = initialState.paymentInstrument;
+            if (cardsNewState.length) {
+                newPaymentInstrument = {
 					card: {
 						id: newSelectedCardId,
 						val: cardsNewState[newSelectedCardId]
 					}
-				},
+				}
+            }
+
+			return {
+				...state,
+				paymentInstrument: newPaymentInstrument,
 				cards:	cardsNewState,
 			}
 		case USER_CARD_NEW:

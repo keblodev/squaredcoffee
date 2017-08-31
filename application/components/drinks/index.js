@@ -42,14 +42,14 @@ class Drinks extends Component {
 					style={{flex: 1}}
 				>
 					{
-						shopId && DrinksMock[shopId].map((ch, ind) => (
+						shopId !== undefined ? DrinksMock[shopId].map((ch, ind) => (
 							<ListItem
 								key={ch.id}
 								item={ch}
 								addItem={this.addItem.bind(this,ch)}
 								navigate={navigate}
 							/>
-						))
+						)) : null
 					}
 				</ScrollView>
 				<View
