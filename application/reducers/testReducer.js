@@ -7,7 +7,7 @@ const initialState = [{
 
 export default function testReducer(state = initialState, action) {
 	switch (action.type) {
-		case APP_TEST_ACTION_DVA:
+		case APP_TEST_ACTION:
 			return [{
 				id: (state.length === 0) ? 0 : state[0].id + 1,
 				type: action.type,

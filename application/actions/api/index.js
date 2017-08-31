@@ -40,17 +40,18 @@ const loginUser = loginConfig => {
 
 	return dispatch => {
 		dispatch({ type: types.LOGIN_USER, loginConfig });
-
+        let cookie = '';
 		return fetch(baseUrl + '/login',{
 					method: 'POST',
 					body: JSON.stringify({...loginConfig}),
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(response => {
-                    console.log(response);
+                    //todo
+                    cookie = response.headers.map['set-cookie'];
                     return response.json();
                 })
-				.then(json => dispatch(userCreated(json.data)))
+				.then(json => dispatch(userCreated({...json.data, cookie})))
 				.then(data => console.log(data))
 	};
 };
@@ -66,8 +67,13 @@ const createUserCard = ({nonce, auth}) => {
 
 		return fetch(baseUrl + '/card/new', {
 			method: 'POST',
-			body: JSON.stringify({nonce, token: auth.token}),
-			headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({nonce, token: auth.token}),
+            credentials: 'include',
+			headers: {
+                'Content-Type': 'application/json',
+                //todo
+                'Cookie': auth.cookie && auth.cookie[0]
+            },
 		})
 				.then(response => response.json())
                 .then(json => dispatch(userCardCreated(json.data)))
@@ -113,12 +119,12 @@ const logoutUser = () => {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(response => response.json())
-				.then(json => dispatch(userRemoteCreated(json.data)))
+				.then(json => dispatch(userLoggedOut(json.data)))
 				.then(data => console.log(data))
 	};
 }
 
-const userLoggedOut = message => ({ type: types.USER_LOGGEDOUT, message });
+const userLoggedOut = (message = {}) => ({ type: types.USER_LOGGEDOUT, message });
 
 export default {
     createUser,
