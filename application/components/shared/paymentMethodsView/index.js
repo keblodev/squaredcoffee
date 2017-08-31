@@ -19,6 +19,7 @@ import AppActions from '../../../actions';
 
 import CardsListItem from './cardsListItem';
 import CheckoutWebView from './checkoutWebView';
+import SaveCardOptionBox from './saveCardOptionBox';
 
 import styles from '../../../statics/styles';
 import strings from '../../../statics/strings';
@@ -92,58 +93,38 @@ class PaymentMethodsView extends Component {
 				</View>
 			)
 		} else {
-			const isAuthorized = this.props.auth;
-			const {navigate} = this.props;
-			const SaveCardView = ({style}) => isAuthorized ?
-								<CheckBox
-									style={style}
-									onClick={this.onSaveCardToggle.bind(this, persistPaymentMethod)}
-									isChecked={persistPaymentMethod}
-									disabled={!isAuthorized}
-									leftText="Save card?"
-								/> :
-								<View
-									style={style}
-								>
-									<Text
-										style={{
-											textAlign: 'center'
-										}}
-									>
-										(i) login to save a card
-									</Text>
-									<Button
-										style={styles.buttonStyle}
-										onPress={()=>navigate('Login')}
-									>
-										login
-									</Button>
-								</View>;
-			paymentMethodView = (
-				<View>
-					<Card>
-						<View
-							style={{
-								width: '100%'
-							}}
-						>
-							<SaveCardView
-								style={{
-									flex: 1,
-									padding: 10,
-									width: '100%'
-								}}
-							/>
-						</View>
-					</Card>
-					<View
-						style={{height: 300}}
-					>
-						<CheckoutWebView />
-					</View>
-				</View>
-			);
-		}
+            const isLoggedIn = this.props.auth && this.props.auth.token;
+            const isRemoteAuthorized = this.props.auth && this.props.auth.remoteAuthorized;
+            const {navigate} = this.props;
+            paymentMethodView = (
+                <View>
+                    <Card>
+                        <View
+                            style={{
+                                width: '100%'
+                            }}
+                        >
+                            <SaveCardOptionBox
+                                style={{
+                                    flex: 1,
+                                    padding: 10,
+                                    width: '100%'
+                                }}
+                                isLoggedIn={isLoggedIn}
+                                isRemoteAuthorized={isRemoteAuthorized}
+                                checkboxCb={this.onSaveCardToggle.bind(this, persistPaymentMethod)}
+                                {...this.props}
+                            />
+                        </View>
+                    </Card>
+                    <View
+                        style={{height: 300}}
+                    >
+                        <CheckoutWebView />
+                    </View>
+                </View>
+            );
+        }
 
 		return (
 			<View>

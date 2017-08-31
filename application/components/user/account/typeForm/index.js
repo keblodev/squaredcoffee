@@ -4,17 +4,12 @@ import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 
 import Button from 'react-native-button'
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import AppActions from '../../../actions';
-
 import { Hoshi } from 'react-native-textinput-effects';
 
 import Foect from 'foect';
 
 export default ({action, formControls}) => {
-	const formControlInputs = [];
+	const formControlInputs = []
 	return (
 		<ScrollView
 				contentContainerStyle={{
@@ -27,15 +22,25 @@ export default ({action, formControls}) => {
 			>
 			<View
 					style={{
-						width: '90%',
+						width: '100%',
 						overflow: 'hidden',
 					}}
 				>
 				<Foect.Form
 					defaultValue={{
-						email: 'john@doe.com',
-						password: 'J1@doe.com',
-						password_confirmation: 'J1@doe.com'
+						email:                            'john@doe.com',
+						password:                         'J1@doe.com',
+						password_confirmation:            'J1@doe.com',
+						given_name:                       'Amelia',
+						family_name:                      'Earhart',
+						email_address:                    'Amelia.Earhart@example.com',
+						address_line_1:                   '500 Electric Ave',
+						address_line_2:                   'Suite 600',
+						locality:                         'New York',
+						administrative_district_level_1:  'NY',
+						postal_code:                      '10003',
+						country:                          'US',
+						phone_number:                     '1-555-555-0122',
 					}}
 					onValidSubmit={model => {
 						console.log(model); // { fullName: 'John Doe', email: 'john@doe.com' ... }
@@ -147,10 +152,10 @@ const styles = {
 		backgroundColor: 	'#1f232b',
 	},
 	container: {
-		alignItems: 		'center',
 		backgroundColor: 	'#1f232b',
-		flex: 				1,
-		justifyContent: 	'center',
+		position: 'absolute',
+		left: 20,
+		right: 20
 	},
     buttonStyle,
     buttonDisabledStyle: {

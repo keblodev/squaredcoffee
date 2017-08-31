@@ -32,14 +32,20 @@ class TabbedLogin extends PureComponent {
 	}}
   {...props} />
 
-	handleLoginLogout(isLoggedIn) {
-		if (isLoggedIn) {
-			this.props.actions.logoutUser();
-		} else {
-			//TODO: this currently signs up
-			this.props.actions.createUser({some: 'config'})
-				.then(response => console.log(response))
-		}
+	handleSignup(signupConfig) {
+		this.props.actions.createUser({...signupConfig})
+			.then(response => console.log(response))
+	}
+
+	handleLogin(loginConfig) {
+		this.props.actions.loginUser({...loginConfig})
+			.then(response => console.log(response))
+	}
+
+	handleForgot(forgotConfig) {
+		//TODO
+		// this.props.actions.forgotUser({...forgotConfig})
+		// 	.then(response => console.log(response))
 	}
 
 	componentDidUpdate() {
@@ -67,12 +73,13 @@ class TabbedLogin extends PureComponent {
 	const LoginRoute = () => <View style={[ styles.container ]} >
 			<LoginTypeForm
 				action={{
-					actionCb: this.handleLoginLogout.bind(this, isLoggedIn),
+					actionCb: this.handleLogin.bind(this),
 					actionLabel: 'Log In'
 				}}
 				formControls={[
 					{
 						label: 'Email Address',
+						name:  'email',
 						keyboardType: 'email-address',
 						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
 						isRequired: true,
@@ -84,6 +91,7 @@ class TabbedLogin extends PureComponent {
 					},
 					{
 						label: 'Password',
+						name:  'password',
 						keyboardType: 'default',
 						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
 						isRequired: true,
@@ -99,12 +107,13 @@ class TabbedLogin extends PureComponent {
 	const SignUpRoute = () => <View style={[ styles.container ]} >
 			<LoginTypeForm
 				action={{
-					actionCb: this.handleLoginLogout.bind(this, isLoggedIn),
+					actionCb: this.handleSignup.bind(this),
 					actionLabel: 'Sign Up'
 				}}
 				formControls={[
 					{
 						label: 'Email Address',
+						name:  'email',
 						keyboardType: 'email-address',
 						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
 						isRequired: true,
@@ -116,6 +125,7 @@ class TabbedLogin extends PureComponent {
 					},
 					{
 						label: 'Password',
+						name:  'password',
 						keyboardType: 'default',
 						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
 						isRequired: true,
@@ -127,6 +137,7 @@ class TabbedLogin extends PureComponent {
 					},
 					{
 						label: 'Confirm Password',
+						name:  'password_confirmation',
 						keyboardType: 'default',
 						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
 						isRequired: true,
@@ -145,12 +156,13 @@ class TabbedLogin extends PureComponent {
 	const ForgotRoute = () => <View style={[ styles.container ]} >
 			<LoginTypeForm
 				action={{
-					actionCb: this.handleLoginLogout.bind(this, isLoggedIn),
+					actionCb: this.handleForgot.bind(this),
 					actionLabel: 'Get Password Reset'
 				}}
 				formControls={[
 					{
 						label: 'Email Address',
+						name:  'email',
 						keyboardType: 'email-address',
 						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
 						isRequired: true,

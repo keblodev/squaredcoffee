@@ -19,7 +19,7 @@ export default ({item, addItem, disabled, navigate}) => {
 			<Button
 				disabled={disabled}
 				onPress={() => {
-						navigate("Drink", {item, addItem, disabled, navigate});
+						navigate("Drink", {item, addItem, disabled: true, navigate});
 					}
 				}
 			>

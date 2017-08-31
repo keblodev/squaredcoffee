@@ -1,38 +1,39 @@
 import {
-	CREATED_USER,
-	CREATED_USER_CARD,
-	LOGOUT_USER,
-	PURCHASE_SUCCESS,
+    CREATED_USER,
+    CREATED_REMOTE_USER,
+    CREATED_USER_CARD,
+    LOGOUT_USER,
+    PURCHASE_SUCCESS,
 } from '../statics/actions/api';
 
 import {
-	PERSIST_PAYMENT_METHOD,
-	PAYMENT_CREATE_NEW,
-	RECEIVED_USER_CARD_NONCE,
-	PAYMENT_UPDATE,
-	PLACE_ORDER,
-	NONE
+    PERSIST_PAYMENT_METHOD,
+    PAYMENT_CREATE_NEW,
+    RECEIVED_USER_CARD_NONCE,
+    PAYMENT_UPDATE,
+    PLACE_ORDER,
+    NONE
 } from '../statics/actions';
 
 import {
-	ADDING_CARD,
-	REMOVING_CARD,
-	MAKING_ORDER,
-	USER_CARD_NEW,
-	USER_CARD_REMOVE,
-	USER_CARD_SELECT
+    ADDING_CARD,
+    REMOVING_CARD,
+    MAKING_ORDER,
+    USER_CARD_NEW,
+    USER_CARD_REMOVE,
+    USER_CARD_SELECT
 } from '../statics/actions/user';
 
 const initialState = {
-	auth: 					null,
-	nonce: 					null,
-	currency:				'USD',
-	cards: 					[],
-	orders:					[], //todo
-	payments:				[],
-	paymentInstrument:		null, //  {nonce: String}, {card: Object}
-	persistPaymentMethod: 	false,
-	userAction:				NONE
+    auth:                   null,
+    nonce:                  null,
+    currency:               'USD',
+    cards:                  [],
+    orders:                 [], //todo
+    payments:               [],
+    paymentInstrument:      null, //  {nonce: String}, {card: Object}
+    persistPaymentMethod:   false,
+    userAction:             NONE
 };
 
 const updatePayment = (state = initialState.payments, action) => {
@@ -64,6 +65,7 @@ export default user = (state = initialState, action) => {
 		case LOGOUT_USER:
 			return initialState;
 
+        case CREATED_REMOTE_USER:
 		case CREATED_USER:
 			return {
 				...state,
