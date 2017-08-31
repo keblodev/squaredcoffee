@@ -14,8 +14,8 @@ import {
 	NONE } from '../../statics/actions';
 
 import {
-	CREATED_USER,
-	CREATED_USER_CARD,
+	USER_CREATED,
+	USER_CARD_CREATED,
 	LOGOUT_USER,
 	PURCHASE_SUCCESS,
 	PURCHASE_ERROR
@@ -181,7 +181,7 @@ export default store => next => action => {
 			case WEBVIEW_CHEKOUT_MESSAGE_OUT:
 				processWebViewMsgOut();
 				break;
-			case CREATED_USER_CARD:
+			case USER_CARD_CREATED:
 				processCreatedCard();
 				break;
 			case RECEIVED_USER_CARD_NONCE:

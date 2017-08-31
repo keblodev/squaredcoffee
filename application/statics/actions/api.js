@@ -1,16 +1,22 @@
 
 export const FETCH_USER             = 'FETCH_USER';
+export const USER_FETCHED           = 'USER_FETCHED';
 export const FETCH_USER_CARD        = 'FETCH_USER_CARD';
+export const USER_CARD_FETCHED      = 'USER_CARD_FETCHED';
 export const LOGIN_USER             = 'LOGIN_USER';
+export const USER_LOGGEDIN          = 'USER_LOGGEDIN';
 export const LOGOUT_USER            = 'LOGOUT_USER';
 export const USER_LOGGEDOUT         = 'USER_LOGGEDOUT';
 export const CREATE_USER            = 'CREATE_USER';
-export const CREATED_USER           = 'CREATED_USER';
+export const USER_CREATED           = 'USER_CREATED';
+export const CREATE_REMOTE_USER     = 'CREATE_REMOTE_USER';
+export const REMOTE_USER_CREATED    = 'REMOTE_USER_CREATED';
 export const CREATE_USER_CARD       = 'CREATE_USER_CARD';
-export const CREATED_USER_CARD      = 'CREATED_USER_CARD';
-export const CREATED_REMOTE_USER    = 'CREATED_REMOTE_USER';
+export const USER_CARD_CREATED      = 'USER_CARD_CREATED';
 export const CHARGE_USER_CARD       = 'CHARGE_USER_CARD';
+export const USER_CARD_CHARGED      = 'USER_CARD_CHARGED';
 export const CHARGE_NONCE           = 'CHARGE_NONCE';
+export const NONCE_CHARGED          = 'NONCE_CHARGED';
 export const PURCHASE_SUCCESS       = 'PURCHASE_SUCCESS';
 export const PURCHASE_ERROR         = 'PURCHASE_ERROR';
-export const GET_LOCATION           = 'GET_LOCATION';
+export const FETCH_LOCATION         = 'FETCH_LOCATION';

@@ -4,6 +4,7 @@ import api from './api';
 import user from './user';
 import pushNotifications from './pushNotifications';
 import geo from './geo';
+import sync from './sync';
 
 const appTestAction = val => ({ type: types.APP_TEST_ACTION, val });
 const appTestActionDva = val => ({ type: types.APP_TEST_ACTION_DVA, val });
@@ -41,5 +42,6 @@ export default {
 	...api,
 	...user,
 	...pushNotifications,
-	...geo,
+    ...geo,
+    ...sync,
 };

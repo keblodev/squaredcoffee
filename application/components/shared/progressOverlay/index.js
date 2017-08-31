@@ -9,7 +9,7 @@ import AnimatedOverlay from 'react-native-animated-overlay';
 
 export default class ProgressOverlay extends Component {
 	render() {
-		const {overlayShow} = this.props;
+		const {overlayShow, msg} = this.props;
 		const Overlay = ({overlayShow}) => (
 			<AnimatedOverlay
 				onPress={this.closeOverlay}
@@ -39,7 +39,7 @@ export default class ProgressOverlay extends Component {
 							color: 'white'
 						}}
 					>
-						processing...
+						{ msg || 'processing...' }
 					</Text>
 				</View>
 			</View>

@@ -9,17 +9,19 @@ import modal from './modalReducer';
 import geo from './geoReducer';
 import notification from './notifyReducer';
 import shops from './shopsReducer';
+import sync from './syncReducer';
 
 const rootReducer = combineReducers({
-	testReducer,
-	nav,
-	cart,
-	user,
-	webviews,
-	modal,
-	geo,
-	shops,
-	notification
+    cart,
+    geo,
+    modal,
+    nav,
+    notification,
+    shops,
+    sync,
+    testReducer,
+    user,
+    webviews,
 });
 
 export default rootReducer;
