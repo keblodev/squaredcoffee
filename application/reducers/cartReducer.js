@@ -4,7 +4,8 @@ import {
 	NONE } from '../statics/actions';
 
 import {
-	PURCHASE_SUCCESS,
+    NONCE_CHARGED,
+    USER_CARD_CHARGED,
 } from '../statics/actions/api';
 
 const initialState = {
@@ -40,7 +41,8 @@ const byId = (state = initialState.byId, action) => {
 
 export default cart = (state = initialState, action) => {
 	switch (action.type) {
-		case PURCHASE_SUCCESS:
+        case NONCE_CHARGED:
+        case USER_CARD_CHARGED:
 			//clearing the cart on success purchase
 			return initialState;
 		case CART_ADD:

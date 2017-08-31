@@ -16,9 +16,11 @@ import {
 import {
 	USER_CREATED,
 	USER_CARD_CREATED,
-	LOGOUT_USER,
-	PURCHASE_SUCCESS,
-	PURCHASE_ERROR
+    LOGOUT_USER,
+    NONCE_CHARGED,
+    USER_CARD_CHARGED,
+    CHARGE_NONCE_ERROR,
+    CHARGE_USER_CARD_ERROR,
 } from '../../statics/actions/api';
 
 import {
@@ -189,8 +191,9 @@ export default store => next => action => {
 				break;
 			case PAYMENT_CREATE_NEW:
 				processPayment();
-				break;
-			case PURCHASE_SUCCESS:
+                break;
+            case NONCE_CHARGED:
+			case USER_CARD_CHARGED:
 				processPurchaseSuccess();
 				break;
 		}

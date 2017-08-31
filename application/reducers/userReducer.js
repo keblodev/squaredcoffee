@@ -3,7 +3,6 @@ import {
     REMOTE_USER_CREATED,
     USER_CARD_CREATED,
     LOGOUT_USER,
-    PURCHASE_SUCCESS,
     USER_LOGGEDIN,
 } from '../statics/actions/api';
 
