@@ -7,7 +7,8 @@ const persistPaymentMethod = bool => ({ type: types.PERSIST_PAYMENT_METHOD, bool
 const addCard = _ => ({ type: USER_CARD_NEW, userAction: ADDING_CARD});
 const saveCard = _ => ({ type: USER_CARD_SAVE });
 const selectCard = cardId => ({ type: USER_CARD_SELECT,  cardId});
-const removeCard = cardId => ({ type: USER_CARD_REMOVE, userAction: REMOVING_CARD, cardId});
+
+const removeCard = (cardId, cardRemoteId) => ({ type: USER_CARD_REMOVE, userAction: REMOVING_CARD, cardId, cardRemoteId});
 
 const placeOrder = _ => ({type: types.PLACE_ORDER, userAction: MAKING_ORDER});
 

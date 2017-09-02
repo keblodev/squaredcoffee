@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, WebView, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button';
 
@@ -31,7 +31,10 @@ class CheckoutSummary extends Component {
 					cart.ids.length > 0 ? (
 						<View>
 							<CardTitle>
-								<Text style={styles.title}>in cart:</Text>
+								<Text style={{
+                                    ...styles.title,
+                                    fontSize: 20
+                                }}>Your order:</Text>
 							</CardTitle>
 							<CardContent>
 								<ScrollView>
@@ -61,7 +64,6 @@ class CheckoutSummary extends Component {
 							</CardContent>
 						</View>
 					)
-
 				}
 			</Card>
 		);

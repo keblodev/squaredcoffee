@@ -1,10 +1,4 @@
-import {
-    USER_CREATED,
-    REMOTE_USER_CREATED,
-    USER_CARD_CREATED,
-    LOGOUT_USER,
-    USER_LOGGEDIN,
-} from '../statics/actions/api';
+import * as apiTypes from '../statics/actions/api';
 
 import {
     PERSIST_PAYMENT_METHOD,
@@ -32,6 +26,7 @@ const initialState = {
     orders:                 [], //todo
     payments:               [],
     paymentInstrument:      null, //  {nonce: String}, {card: Object}
+    billing:                null,
     persistPaymentMethod:   false,
     userAction:             NONE
 };
@@ -62,18 +57,34 @@ export default user = (state = initialState, action) => {
                 ...state,
                 persistPaymentMethod: action.bool
             }
-        case LOGOUT_USER:
+        case apiTypes.LOGOUT_USER:
             return initialState;
 
-        case USER_LOGGEDIN:
-        case REMOTE_USER_CREATED:
-        case USER_CREATED:
+        case apiTypes.GOT_USER_ACCOUNT_INFO:
+            return {
+                ...state,
+                ...action.accountInfo
+            }
+
+        case apiTypes.CREATE_REMOTE_USER:
+            return {
+                ...state,
+                billing: action.remoteUserConfig.billing
+            }
+        case apiTypes.USER_LOGGEDIN:
+        case apiTypes.REMOTE_USER_CREATED:
+        case apiTypes.USER_CREATED:
             return {
                 ...state,
                 auth:	action.auth
             };
 
-        case USER_CARD_CREATED:
+        case apiTypes.GOT_USER_CARDS:
+            return {
+                ...state,
+                cards:	action.cards || initialState.cards,
+            }
+        case apiTypes.USER_CARD_CREATED:
             return {
                 ...state,
                 paymentInstrument: {

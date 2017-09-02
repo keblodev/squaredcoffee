@@ -36,7 +36,7 @@ export default class SaveCardOptionBox extends Component {
                 </Text>
                 <Button
                     style={styles.buttonStyle}
-                    onPress={()=> isLoggedIn ? navigate('AccountModal') : navigate('Login')}
+                    onPress={()=> isLoggedIn ? navigate('AccountModal', {tabRoutesToShow: [1]}) : navigate('Login')}
                 >
                     {isLoggedIn ? 'add billing info' : 'login'}
                 </Button>

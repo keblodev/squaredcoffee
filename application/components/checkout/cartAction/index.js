@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, WebView, ScrollView } from 'react-native';
+import { Text, TextInput, View, WebView, ScrollView } from 'react-native';
 
 import Button from 'react-native-button';
 
@@ -13,12 +13,24 @@ import {
 
 export default ({placeOrderCb, disabled}) => {
 	return (
-		<Card>
+		<Card
+            styles={{card: {
+                    backgroundColor: 'transparent'
+                }
+            }}
+        >
 			<View>
 				<CardAction>
 					<Button
 						disabled={disabled}
-						style={disabled ? styles.buttonDisabledStyle :styles.buttonStyle}
+						style={
+                            {
+                                ...(disabled ?
+                                styles.buttonDisabledStyle :
+                                styles.buttonStyle),
+                                borderRadius: 22
+                            }
+                        }
 						onPress={placeOrderCb}
 					>
 						Place Order

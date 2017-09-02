@@ -2,26 +2,32 @@ import {PUSH_NOTIFY, SHOW_NOTIFY, HIDE_NOTIFY} from '../statics/actions'
 
 
 const initialState = {
-	message: '',
-	active: false
+    msg:        '',
+    popup:      false,
+    error:      false,
+    active:     false
 }
 
 export default notification = (state = initialState, action) => {
 	switch(action.type) {
 		case PUSH_NOTIFY:
 			return {
-				...state,
-				message: action.notification
+                ...state,
+				msg:    action.msg
 			};
-		case SHOW_NOTIFY:
+        case SHOW_NOTIFY:
 			return {
-				...state,
-				active: true
+                ...state,
+                msg:        action.msg,
+                popup:      !!action.popup,
+                error:      !!action.error,
+				active:     true,
 			};
 		case HIDE_NOTIFY:
 			return {
-				...state,
-				active: false
+                ...initialState,
+                msg:    state.msg,
+                error:  state.error
 			};
 		default:
 			return state;

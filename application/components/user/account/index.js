@@ -12,16 +12,48 @@ import AppActions from '../../../actions';
 import TypeForm from './typeForm';
 
 class TabbedLogin extends PureComponent {
-  state = {
-    index: 1,
-    routes: [
-	  { key: '1', title: 'Account' },
-	  { key: '2', title: 'Billing' },
-	  { key: '3', title: 'Password' },
-    ],
-  };
 
-  _handleIndexChange = index => this.setState({ index });
+    tabRoutes = [
+        { key: '1', title: 'Account' },
+        { key: '2', title: 'Billing' },
+        { key: '3', title: 'Password' },
+    ]
+
+    state = {
+
+    };
+
+    componentWillMount = () => {
+        const {auth} = this.props.user;
+        this.props.actions.getUserAccountInfo({auth});
+        const {params} = this.props.navigation.state;
+        if (params) {
+            const {tabRoutesToShow} = params;
+            this.setState({
+                index: 0,
+                routes: this.tabRoutes.filter((val,idx) => tabRoutesToShow.indexOf(idx) > -1)
+            })
+        } else {
+            this.setState(
+                {
+                    index: 1,
+                    routes: this.tabRoutes,
+                }
+            )
+        }
+    }
+
+    componentWillUpdate = () => {
+        //in cases there are params in nav
+        //we treat form as one action thing
+        //so on update -> going back
+        const {params} = this.props.navigation.state;
+        if (params) {
+            this.props.navigation.goBack();
+        }
+    }
+
+    _handleIndexChange = index => this.setState({ index });
 
   	_renderHeader = props => <TabBar
 		style={{
@@ -33,15 +65,18 @@ class TabbedLogin extends PureComponent {
 		{...props}
 	/>
 
-	handleAuthorize(remoteUserConfig) {
+	handleBillingUpdate(remoteUserConfig) {
         const {token} = this.props.user.auth;
         const remoteUserConfigEnriched = {
-            ...remoteUserConfig,
+            billing: remoteUserConfig,
             token
         }
-        console.log(token);
-		this.props.actions.createRemoteUser({...remoteUserConfigEnriched})
-			.then(response => console.log(response))
+
+        if (this.props.user.billing) {
+            this.props.actions.updateRemoteUser({...remoteUserConfigEnriched})
+        } else {
+            this.props.actions.createRemoteUser({...remoteUserConfigEnriched})
+        }
 	}
 
 	handleUpdate(loginConfig) {
@@ -99,12 +134,22 @@ class TabbedLogin extends PureComponent {
 				]}
 			/>
 	</View>;
-	const BillingInforRoute = () => <View style={[ styles.container ]} >
+	const BillingInforRoute = () => {
+        let formValues = null;
+        if (this.props.user.billing) {
+            const {given_name, family_name, email_address, address, phone_number} = this.props.user.billing;
+            formValues = {
+                given_name, family_name, email_address, ...address, phone_number
+            };
+        }
+
+        return (<View style={[ styles.container ]} >
 			<TypeForm
 				action={{
-					actionCb: this.handleAuthorize.bind(this),
+					actionCb: this.handleBillingUpdate.bind(this),
 					actionLabel: 'Save'
 				}}
+                formDefaultValues={formValues}
 				formControls={[
 					{
 						label: 'First Name',
@@ -123,6 +168,18 @@ class TabbedLogin extends PureComponent {
 						name:  'family_name',
 						keyboardType: 'default',
 						pattern: new RegExp(/.+/),
+						isRequired: true,
+						secureTextEntry: false,
+						errorMessages: [
+							"%w not a valid email.",
+							"%w not a valid email.",
+						]
+					},
+					{
+						label: 'Email',
+						name:  'email_address',
+						keyboardType: 'default',
+						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
@@ -216,7 +273,8 @@ class TabbedLogin extends PureComponent {
 					},
 				]}
 			/>
-	</View>;
+	    </View>)
+    };
 const PasswordChangeRoute = () => <View style={[ styles.container ]} >
 			<TypeForm
 				action={{
@@ -255,18 +313,21 @@ const PasswordChangeRoute = () => <View style={[ styles.container ]} >
 			/>
 	</View>;
 
+
+    const sceneMap = SceneMap({
+        '1': AccountInfoRoute,
+        '2': BillingInforRoute,
+        '3': PasswordChangeRoute
+    });
+
     return (
-		<TabViewAnimated
-			style={styles.tabContainer}
-			navigationState={this.state}
-			renderScene={SceneMap({
-				'1': AccountInfoRoute,
-				'2': BillingInforRoute,
-				'3': PasswordChangeRoute
-			})}
-			renderFooter={this._renderHeader}
-			onIndexChange={this._handleIndexChange}
-		/>
+        <TabViewAnimated
+            style={styles.tabContainer}
+            navigationState={this.state}
+            renderScene={sceneMap}
+            renderFooter={this._renderHeader}
+            onIndexChange={this._handleIndexChange}
+        />
     );
   }
 }

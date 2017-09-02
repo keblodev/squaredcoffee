@@ -10,12 +10,19 @@ import Navigator from './containers/navigator';
 
 import StatusBarAlert from 'react-native-statusbar-alert';
 
-import ProgressOverlay from './components/shared/progressOverlay';
+import ProgressOverlay      from './components/shared/progressOverlay';
+import FetchOverlay         from './components/shared/fetchOverlay';
+import PopupNotifyOverlay   from './components/shared/popupNotifyOverlay';
 
 class App extends Component {
+
 	render () {
         const isLoading = !!this.props.sync.loading;
+        const isFetching = !!this.props.sync.fetching;
+        const isPopupNotification = !!this.props.notification.active;
+
         const loadingMsg = this.props.sync.loading;
+        const fetchMsg = this.props.sync.fetching;
 		return (
 			<View
 				style={{
@@ -24,18 +31,6 @@ class App extends Component {
 					width:'100%',
 				}}
 			>
-				<View>
-					<StatusBarAlert
-						visible={this.props.notification.active}
-						message={this.props.notification.message}
-						backgroundColor="#3CC29E"
-						color="white"
-						onPress={() => {
-							console.log('NAV REQUESTED');
-							//todo navigate here or watevor
-						}}
-					/>
-				</View>
 				<Navigator
 					navigation={
 						addNavigationHelpers({
@@ -45,10 +40,24 @@ class App extends Component {
 					}
 				/>
                 {
-                isLoading ?
+                    isLoading ?
                     (<ProgressOverlay
                         msg={loadingMsg}
                     />) : null
+                }
+                {   isFetching ?
+                    (<FetchOverlay
+                        msg={fetchMsg}
+                    />) : null
+                }
+                {
+                    isPopupNotification ?
+                    (
+                        <PopupNotifyOverlay
+                            msg={this.props.notification.msg}
+                            isError={this.props.notification.error}
+                        />
+                    ) : null
                 }
 			</View>
 		);

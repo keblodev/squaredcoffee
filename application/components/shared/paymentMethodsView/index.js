@@ -95,7 +95,6 @@ class PaymentMethodsView extends Component {
 		} else {
             const isLoggedIn = this.props.auth && this.props.auth.token;
             const isRemoteAuthorized = this.props.auth && this.props.auth.remoteAuthorized;
-            const {navigate} = this.props;
             paymentMethodView = (
                 <View>
                     <Card>

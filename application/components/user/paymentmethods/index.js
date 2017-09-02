@@ -21,6 +21,15 @@ import PaymentMethodsView from '../../shared/paymentMethodsView';
 
 class PaymentMethods extends Component {
 
+    componentWillMount = () => {
+        const {auth} = this.props.user;
+        this.props.actions.getUserCards({auth});
+    }
+
+    componentWillUpdate = () => {
+        // this.props.actions.getUserCards()
+    }
+
 	placeOrder = () => {
 		this.props.actions.placeOrder();
 	}
