@@ -30,7 +30,6 @@ class Checkout extends Component {
 	render = () => {
 		const { navigate } = this.props.navigation;
 		const {cart, user} = this.props;
-		const lastPayment = user.payments.length && user.payments[0]
 
 		return (
 			<View
@@ -57,8 +56,13 @@ class Checkout extends Component {
 						}
 					</View>
 				</ScrollView>
+
 				<View
-					style={{flex: 0.15}}
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 	0
+                    }}
 				>
 					<CartAction
 						disabled={!cart.ids.length}

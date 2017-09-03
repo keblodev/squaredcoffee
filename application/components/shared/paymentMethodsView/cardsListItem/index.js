@@ -21,7 +21,7 @@ import styles from '../../../../statics/styles';
 
 class CardListItem extends Component {
 	render = () => {
-		const {actions, idx, card_brand, last_4, isSelected} = this.props;
+		const {actions, idx, card_brand, id, last_4, isSelected} = this.props;
 		return (
 		<Button
 			onPress={actions.selectCard.bind(this, idx)}
@@ -53,7 +53,7 @@ class CardListItem extends Component {
 					}}
 				>
 					<Button
-						onPress={actions.removeCard.bind(this, idx)}
+						onPress={actions.removeCard.bind(this, idx, id)}
 					>
 						<AwesomeIcon
 							name="close" size={30} color="grey" />

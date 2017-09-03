@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import Button from 'react-native-button'
+
+import {
+  Card,
+  CardImage,
+  CardTitle,
+  CardContent,
+  CardAction
+} from 'react-native-card-view';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,12 +32,22 @@ class About extends Component {
 					height: '100%'
 				}}
 			>
-				<Button
-					style={styles.buttonStyle}
-					onPress={this.testClick.bind(this)}
-				>
-					TestAction #1
-				</Button>
+                <Card>
+                    <CardContent>
+                        <Text style={{textAlign: 'center'}}>We are the coffe shop</Text>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardContent>
+                        <Text style={{textAlign: 'center'}}>Mon   1pm - 3pm</Text>
+
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardContent>
+                        <Text style={{textAlign: 'center'}}>Your best coffe shop out there</Text>
+                    </CardContent>
+                </Card>
 			</View>
 		);
 	}

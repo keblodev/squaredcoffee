@@ -8,7 +8,7 @@ import { Hoshi } from 'react-native-textinput-effects';
 
 import Foect from 'foect';
 
-export default ({action, formControls}) => {
+export default ({action, formDefaultValues = null, formControls}) => {
 	const formControlInputs = []
 	return (
 		<ScrollView
@@ -27,7 +27,7 @@ export default ({action, formControls}) => {
 					}}
 				>
 				<Foect.Form
-					defaultValue={{
+					defaultValue={formDefaultValues || {
 						email:                            'john@doe.com',
 						password:                         'J1@doe.com',
 						password_confirmation:            'J1@doe.com',
@@ -38,7 +38,7 @@ export default ({action, formControls}) => {
 						address_line_2:                   'Suite 600',
 						locality:                         'New York',
 						administrative_district_level_1:  'NY',
-						postal_code:                      '10003',
+						postal_code:                      '94103',
 						country:                          'US',
 						phone_number:                     '1-555-555-0122',
 					}}

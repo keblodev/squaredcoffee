@@ -27,8 +27,9 @@ export default styles = {
 	},
 	buttonStyle,
 	buttonDisabledStyle: {
-		...buttonStyle,
-		backgroundColor: '#DDDDDD',
+        ...buttonStyle,
+        color:           'rgba(255,255,255, .3)',
+		backgroundColor: 'rgba(0,0,0, .3)',
 		borderWidth: 0,
 	},
 	buttonDisabledTextStyle: {

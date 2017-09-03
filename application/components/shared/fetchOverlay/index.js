@@ -7,7 +7,7 @@ import styles from '../../../statics/styles';
 
 import AnimatedOverlay from 'react-native-animated-overlay';
 
-export default class ProgressOverlay extends Component {
+export default class FetchOverlay extends Component {
 	render() {
 		const {overlayShow, msg} = this.props;
 		const Overlay = ({overlayShow}) => (
@@ -38,7 +38,7 @@ export default class ProgressOverlay extends Component {
 							color: 'white'
 						}}
 					>
-						{ msg || 'processing...' }
+						{ msg || 'syncing...' }
 					</Text>
 				</View>
 			</View>

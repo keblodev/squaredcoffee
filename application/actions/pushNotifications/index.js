@@ -1,11 +1,11 @@
 
 import { PUSH_NOTIFY, HIDE_NOTIFY, SHOW_NOTIFY } from '../../statics/actions';
 
-const pushNotify = notification => ({type: PUSH_NOTIFY, notification});
+const pushNotify = msg => ({type: PUSH_NOTIFY, msg});
 
-const hideNotify = notification => ({type: HIDE_NOTIFY});
+const hideNotify = () => ({type: HIDE_NOTIFY});
 
-const showNotify = notification => ({type: SHOW_NOTIFY});
+const showNotify = notifyConfig => ({type: SHOW_NOTIFY, ...notifyConfig});
 
 export default {
 	pushNotify,
