@@ -116,7 +116,7 @@ class TabbedLogin extends PureComponent {
 			<TypeForm
 				action={{
 					actionCb: this.handleUpdate.bind(this),
-					actionLabel: 'Log In'
+					actionLabel: 'Change email'
 				}}
 				formControls={[
 					{
@@ -279,7 +279,7 @@ const PasswordChangeRoute = () => <View style={[ styles.container ]} >
 			<TypeForm
 				action={{
 					actionCb: this.handleUpdate.bind(this),
-					actionLabel: 'Sign Up'
+					actionLabel: 'Change Password'
 				}}
 				formControls={[
 					{

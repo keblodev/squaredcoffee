@@ -130,7 +130,7 @@ export default ({action, formDefaultValues = null, formControls}) => {
 				</Foect.Form>
 
 				</View>
-
+                <View style={{height: 200}}/>
 			</ScrollView>
 	)
 }

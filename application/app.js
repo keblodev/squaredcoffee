@@ -23,22 +23,23 @@ class App extends Component {
 
         const loadingMsg = this.props.sync.loading;
         const fetchMsg = this.props.sync.fetching;
-		return (
-			<View
-				style={{
-					backgroundColor: '#2A2F3A',
-					height:'100%',
-					width:'100%',
-				}}
-			>
-				<Navigator
-					navigation={
-						addNavigationHelpers({
-							dispatch: 	this.props.dispatch,
-							state:		this.props.nav,
-						})
-					}
-				/>
+
+        const globalNavigator = addNavigationHelpers({
+                            dispatch: 	this.props.dispatch,
+                            state:		this.props.nav,
+                        })
+
+        return (
+            <View
+                style={{
+                    backgroundColor: '#2A2F3A',
+                    height:'100%',
+                    width:'100%',
+                }}
+            >
+                <Navigator
+                    navigation={globalNavigator}
+                />
                 {
                     isLoading ?
                     (<ProgressOverlay
@@ -59,9 +60,9 @@ class App extends Component {
                         />
                     ) : null
                 }
-			</View>
-		);
-	}
+            </View>
+        );
+    }
 }
 
 const mapStateToProps = (state) => ({

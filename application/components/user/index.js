@@ -76,12 +76,12 @@ class User extends Component {
 				>
 					Cart
 				</Button>
-				<Button
+				{/* <Button
 					style={styles.buttonStyle}
 					onPress={this.handleGeoStartStop.bind(this, isGeoActive)}
 				>
 					{ isGeoActive ? 'StopGeo' : 'StartGeo'}
-				</Button>
+				</Button> */}
 				<Button
 					style={styles.buttonStyle}
 					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}

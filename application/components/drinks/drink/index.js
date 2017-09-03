@@ -18,6 +18,8 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../../actions';
 
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 class Drink extends Component {
 	render = () => {
 		const {item, disabled} = this.props.navigation.state.params;
@@ -25,6 +27,7 @@ class Drink extends Component {
 		return (
 			<View
 				style={{
+                    ...styles.container,
 					height: '100%'
 				}}
 			>
@@ -49,7 +52,13 @@ class Drink extends Component {
 										} : itemStyles.card
 								}
 							>
-								<CardTitle>
+								<CardTitle
+                                    styles={{
+                                        cardTitle: {
+                                            height: 100
+                                        }
+                                    }}
+                                >
 									<Text style={itemStyles.title}>{item.title}</Text>
 								</CardTitle>
 								<CardTitle
@@ -81,32 +90,32 @@ class Drink extends Component {
 									}
 								}}
 							>
-								<View
-									style={
-										disabled ?
-											{
-												...styles.card,
-												...styles.cardDisabled
-											} : styles.card
-									}
-								>
-									<CardTitle>
-										<View
-											style={styles.titleView}
-										>
-											<Text style={
-												disabled ?
-													{
-														...styles.title,
-														...styles.titleDisabled
-													} : styles.title
-												}>Some text here</Text>
-										</View>
-									</CardTitle>
-									<CardContent>
-										<Text>Some Coffe Facts</Text>
-									</CardContent>
-								</View>
+                                    <View
+                                    style={{
+                                        alignSelf: 'center',
+                                        padding: 20,
+                                        borderWidth: 1,
+                                        borderColor: 'lightgray',
+                                        borderRadius: 5,
+                                        margin: 10,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 20,
+                                            color: 'gray',
+                                        }}
+                                    >
+                                         <AwesomeIcon
+                                    style={{
+                                        position: 'absolute',
+                                        left: 10,
+                                        top: 8
+                                    }}
+                                    name="info-circle" size={20} color="grey" /> There's gonna be some text about the beverage, pictures, nutrition facts and configurability options in future.
+                                        You CAN use "add to cart" button to add it to your order.
+                                    </Text>
+                                </View>
 								<CardAction >
 									<Button
 									style={itemStyles.buttonStyle}

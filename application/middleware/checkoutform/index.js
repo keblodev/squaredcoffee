@@ -23,11 +23,7 @@ import {
     CHARGE_USER_CARD_ERROR,
 } from '../../statics/actions/api';
 
-import {
-	ADDING_CARD,
-	MAKING_ORDER,
-	USER_CARD_SAVE
-} from '../../statics/actions/user';
+import * as userTypes from '../../statics/actions/user';
 
 import actions from '../../actions';
 
@@ -36,12 +32,14 @@ const processReceivedNonce = () => {
 	const {cart} = state.cart;
 	const {persistPaymentMethod, userAction, nonce, auth} = state.user;
 
-	if (userAction === ADDING_CARD) {
-		saveCard({nonce, auth, dispatch});
-	} else if (userAction === MAKING_ORDER) {
+    if (userAction === userTypes.ADDING_CARD || (persistPaymentMethod && userAction === userTypes.SETTING_ONE_TIME_PAYMENT)) {
+        saveCard({nonce, auth, dispatch});
+    } else if (!persistPaymentMethod && userAction === userTypes.SETTING_ONE_TIME_PAYMENT) {
+        dispatch(actions.closeSetOneTimePayment());
+    } else if (userAction === userTypes.MAKING_ORDER) {
 		dispatch(actions.createNewPayment({
 			//refact this to be a different logic on selecting the payement mthd
-			paymentMethod: persistPaymentMethod? PAYMENT_BY_CARD : PAYMENT_BY_NONCE,
+			paymentMethod: persistPaymentMethod ? PAYMENT_BY_CARD : PAYMENT_BY_NONCE,
 			cart,
 			state: PAYMENT_PENDING
 		}));
@@ -88,7 +86,7 @@ const processCreatedCard = () => {
 	const {card} = paymentInstrument
 	const lastPayment = payments[0];
 
-	if (userAction === MAKING_ORDER) {
+	if (userAction === userTypes.MAKING_ORDER) {
 		switch(lastPayment.state) {
 			case PAYMENT_PENDING:
 				chargeCard({card: card.val, auth, dispatch})
@@ -174,7 +172,8 @@ export default store => next => action => {
 		stateAndDispatch = {state, dispatch};
 
 		switch(action.type) {
-			case USER_CARD_SAVE:
+            case userTypes.USER_NONCE_SAVE:
+			case userTypes.USER_CARD_SAVE:
 				getNonce();
 				break;
 			case PLACE_ORDER:

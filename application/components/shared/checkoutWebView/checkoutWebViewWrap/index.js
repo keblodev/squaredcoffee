@@ -3,9 +3,9 @@ import { WebView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AppActions from '../../../../../actions';
+import AppActions from '../../../../actions';
 
-import {BASE_URL} from '../../../../../statics/configs';
+import {BASE_URL} from '../../../../statics/configs';
 
 class CheckoutWebViewWrap extends Component {
 

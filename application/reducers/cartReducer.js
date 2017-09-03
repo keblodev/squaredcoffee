@@ -13,6 +13,8 @@ const initialState = {
 	ids: []
 };
 
+import * as userTypes from '../statics/actions/user';
+
 const byId = (state = initialState.byId, action) => {
 	const update_item = state[action.item.id] || action.item;
 
@@ -33,7 +35,7 @@ const byId = (state = initialState.byId, action) => {
 					...state,
 					[action.item.id] : {...update_item}
 				};
-			}
+            }
 		default:
 			return state;
 	}
@@ -41,6 +43,7 @@ const byId = (state = initialState.byId, action) => {
 
 export default cart = (state = initialState, action) => {
 	switch (action.type) {
+        case userTypes.DROP_CART:
         case NONCE_CHARGED:
         case USER_CARD_CHARGED:
 			//clearing the cart on success purchase

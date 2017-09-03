@@ -42,7 +42,11 @@ class Home extends Component {
 
 	static navigationOptions = ({navigation}) => ({
 		title: `${navigation.state.params.title}`,
-	})
+    })
+
+    componentWillMount() {
+        this.props.actions.dropCart();
+    }
 
 	render = () => {
 		const { navigate } = this.props.navigation;
@@ -66,13 +70,13 @@ class Home extends Component {
 						navRouteTitle='Coffee?'
 						navigate={navigate}
 					/>
-					<HomeListItem
+					{/* <HomeListItem
 						disabled={true}
 						shopImg={staticImagesBullShit[shopId][2]}
 						navToRouteId='Foods'
 						navRouteTitle='Something to eat'
 						navigate={navigate}
-					/>
+					/> */}
 				</ScrollView>
 				<View
 					style={{

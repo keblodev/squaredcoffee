@@ -21,24 +21,30 @@ import Login from '../components/login';
 import styles from '../statics/styles';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
-const backIcon = (<AwesomeIcon name="chevron-up" size={20} color="grey" />)
+const backIcon = (<Text><AwesomeIcon name="chevron-up" size={20} color="grey" /></Text>)
 
-const BackButton= ({navigation}) => (<Button
-					style={{
-						flex: 1,
-					}}
-					onPress={()=>{
-						navigation.goBack();
-					}}
-				>
-					<View
-						style={{
-							alignSelf: 'center',
-						}}
-					>
-						{backIcon}
-					</View>
-				</Button>
+const flexHeaderAmount = 0.1
+
+const BackButton= ({navigation}) => (
+            <Button
+                style={{
+                    flex: 1,
+
+                }}
+                onPress={()=>{
+                    navigation.goBack();
+                }}
+            >
+                <View
+                    style={{
+                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                    }}
+                >
+                    {backIcon}
+                </View>
+            </Button>
 )
 
 export const MainCardNavigator = StackNavigator({
@@ -116,9 +122,8 @@ export default StackNavigator({
 				<View
 					style={{
 						backgroundColor: 	'#2A2F3A',
-						height: 			40,
 						//TODO: to be removed this whole thing
-						flex: 				0.08,
+						flex: 				flexHeaderAmount,
 						justifyContent: 	'center',
 					}}
 				>
@@ -138,9 +143,8 @@ export default StackNavigator({
 				<View
 					style={{
 						backgroundColor: 	'#2A2F3A',
-						height: 			40,
 						//TODO: to be removed this whole thing
-						flex: 				0.08,
+						flex: 				flexHeaderAmount,
 						justifyContent: 	'center',
 					}}
 				>
@@ -161,9 +165,8 @@ export default StackNavigator({
 				<View
 					style={{
 						backgroundColor: 	'#2A2F3A',
-						height: 			40,
 						//TODO: to be removed this whole thing
-						flex: 				0.08,
+						flex: 				flexHeaderAmount,
 						justifyContent: 	'center',
 					}}
 				>
@@ -184,9 +187,8 @@ export default StackNavigator({
                 <View
                     style={{
                         backgroundColor: 	'#2A2F3A',
-                        height: 			40,
                         //TODO: to be removed this whole thing
-                        flex: 				0.08,
+                        flex: 				flexHeaderAmount,
                         justifyContent: 	'center',
                     }}
                 >
