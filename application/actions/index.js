@@ -16,15 +16,16 @@ const postCheckoutMsgIn = message => ({ type: types.WEBVIEW_CHEKOUT_MESSAGE_IN, 
 const postCheckoutMsgOut = message => ({ type: types.WEBVIEW_CHEKOUT_MESSAGE_OUT, message });
 
 const cardNonceReceived = nonce => dispatch =>
-		//nonce received checkout webview messages que
-		//must be cleared
-		dispatch({ type: types.WEBVIEW_CHEKOUT_CLEAN_QUE})
-		&&
-		dispatch({ type: types.RECEIVED_USER_CARD_NONCE, nonce });
+        //nonce received checkout webview messages que
+        //must be cleared
+        dispatch({ type: types.WEBVIEW_CHEKOUT_CLEAN_QUE})
+        &&
+        dispatch({ type: types.RECEIVED_USER_CARD_NONCE, nonce });
 
+//PAYMENTS
 const createNewPayment = payment => ({ type: types.PAYMENT_CREATE_NEW, payment })
-
 const updatePayment = paymentUpdated => ({type: types.PAYMENT_UPDATE, paymentUpdated});
+const resetPaymentInstrument = () => ({type: types.RESET_PAYMENT_INSTRUMENT});
 
 const selectShop = shopId => ({type: types.SHOP_SELECTED, shopId})
 
@@ -37,7 +38,8 @@ export default {
     postCheckoutMsgOut,
 	cardNonceReceived,
 	createNewPayment,
-	updatePayment,
+    updatePayment,
+    resetPaymentInstrument,
 	selectShop,
 	...api,
 	...user,

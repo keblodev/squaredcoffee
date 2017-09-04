@@ -47,8 +47,9 @@ class TabbedLogin extends PureComponent {
         //in cases there are params in nav
         //we treat form as one action thing
         //so on update -> going back
+        //TODO: curretnly bound to billing sync
         const {params} = this.props.navigation.state;
-        if (params) {
+        if (params && this.props.user.billing) {
             this.props.navigation.goBack();
         }
     }
@@ -107,34 +108,35 @@ class TabbedLogin extends PureComponent {
 		}
 	}
 
-  render() {
-	const { navigation } = this.props;
-	const isLoggedIn = !!this.props.user.auth;
-	//TODO -> unify routes to components
-	// need to figure validation before that
-	const AccountInfoRoute = () => <View style={[ styles.container ]} >
-			<TypeForm
-				action={{
-					actionCb: this.handleUpdate.bind(this),
-					actionLabel: 'Change email'
-				}}
-				formControls={[
-					{
-						label: 'Email Address',
-						name:  'email',
-						keyboardType: 'email-address',
-						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
-						isRequired: true,
-						secureTextEntry: false,
-						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
-						]
-					}
-				]}
-			/>
-	</View>;
-	const BillingInforRoute = () => {
+    render() {
+        const { navigation } = this.props;
+        const isLoggedIn = !!this.props.user.auth;
+        //TODO -> unify routes to components
+        // need to figure validation before that
+        const AccountInfoRoute = () => <View style={[ styles.container ]} >
+            <TypeForm
+                action={{
+                    actionCb: this.handleUpdate.bind(this),
+                    disabled: true,
+                    actionLabel: 'Change email'
+                }}
+                formControls={[
+                    {
+                        label: 'Email Address',
+                        name:  'email',
+                        keyboardType: 'email-address',
+                        pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
+                        isRequired: true,
+                        secureTextEntry: false,
+                        errorMessages: [
+                            "%w not a valid email.",
+                            "%w not a valid email.",
+                        ]
+                    }
+                ]}
+            />
+    </View>;
+    const BillingInforRoute = () => {
         let formValues = null;
         if (this.props.user.billing) {
             const {given_name, family_name, email_address, address, phone_number} = this.props.user.billing;
@@ -159,8 +161,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"is required.",
+							"is required.",
 						]
 					},
 					{
@@ -171,8 +173,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"is required.",
+							"is required.",
 						]
 					},
 					{
@@ -183,8 +185,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w is not a valid email.",
+							"is required.",
 						]
 					},
 					{
@@ -195,8 +197,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"is required.",
+							"is required.",
 						]
 					},
 					{
@@ -207,8 +209,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"is required.",
+							"is required.",
 						]
 					},
 					{
@@ -219,8 +221,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w is not a valid city.",
+							"is required.",
 						]
 					},
 					{
@@ -231,8 +233,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w is not a valid state.",
+							"is required.",
 						]
 					},
 					{
@@ -243,8 +245,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w is not a valid code.",
+							"is required.",
 						]
 					},
 					{
@@ -255,8 +257,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w  is not a valid country.",
+							"is required.",
 						]
 					},
 					{
@@ -267,8 +269,8 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w is not a valid phone.",
+							"is required.",
 						]
 					},
 				]}
@@ -279,7 +281,8 @@ const PasswordChangeRoute = () => <View style={[ styles.container ]} >
 			<TypeForm
 				action={{
 					actionCb: this.handleUpdate.bind(this),
-					actionLabel: 'Change Password'
+					actionLabel: 'Change Password',
+                    disabled: true,
 				}}
 				formControls={[
 					{
@@ -295,15 +298,16 @@ const PasswordChangeRoute = () => <View style={[ styles.container ]} >
 						]
 					},
 					{
-						label: 'Confirm Password',
-						name:  'password_confirmation',
+						label: 'New Password',
+						name:  'new_password',
+                        equalToControl: 'password',
 						keyboardType: 'default',
 						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
 						isRequired: true,
 						secureTextEntry: true,
 						errorMessages: [
 							"8 symbols, Aa and at least one number.",
-							"don't forget the password.",
+							"this is obviously required too.",
 						],
 						//todolmlm
 						customValidator: (value1, value2) => value1 === value2,

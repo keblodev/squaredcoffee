@@ -26,7 +26,10 @@ class CheckoutWebViewWrap extends Component {
 		//TODO: guard
 		const dataResponse = JSON.parse(messageEvent.nativeEvent.data);
 
-		this.props.actions.postCheckoutMsgOut(dataResponse);
+        this.props.actions.postCheckoutMsgOut(dataResponse);
+
+        this.checkoutLastMessageId = null;
+        this.checkoutNewMessage = null;
 	}
 
 	componentWillReceiveProps({checkoutInput}) {
@@ -34,7 +37,8 @@ class CheckoutWebViewWrap extends Component {
 			const msgObj = checkoutInput[0];
 			if (msgObj.id !== this.checkoutLastMessageId) {
 				this.checkoutNewMessage = msgObj;
-				this.checkoutLastMessageId = msgObj.id;
+                this.checkoutLastMessageId = msgObj.id;
+                console.log("[webform]PostingMessage");
 				this.onPostMessage(msgObj)
 			}
 		}

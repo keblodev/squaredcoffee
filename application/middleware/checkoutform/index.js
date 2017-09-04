@@ -1,6 +1,5 @@
 
 import {
-	WEBVIEW_CHEKOUT_MESSAGE_IN,
 	WEBVIEW_CHEKOUT_MESSAGE_OUT,
 	WEBVIEW_CHEKOUT_CLEAN_QUE,
 	RECEIVED_USER_CARD_NONCE,
@@ -114,7 +113,7 @@ const processOrder = () => {
 	const {paymentInstrument, persistPaymentMethod} = state.user;
 	//we always need to request new nonce
 	//unless we have saved card
-	if (paymentInstrument && paymentInstrument.card) {
+	if (paymentInstrument) {
 		const {cart} = state.cart;
 		dispatch(actions.createNewPayment({
 			//refact this to be a different logic on selecting the payement mthd
@@ -122,8 +121,6 @@ const processOrder = () => {
 			cart,
 			state: PAYMENT_PENDING
 		}));
-	} else {
-		getNonce();
 	}
 }
 
@@ -142,7 +139,11 @@ const processPurchaseSuccess = () => {
 			updateValue: lastPayment
 		}
 		dispatch(actions.updatePayment(updatePayment));
-	}
+    }
+    if (!state.user.auth) {
+        console.log("[processPurchaseSuccess] Reseting payment cuz you're no logged in bro");
+        dispatch(actions.resetPaymentInstrument())
+    }
 };
 
 const processWebViewMsgOut = () => {

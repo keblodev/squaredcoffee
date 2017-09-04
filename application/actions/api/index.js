@@ -202,8 +202,8 @@ const logoutUser = () => {
 	};
 }
 
-const userRemoteCreated             = auth => ({ type: types.REMOTE_USER_CREATED, auth });
-const userRemoteUpdated             = auth => ({ type: types.REMOTE_USER_UPDATED, auth });
+const userRemoteCreated             = remoteResponse => ({ type: types.REMOTE_USER_CREATED, remoteResponse });
+const userRemoteUpdated             = remoteResponse => ({ type: types.REMOTE_USER_UPDATED, remoteResponse });
 const userCreated                   = auth => ({ type: types.USER_CREATED, auth });
 const userLoggedIn                  = auth => ({ type: types.USER_LOGGEDIN, auth });
 const userCardCreated               = card => ({ type: types.USER_CARD_CREATED, card });
