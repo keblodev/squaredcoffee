@@ -1082,6 +1082,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.theromanapps.squaredcoffee;
 				PRODUCT_NAME = squaredcoffee;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1101,6 +1102,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.theromanapps.squaredcoffee;
 				PRODUCT_NAME = squaredcoffee;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

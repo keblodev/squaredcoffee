@@ -133,7 +133,7 @@ export default user = (state = initialState, action) => {
             const newSelectedCardId = 0;
             if (selectedCard) {
                 if (selectedCard.id !== action.cardId) {
-                    newSelectedCardId = selectedCard.id
+                    newSelectedCardId = Math.min(cardsNewState.length - 1, selectedCard.id)
                 }
             }
             const newPaymentInstrument = initialState.paymentInstrument;
