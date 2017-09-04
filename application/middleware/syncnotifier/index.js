@@ -70,22 +70,26 @@ export default store => next => action => {
                 dispatch(actions.loadingNotActive());
 
                 break;
+
+            case types.GET_USER_CARDS:
+            case types.GET_USER_ACCOUNT_INFO:
+                dispatch(actions.fetchingActive("hang on there... "));
+                break;
+
+            case types.GOT_USER_ACCOUNT_INFO:
+            case types.GOT_USER_CARDS:
+                dispatch(actions.fetchingNotActive())
+                break;
+
             case types.LOGIN_USER:
             case types.CREATE_USER:
             case types.CREATE_REMOTE_USER:
             case types.CREATE_USER_CARD:
             case types.CHARGE_USER_CARD:
             case types.CHARGE_NONCE:
-            case types.GET_USER_CARDS:
             case types.DELETE_USER_CARD:
             case types.DELETE_USER:
-            case types.GET_USER_ACCOUNT_INFO:
                 dispatch(actions.loadingActive("loading..."));
-                break;
-
-            case types.GOT_USER_ACCOUNT_INFO:
-            case types.GOT_USER_CARDS:
-                dispatch(actions.loadingNotActive());
                 break;
 
             case types.LOGIN_USER_ERROR:
@@ -109,6 +113,7 @@ export default store => next => action => {
                     dispatch(actions.showNotify(notifyConfig));
                 }
                 dispatch(actions.loadingNotActive());
+                dispatch(actions.fetchingNotActive());
                 break;
         }
     });

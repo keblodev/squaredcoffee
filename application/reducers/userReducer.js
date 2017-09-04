@@ -6,6 +6,7 @@ import {
     RECEIVED_USER_CARD_NONCE,
     PAYMENT_UPDATE,
     PLACE_ORDER,
+    RESET_PAYMENT_INSTRUMENT,
     NONE
 } from '../statics/actions';
 
@@ -64,8 +65,13 @@ export default user = (state = initialState, action) => {
                 ...state,
                 billing: action.remoteUserConfig.billing
             }
-        case apiTypes.USER_LOGGEDIN:
         case apiTypes.REMOTE_USER_CREATED:
+            return {
+                ...state,
+                auth:	    action.remoteResponse.auth,
+                billing:    action.remoteResponse.billing
+            };
+        case apiTypes.USER_LOGGEDIN:
         case apiTypes.USER_CREATED:
             return {
                 ...state,
@@ -116,9 +122,14 @@ export default user = (state = initialState, action) => {
                     }
                 }
             }
+        case RESET_PAYMENT_INSTRUMENT:
+            return {
+                ...state,
+                paymentInstrument: initialState.paymentInstrument
+            }
         case userTypes.USER_CARD_REMOVE:
             const cardsNewState = state.cards.filter((item,idx) => idx !== action.cardId);
-            const selectedCard = state.paymentInstrument.card
+            const selectedCard = state.paymentInstrument && state.paymentInstrument.card;
             const newSelectedCardId = 0;
             if (selectedCard) {
                 if (selectedCard.id !== action.cardId) {
@@ -138,7 +149,6 @@ export default user = (state = initialState, action) => {
             return {
                 ...state,
                 paymentInstrument: newPaymentInstrument,
-                cards:	cardsNewState,
             }
         case userTypes.USER_CARD_NEW:
             return {

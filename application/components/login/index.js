@@ -66,16 +66,16 @@ class TabbedLogin extends PureComponent {
 	}
 
   render() {
-	const { navigation } = this.props;
+    const { navigation } = this.props;
     const isLoggedIn = !!this.props.user.auth;
-	//TODO -> unify routes to components
-	// need to figure validation before that
-	const LoginRoute = () => <View style={[ styles.container ]} >
-			<LoginTypeForm
-				action={{
-					actionCb: this.handleLogin.bind(this),
-					actionLabel: 'Log In'
-				}}
+    //TODO -> unify routes to components
+    // need to figure validation before that
+    const LoginRoute = () => <View style={[ styles.container ]} >
+            <LoginTypeForm
+                action={{
+                    actionCb: this.handleLogin.bind(this),
+                    actionLabel: 'Log In'
+                }}
 				formControls={[
 					{
 						label: 'Email Address',
@@ -119,13 +119,14 @@ class TabbedLogin extends PureComponent {
 						isRequired: true,
 						secureTextEntry: false,
 						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
+							"%w is not a valid email.",
+							"is required actually.",
 						]
 					},
 					{
 						label: 'Password',
 						name:  'password',
+                        equalToControl: 'password_confirmation',
 						keyboardType: 'default',
 						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
 						isRequired: true,
@@ -133,11 +134,13 @@ class TabbedLogin extends PureComponent {
 						errorMessages: [
 							"8 symbols, Aa and at least one number.",
 							"don't forget the password.",
+                            "must be equal to confirmation"
 						]
 					},
 					{
 						label: 'Confirm Password',
 						name:  'password_confirmation',
+                        equalToControl: 'password',
 						keyboardType: 'default',
 						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
 						isRequired: true,
@@ -145,6 +148,7 @@ class TabbedLogin extends PureComponent {
 						errorMessages: [
 							"8 symbols, Aa and at least one number.",
 							"don't forget the password.",
+                            "must be equal to password"
 						],
 						//todolmlm
 						customValidator: (value1, value2) => value1 === value2,
@@ -152,29 +156,30 @@ class TabbedLogin extends PureComponent {
 					}
 				]}
 			/>
-	</View>;
-	const ForgotRoute = () => <View style={[ styles.container ]} >
-			<LoginTypeForm
-				action={{
-					actionCb: this.handleForgot.bind(this),
-					actionLabel: 'Get Password Reset'
-				}}
-				formControls={[
-					{
-						label: 'Email Address',
-						name:  'email',
-						keyboardType: 'email-address',
-						pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
-						isRequired: true,
-						secureTextEntry: false,
-						errorMessages: [
-							"%w not a valid email.",
-							"%w not a valid email.",
-						]
-					}
-				]}
-			/>
-	</View>;
+    </View>;
+    const ForgotRoute = () => <View style={[ styles.container ]} >
+            <LoginTypeForm
+                action={{
+                    actionCb: this.handleForgot.bind(this),
+                    actionLabel: 'Get Password Reset',
+                    disabled: true
+                }}
+                formControls={[
+                    {
+                        label: 'Email Address',
+                        name:  'email',
+                        keyboardType: 'email-address',
+                        pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),
+                        isRequired: true,
+                        secureTextEntry: false,
+                        errorMessages: [
+                            "%w is not a valid email.",
+                            "is required actually.",
+                        ]
+                    }
+                ]}
+            />
+    </View>;
 
     return (
         <TabViewAnimated

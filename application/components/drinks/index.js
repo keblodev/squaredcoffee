@@ -44,7 +44,7 @@ class Drinks extends Component {
                     }}
                 >
                     {
-                        shopId !== undefined ? DrinksMock[shopId].map((ch, ind) => (
+                        shopId !== undefined && shopId !== null ? DrinksMock[shopId].map((ch, ind) => (
                             <ListItem
                                 key={ch.id}
                                 item={ch}

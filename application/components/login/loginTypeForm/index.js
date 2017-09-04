@@ -55,7 +55,9 @@ export default ({action, formControls}) => {
 									key={idx}
 									name={item.name}
 									required={item.isRequired}
-									pattern={item.pattern}>
+									pattern={item.pattern}
+                                    equalToControl={item.equalToControl || item.name}
+                                >
 									{ control => (
 									<View>
 										<View
@@ -70,7 +72,8 @@ export default ({action, formControls}) => {
 												}}
 												ref={input => { formControlInputs[idx] = input; }}
 												label={item.label}
-												editable={true}
+                                                disabled={action.disabled}
+                                                editable={!action.disabled}
 												// TextInput props
 												borderColor={ control.isTouched && control.isInvalid ? '#ab3434' : '#313744'}
 												keyboardType={item.keyboardType}
@@ -96,10 +99,19 @@ export default ({action, formControls}) => {
 											control.isInvalid ?
 											(<View>
 
-												{ control.errors.pattern ?
-													<Text style={{ color: 'gray' }}>{item.errorMessages[0].replace(/%w/, control.value)}</Text> :
-													<Text style={{ color: 'gray' }}>{item.errorMessages[1].replace(/%w/, control.value)}</Text>
-												}
+                                                { control.errors.pattern ?
+                                                    <Text style={{ color: 'gray' }}>{item.errorMessages[0].replace(/%w/, control.value || "EMPTY" )}</Text> :
+                                                    null
+                                                }
+
+                                                {
+                                                    control.errors.required ?
+                                                    <Text style={{ color: 'gray' }}>{item.errorMessages[1].replace(/%w/, control.value || "EMPTY" )}</Text> : null
+                                                }
+
+                                                { control.errors.equalToControl ?
+                                                    <Text style={{ color: 'gray' }}>{item.errorMessages[2].replace(/%w/, control.value || "EMPTY" )}</Text> : null
+                                                }
 											</View>) : null
 										}
 									</View>
@@ -112,8 +124,8 @@ export default ({action, formControls}) => {
 					{ /* submit form */ }
 					<View>
 						<Button
-							style={ form.isInvalid ? styles.buttonDisabledStyle : styles.buttonStyle}
-							disabled={form.isInvalid}
+							style={ form.isInvalid || action.disabled ? styles.buttonDisabledStyle : styles.buttonStyle}
+							disabled={form.isInvalid || action.disabled}
 							onPress={()=> form.submit()}
 						>
 							{action.actionLabel}
