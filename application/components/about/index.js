@@ -18,39 +18,47 @@ import AppActions from '../../actions';
 
 import styles from '../../statics/styles';
 
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 class About extends Component {
 
-	testClick() {
-		this.props.actions.appTestAction('some text');
-	}
-
-	render = () => {
-		return (
-			<View
-				style={{
-					...styles.container,
-					height: '100%'
-				}}
-			>
-                <Card>
-                    <CardContent>
-                        <Text style={{textAlign: 'center'}}>We are the coffe shop</Text>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent>
-                        <Text style={{textAlign: 'center'}}>Mon   1pm - 3pm</Text>
-
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent>
-                        <Text style={{textAlign: 'center'}}>Your best coffe shop out there</Text>
-                    </CardContent>
-                </Card>
-			</View>
-		);
-	}
+    render = () => {
+        return (
+            <View
+                style={{
+                    ...styles.container,
+                    justifyContent: 'center',
+                    height: '100%'
+                }}
+            >
+                <View
+                    style={{
+                        alignSelf: 'center',
+                        padding: 20,
+                        borderWidth: 1,
+                        borderColor: 'lightgray',
+                        borderRadius: 5,
+                        margin: 10,
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            color: 'gray',
+                        }}
+                    >
+                         <AwesomeIcon
+                                    style={{
+                                        position: 'absolute',
+                                        left: 10,
+                                        top: 8
+                                    }}
+                                    name="info-circle" size={20} color="grey" /> There's gonna be some text about coffee shop, pictures, working hours and maybe reviews
+                    </Text>
+                </View>
+            </View>
+        );
+    }
 };
 
 const mapState = (state) => {

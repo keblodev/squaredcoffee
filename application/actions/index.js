@@ -34,7 +34,7 @@ export default {
 	cartAdd,
 	cartRemove,
 	postCheckoutMsgIn,
-	postCheckoutMsgOut,
+    postCheckoutMsgOut,
 	cardNonceReceived,
 	createNewPayment,
 	updatePayment,

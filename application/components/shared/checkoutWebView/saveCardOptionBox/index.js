@@ -13,6 +13,8 @@ import {
   CardAction
 } from 'react-native-card-view';
 
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 export default class SaveCardOptionBox extends Component {
     render = () => {
         const {style, isLoggedIn, isRemoteAuthorized, checkboxCb, persistPaymentMethod, navigate} = this.props;
@@ -27,13 +29,30 @@ export default class SaveCardOptionBox extends Component {
             (<View
                 style={style}
             >
-                <Text
+                <View
                     style={{
-                        textAlign: 'center'
+                        padding: 5,
+                        borderWidth: 1,
+                        margin: 5,
+                        borderColor: 'gray',
+                        borderRadius: 5,
                     }}
                 >
-                    (i) {isLoggedIn ? 'Fill in the billing info pls to save a card' : 'login to save a card'}
-                </Text>
+                    <Text
+                        style={{
+                            textAlign: 'center',
+                            color: 'gray'
+                        }}
+                    >
+                                   <AwesomeIcon
+                                    style={{
+                                        position: 'absolute',
+                                        left: 10,
+                                        top: 8
+                                    }}
+                                    name="info-circle" size={15} color="grey" /> {isLoggedIn ? 'Fill in the billing info pls to save a card' : 'login to save a card'}
+                    </Text>
+                </View>
                 <Button
                     style={styles.buttonStyle}
                     onPress={()=> isLoggedIn ? navigate('AccountModal', {tabRoutesToShow: [1]}) : navigate('Login')}

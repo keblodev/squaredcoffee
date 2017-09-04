@@ -25,29 +25,6 @@ export default store => next => action => {
             case DELETE_USER_CARD:
                 console.log(action);
                 break;
-        //     case LOGIN_USER:
-        //     case CREATE_USER:
-        //     case CREATE_REMOTE_USER:
-        //     case CREATE_USER_CARD:
-        //     case CHARGE_USER_CARD:
-        //     case CHARGE_NONCE:
-        //         dispatch(actions.loadingActive("loading..."));
-        //         break;
-        //     case LOGIN_USER_ERROR:
-        //     case LOGOUT_USER_ERROR:
-        //     case CREATE_USER_ERROR:
-        //     case CREATE_REMOTE_USER_ERROR:
-        //     case CREATE_USER_CARD_ERROR:
-        //     case CHARGE_USER_CARD_ERROR:
-        //     case CHARGE_NONCE_ERROR:
-        //     case USER_LOGGEDIN:
-        //     case USER_CREATED:
-        //     case REMOTE_USER_CREATED:
-        //     case USER_CARD_CREATED:
-        //     case USER_CARD_CHARGED:
-        //     case NONCE_CHARGED:
-        //         dispatch(actions.loadingNotActive());
-        //         break;
         }
     });
 

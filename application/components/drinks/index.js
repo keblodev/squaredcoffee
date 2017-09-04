@@ -22,81 +22,84 @@ import DrinksMock from '../../statics/mocks/drinks';
 
 class Drinks extends Component {
 
-	addItem(item) {
-		this.props.actions.cartAdd(item);
-	}
+    addItem(item) {
+        this.props.actions.cartAdd(item);
+    }
 
-	render = () => {
+    render = () => {
 
-		const { navigate } = this.props.navigation;
-		const { shopId } = this.props;
-		return (
-			<View
-				style={{
-					...styles.container,
-					flex: 1,
-					justifyContent: 'center',
-				}}
-			>
-				<ScrollView
-					style={{flex: 1}}
-				>
-					{
-						shopId !== undefined ? DrinksMock[shopId].map((ch, ind) => (
-							<ListItem
-								key={ch.id}
-								item={ch}
-								addItem={this.addItem.bind(this,ch)}
-								navigate={navigate}
-							/>
-						)) : null
-					}
-				</ScrollView>
-				<View
-					style={{
-						position: 'absolute',
-						bottom: 0,
-						right: 	0
-					}}
-				>
-					<Card
-						styles={{card: {
-								backgroundColor: 'transparent'
-							}
-						}}
-					>
-						<View>
-							<CardAction>
-								<Button
-									style={{
-										...styles.buttonStyle,
-										borderRadius: 22
-									}}
-									onPress={()=> {
-										navigate('Checkout');
-									}}
-								>
-									Checkout
-								</Button>
-							</CardAction>
-						</View>
-					</Card>
-				</View>
+        const { navigate } = this.props.navigation;
+        const { shopId } = this.props;
+        return (
+            <View
+                style={{
+                    ...styles.container,
+                    flex: 1,
+                    justifyContent: 'center',
+                }}
+            >
+                <ScrollView
+                    style={{
+                        flex: 1,
+                    }}
+                >
+                    {
+                        shopId !== undefined ? DrinksMock[shopId].map((ch, ind) => (
+                            <ListItem
+                                key={ch.id}
+                                item={ch}
+                                addItem={this.addItem.bind(this,ch)}
+                                navigate={navigate}
+                            />
+                        )) : null
+                    }
+                    <View style={{height: 80}}/>
+                </ScrollView>
+                <View
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 	0
+                    }}
+                >
+                    <Card
+                        styles={{card: {
+                                backgroundColor: 'transparent'
+                            }
+                        }}
+                    >
+                        <View>
+                            <CardAction>
+                                <Button
+                                    style={{
+                                        ...styles.buttonStyle,
+                                        borderRadius: 22
+                                    }}
+                                    onPress={()=> {
+                                        navigate('Checkout');
+                                    }}
+                                >
+                                    Checkout
+                                </Button>
+                            </CardAction>
+                        </View>
+                    </Card>
+                </View>
 			</View>
 		);
 	}
 };
 
 const mapState = (state) => {
-	return {
+    return {
         //todo: selector
-		shopId:	state.shops.selected && state.shops.selected.shopId
-	};
+        shopId:	state.shops.selected && state.shops.selected.shopId
+    };
 };
 
 const mapDispatch = dispatch => ({
-	actions: bindActionCreators(AppActions, dispatch)
+    actions: bindActionCreators(AppActions, dispatch)
 });
 
 export default
-		connect(mapState, mapDispatch)(Drinks)
+    connect(mapState, mapDispatch)(Drinks)

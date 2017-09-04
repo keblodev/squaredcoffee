@@ -12,18 +12,19 @@ import {
 } from 'react-native-card-view';
 
 export default ({placeOrderCb, disabled}) => {
-	return (
-		<Card
-            styles={{card: {
+    return (
+        <Card
+            styles={{
+                card: {
                     backgroundColor: 'transparent'
                 }
             }}
         >
-			<View>
-				<CardAction>
-					<Button
-						disabled={disabled}
-						style={
+            <View>
+                <CardAction>
+                    <Button
+                        disabled={disabled}
+                        style={
                             {
                                 ...(disabled ?
                                 styles.buttonDisabledStyle :
@@ -31,13 +32,13 @@ export default ({placeOrderCb, disabled}) => {
                                 borderRadius: 22
                             }
                         }
-						onPress={placeOrderCb}
-					>
-						Place Order
-					</Button>
-				</CardAction>
-			</View>
-		</Card>
-	);
+                        onPress={placeOrderCb}
+                    >
+                        5. Place Order
+                    </Button>
+                </CardAction>
+            </View>
+        </Card>
+    );
 }
 

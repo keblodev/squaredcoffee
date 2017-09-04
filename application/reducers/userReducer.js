@@ -9,14 +9,7 @@ import {
     NONE
 } from '../statics/actions';
 
-import {
-    ADDING_CARD,
-    REMOVING_CARD,
-    MAKING_ORDER,
-    USER_CARD_NEW,
-    USER_CARD_REMOVE,
-    USER_CARD_SELECT
-} from '../statics/actions/user';
+import * as userTypes from '../statics/actions/user';
 
 const initialState = {
     auth:                   null,
@@ -98,7 +91,7 @@ export default user = (state = initialState, action) => {
                     action.card
                 ],
                 //TODO: refak dis :/
-                userAction: state.userAction === MAKING_ORDER ? state.userAction : NONE
+                userAction: state.userAction === userTypes.MAKING_ORDER ? state.userAction : NONE
             };
         case PLACE_ORDER:
             return {
@@ -111,9 +104,9 @@ export default user = (state = initialState, action) => {
                 nonce:	action.nonce,
                 paymentInstrument: {
                     nonce: action.nonce
-                },
+                }
             };
-        case USER_CARD_SELECT:
+        case userTypes.USER_CARD_SELECT:
             return {
                 ...state,
                 paymentInstrument: {
@@ -123,7 +116,7 @@ export default user = (state = initialState, action) => {
                     }
                 }
             }
-        case USER_CARD_REMOVE:
+        case userTypes.USER_CARD_REMOVE:
             const cardsNewState = state.cards.filter((item,idx) => idx !== action.cardId);
             const selectedCard = state.paymentInstrument.card
             const newSelectedCardId = 0;
@@ -147,10 +140,20 @@ export default user = (state = initialState, action) => {
                 paymentInstrument: newPaymentInstrument,
                 cards:	cardsNewState,
             }
-        case USER_CARD_NEW:
+        case userTypes.USER_CARD_NEW:
             return {
                 ...state,
                 userAction: action.userAction
+            }
+        case userTypes.USER_NONCE_FORM:
+            return {
+                ...state,
+                userAction: action.userAction
+            }
+        case userTypes.USER_NONCE_FORM_CLOSE:
+            return {
+                ...state,
+                userAction: NONE
             }
         default:
             return state;

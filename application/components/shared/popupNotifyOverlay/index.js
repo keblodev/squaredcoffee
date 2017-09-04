@@ -122,6 +122,12 @@ class PopupNotifyOverlay extends Component {
         });
     }
 
+    processEllipsis (msg, maxLimit = 20) {
+        return ((msg).length > maxLimit) ?
+            (((msg).substring(0,maxLimit-3)) + '...') :
+            msg
+    }
+
 	render() {
         const {msg, isError} = this.props;
 
@@ -187,8 +193,11 @@ class PopupNotifyOverlay extends Component {
                                             position: 'relative',
                                             textAlign: 'center',
                                             fontSize: 20,
-                                            marginRight: 10
-                                        }}>{ msg || 'too bad. try again.' }</Text>
+                                            marginRight: 10,
+                                            maxWidth:       200,
+                                            maxHeight:      50,
+                                            overflow:       'hidden',
+                                        }}>{ msg && this.processEllipsis(msg) || 'too bad. try again.' }</Text>
                                     </View>
                                 ) : (
                                     <View
@@ -214,8 +223,11 @@ class PopupNotifyOverlay extends Component {
                                             position: 'relative',
                                             textAlign: 'center',
                                             fontSize: 20,
-                                            marginRight: 10
-                                        }}>{ msg || 'good job!' }</Text>
+                                            marginRight: 10,
+                                            maxWidth:       200,
+                                            maxHeight:      50,
+                                            overflow:       'hidden',
+                                        }}>{ msg && this.processEllipsis(msg) || 'good job!' }</Text>
                                     </View>
                                 )
                                 }

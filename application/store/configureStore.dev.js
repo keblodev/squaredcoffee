@@ -29,19 +29,20 @@ export default function configureStore(initialState) {
         )
     );
 
-	const load = storage.createLoader(engine);
+    //TODO: it's buggy on reloads with exceptions
+    const load = storage.createLoader(engine);
 
-	load(store)
-		.then((newState) => console.log('Loaded state:', newState))
-		.catch(() => console.log('Failed to load previous state'));
+    load(store)
+        .then((newState) => console.log('Loaded state:', newState))
+        .catch(() => console.log('Failed to load previous state'));
 
-	if (module.hot) {
-		// Enable Webpack hot module replacement for reducers
-		module.hot.accept('../reducers', () => {
-			const nextReducer = require('../reducers').default;
-			store.replaceReducer(nextReducer);
-		});
-  	}
+    if (module.hot) {
+        // Enable Webpack hot module replacement for reducers
+        module.hot.accept('../reducers', () => {
+            const nextReducer = require('../reducers').default;
+            store.replaceReducer(nextReducer);
+        });
+    }
 
   return store;
 }
