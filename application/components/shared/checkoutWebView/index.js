@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -52,86 +52,79 @@ class CheckoutWebView extends Component {
                         width: '100%'
                     }}
                 />
-                <View
-                    style={{
-                        position: 'absolute',
-                        top:     0,
-                        left:   0,
-                        right: 0,
-                        height: !isLoggedIn || !isRemoteAuthorized ? 420 : 350,
-                        width: '100%'
-                    }}
-                >
-                    <Card>
-                        <View
-                            style={{
-                                flex: 1,
-                                margin: 10,
-                                maxHeight: !isLoggedIn || !isRemoteAuthorized ? 290 : 285,
-                                width: '100%',
-                            }}
-                        >
-                            <CheckoutWebViewWrap />
-                        </View>
-                    </Card>
-                    <Card
+                        <Card
                             styles={{
                                 card: {
-                                    flex: !isLoggedIn || !isRemoteAuthorized ? .4 : .15 ,
+                                    minHeight: !isLoggedIn || !isRemoteAuthorized ? 290 : 285,
                                 }
                             }}
-                    >
+                        >
+                            <View
+                                style={{
+                                    flex: 1,
+                                    margin: 10,
+                                    maxHeight: !isLoggedIn || !isRemoteAuthorized ? 290 : 285,
+                                    width: '100%',
+                                }}
+                            >
+                                <CheckoutWebViewWrap />
+                            </View>
+                        </Card>
+                        <Card
+                                styles={{
+                                    card: {
+                                        minHeight: !isLoggedIn || !isRemoteAuthorized ? 120 : 45
+                                    }
+                                }}
+                        >
+                            <View
+                                style={{
+                                    height: '100%',
+                                    width: '100%'
+                                }}
+                            >
+                                <SaveCardOptionBox
+                                    style={{
+                                        flex: 1,
+                                        padding: 10,
+                                        width: '100%'
+                                    }}
+                                    navigate={navigation.navigate}
+                                    isLoggedIn={isLoggedIn}
+                                    isRemoteAuthorized={isRemoteAuthorized}
+                                    checkboxCb={this.onSaveCardToggle.bind(this, persistPaymentMethod)}
+                                    persistPaymentMethod={persistPaymentMethod}
+                                />
+                            </View>
+                        </Card>
+
                         <View
                             style={{
-                                height: !isLoggedIn || !isRemoteAuthorized ? 400 : 200,
+                                flexDirection: 'row',
+                                alignContent: 'center',
+                                justifyContent: 'center',
                                 width: '100%'
                             }}
                         >
-                            <SaveCardOptionBox
+                            <Button
                                 style={{
-                                    flex: 1,
-                                    padding: 10,
-                                    width: '100%'
+                                    ...styles.buttonStyle,
+                                    alignSelf: 'center'
                                 }}
-                                navigate={navigation.navigate}
-                                isLoggedIn={isLoggedIn}
-                                isRemoteAuthorized={isRemoteAuthorized}
-                                checkboxCb={this.onSaveCardToggle.bind(this, persistPaymentMethod)}
-                                persistPaymentMethod={persistPaymentMethod}
-                            />
+                                onPress={persistPaymentMethod ? this.props.actions.saveCard : this.props.actions.saveNonce}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                style={{
+                                    ...styles.buttonStyle,
+                                    alignSelf: 'center'
+                                }}
+                                onPress={this.props.actions.closeSetOneTimePayment}
+                            >
+                                Cancel
+                            </Button>
                         </View>
-                    </Card>
-
-                    <View
-                        style={{
-                            flex: .01,
-                            flexDirection: 'row',
-                            alignContent: 'center',
-                            justifyContent: 'center',
-                            height: 100,
-                            width: '100%'
-                        }}
-                    >
-                        <Button
-                            style={{
-                                ...styles.buttonStyle,
-                                alignSelf: 'center'
-                            }}
-                            onPress={persistPaymentMethod ? this.props.actions.saveCard : this.props.actions.saveNonce}
-                        >
-                            Save
-                        </Button>
-                        <Button
-                            style={{
-                                ...styles.buttonStyle,
-                                alignSelf: 'center'
-                            }}
-                            onPress={this.props.actions.closeSetOneTimePayment}
-                        >
-                            Cancel
-                        </Button>
-                    </View>
-                </View>
             </View>
         );
     }
