@@ -23,6 +23,7 @@ tmp/
 Gemfile.lock
 android/app/build/
 
+ios/build/
 .gradle/
 .idea/
 android/build/

@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
-import { Text, View, ScrollView } from 'react-native';
-import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
+import React, { PureComponent }                 from 'react';
+import { Text, View, ScrollView }               from 'react-native';
+import { TabViewAnimated, TabBar, SceneMap }    from 'react-native-tab-view';
 
 import Button from 'react-native-button'
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect }              from 'react-redux';
+import { bindActionCreators }   from 'redux';
 
 import AppActions from '../../../actions';
 
-import TypeForm from './typeForm';
+import TypeForm from '../../shared/typeForm';
 
 class TabbedLogin extends PureComponent {
 
@@ -316,7 +316,6 @@ const PasswordChangeRoute = () => <View style={[ styles.container ]} >
 				]}
 			/>
 	</View>;
-
 
     const sceneMap = SceneMap({
         '1': AccountInfoRoute,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, BackHandler, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,7 +14,21 @@ import ProgressOverlay      from './components/shared/progressOverlay';
 import FetchOverlay         from './components/shared/fetchOverlay';
 import PopupNotifyOverlay   from './components/shared/popupNotifyOverlay';
 
+
 class App extends Component {
+
+    androidBackButtonListener = null;
+
+    componentWillUnmount() {
+        if (Platform.OS === "android" && this.androidBackButtonListener !== null) {
+            BackHandler.removeEventListener("hardwareBackPress", this.androidBackButtonListene);
+        }
+    }
+
+    __handleBackAndroid = (globalNavigator) => {
+        globalNavigator.goBack();
+        return true;
+    }
 
 	render () {
         const isLoading = !!this.props.sync.loading;
@@ -25,9 +39,13 @@ class App extends Component {
         const fetchMsg = this.props.sync.fetching;
 
         const globalNavigator = addNavigationHelpers({
-                            dispatch: 	this.props.dispatch,
-                            state:		this.props.nav,
-                        })
+            dispatch: 	this.props.dispatch,
+            state:		this.props.nav,
+        });
+
+        if (Platform.OS === "android" && this.androidBackButtonListener === null) {
+            this.androidBackButtonListener = BackHandler.addEventListener("hardwareBackPress", this.__handleBackAndroid.bind(this, globalNavigator));
+        }
 
         return (
             <View
