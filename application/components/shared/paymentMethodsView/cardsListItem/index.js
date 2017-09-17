@@ -54,7 +54,7 @@ class CardListItem extends Component {
                                 fontSize: 15
                             }}
                         >
-                            <AwesomeIcon name={cardsTypeIconst[card_brand] || cardsTypeIconst.default} size={16} color="grey" />  XXXX XXXX XXXX {last_4}    {exp_month}/{exp_year}
+                            <AwesomeIcon name={cardsTypeIconst[card_brand] || cardsTypeIconst.default} size={16} color="grey" />  {last_4}    {exp_month}/{exp_year}
                         </Text>
                     </CardContent>
                 </View>

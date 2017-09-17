@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Text, View, ScrollView } from 'react-native';
-
-import Button from 'react-native-button'
+import React, { Component }             from 'react';
+import { Text, View, ScrollView }       from 'react-native';
+import Button                           from 'react-native-button'
+import { KeyboardAwareScrollView }      from 'react-native-keyboard-aware-scroll-view';
 
 import {
   Card,
@@ -11,12 +11,12 @@ import {
   CardAction
 } from 'react-native-card-view';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import AppActions from '../../../actions';
+import { connect }              from 'react-redux';
+import { bindActionCreators }   from 'redux';
+import AppActions               from '../../../actions';
 
-import CheckoutWebViewWrap from './checkoutWebViewWrap'
-import SaveCardOptionBox from './saveCardOptionBox';
+import CheckoutWebViewWrap  from './checkoutWebViewWrap'
+import SaveCardOptionBox    from './saveCardOptionBox';
 
 import * as userTypes from '../../../statics/actions/user';
 
@@ -35,23 +35,26 @@ class CheckoutWebView extends Component {
 
         return (
             <View
-            style={{
-                position: 'absolute',
-                top: show ? 0 : '100%',
-                opacity: show ? 1 : 0,
-                height: '100%',
-                width: '100%'
-            }}
+                style={{
+                    height:     '100%',
+                    position:   'absolute',
+                    opacity:    show ? 1 : 0,
+                    top:        show ? 0 : '100%',
+                    width:      '100%'
+                }}
             >
                 <View
                     style={{
-                        backgroundColor: 'rgba(0,0,0, .5)',
-                        position: 'absolute',
-                        top:     0,
-                        height: '100%',
-                        width: '100%'
+                        backgroundColor:    'rgba(0,0,0, .5)',
+                        height:             '100%',
+                        position:           'absolute',
+                        top:                0,
+                        width:              '100%'
                     }}
                 />
+                    <KeyboardAwareScrollView
+                        enableOnAndroid={true}
+                    >
                         <Card
                             styles={{
                                 card: {
@@ -61,10 +64,10 @@ class CheckoutWebView extends Component {
                         >
                             <View
                                 style={{
-                                    flex: 1,
-                                    margin: 10,
-                                    maxHeight: !isLoggedIn || !isRemoteAuthorized ? 290 : 285,
-                                    width: '100%',
+                                    flex:       1,
+                                    margin:     10,
+                                    maxHeight:  !isLoggedIn || !isRemoteAuthorized ? 290 : 285,
+                                    width:      '100%',
                                 }}
                             >
                                 <CheckoutWebViewWrap />
@@ -80,14 +83,14 @@ class CheckoutWebView extends Component {
                             <View
                                 style={{
                                     height: '100%',
-                                    width: '100%'
+                                    width:  '100%'
                                 }}
                             >
                                 <SaveCardOptionBox
                                     style={{
-                                        flex: 1,
-                                        padding: 10,
-                                        width: '100%'
+                                        flex:       1,
+                                        padding:    10,
+                                        width:      '100%'
                                     }}
                                     navigate={navigation.navigate}
                                     isLoggedIn={isLoggedIn}
@@ -97,13 +100,12 @@ class CheckoutWebView extends Component {
                                 />
                             </View>
                         </Card>
-
                         <View
                             style={{
-                                flexDirection: 'row',
-                                alignContent: 'center',
+                                flexDirection:  'row',
+                                alignContent:   'center',
                                 justifyContent: 'center',
-                                width: '100%'
+                                width:          '100%'
                             }}
                         >
                             <Button
@@ -125,6 +127,7 @@ class CheckoutWebView extends Component {
                                 Cancel
                             </Button>
                         </View>
+                    </KeyboardAwareScrollView>
             </View>
         );
     }

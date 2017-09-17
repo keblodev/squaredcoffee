@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
-import LoginTypeForm from './loginTypeForm';
+import TypeForm from '../shared/typeForm';
 
 class TabbedLogin extends PureComponent {
   state = {
@@ -71,7 +71,7 @@ class TabbedLogin extends PureComponent {
     //TODO -> unify routes to components
     // need to figure validation before that
     const LoginRoute = () => <View style={[ styles.container ]} >
-            <LoginTypeForm
+            <TypeForm
                 action={{
                     actionCb: this.handleLogin.bind(this),
                     actionLabel: 'Log In'
@@ -105,7 +105,7 @@ class TabbedLogin extends PureComponent {
 			/>
 	</View>;
 	const SignUpRoute = () => <View style={[ styles.container ]} >
-			<LoginTypeForm
+			<TypeForm
 				action={{
 					actionCb: this.handleSignup.bind(this),
 					actionLabel: 'Sign Up'
@@ -158,7 +158,7 @@ class TabbedLogin extends PureComponent {
 			/>
     </View>;
     const ForgotRoute = () => <View style={[ styles.container ]} >
-            <LoginTypeForm
+            <TypeForm
                 action={{
                     actionCb: this.handleForgot.bind(this),
                     actionLabel: 'Get Password Reset',

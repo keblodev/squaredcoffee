@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
-import { Text, View, ScrollView } from 'react-native';
-import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
+import React, { PureComponent }                 from 'react';
+import { Text, View, ScrollView }               from 'react-native';
+import { TabViewAnimated, TabBar, SceneMap }    from 'react-native-tab-view';
+import { KeyboardAwareScrollView }              from 'react-native-keyboard-aware-scroll-view';
 
 import Button from 'react-native-button'
 
@@ -11,19 +12,20 @@ import Foect from 'foect';
 export default ({action, formDefaultValues = null, formControls}) => {
     const formControlInputs = []
 	return (
-        <ScrollView
-                contentContainerStyle={{
-                    ...styles.container,
-                }}
-                style={{
-                    height: '100%',
-                    width: '100%'
-                }}
-            >
+        <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            extraHeight={40}
+            extraScrollHeight={40}
+            style={{
+                paddingLeft:    20,
+                paddingRight:   20,
+                width:          '100%',
+            }}
+        >
             <View
                     style={{
-                        width: '100%',
-                        overflow: 'hidden',
+                        overflow:   'hidden',
+                        width:      '100%',
                     }}
                 >
                 <Foect.Form
@@ -67,8 +69,8 @@ export default ({action, formDefaultValues = null, formControls}) => {
                                     <View>
                                         <View
                                             style={{
-                                                marginTop: 10,
-                                                marginBottom: 10
+                                                marginTop:      10,
+                                                marginBottom:   10
                                             }}
                                         >
                                             <Hoshi
@@ -88,8 +90,10 @@ export default ({action, formDefaultValues = null, formControls}) => {
                                                 onBlur={control.markAsTouched}
                                                 onChangeText={(text) => control.onChange(text)}
                                                 value={control.value}
-                                                onKeyPress={({ nativeEvent: { key: keyValue } }) => {
-                                                    if (keyValue === 'Enter' && !control.isInvalid) {
+                                                enablesReturnKeyAutomatically={true}
+
+                                                onSubmitEditing={({ nativeEvent: { key: keyValue } })=>{
+                                                    if (!control.isInvalid) {
                                                         if(!isLast) {
                                                             formControlInputs[idx+1].focus();
                                                         } else {
@@ -126,24 +130,22 @@ export default ({action, formDefaultValues = null, formControls}) => {
                         })
                     }
 
-					{ /* submit form */ }
-					<View>
-						<Button
-							style={ form.isInvalid || action.disabled ? styles.buttonDisabledStyle : styles.buttonStyle}
-							disabled={form.isInvalid || action.disabled}
-							onPress={()=> form.submit()}
-						>
-							{action.actionLabel}
-						</Button>
-					</View>
+                    { /* submit form */ }
+                        <View>
+                            <Button
+                                style={ form.isInvalid || action.disabled ? styles.buttonDisabledStyle : styles.buttonStyle}
+                                disabled={form.isInvalid || action.disabled}
+                                onPress={()=> form.submit()}
+                            >
+                                {action.actionLabel}
+                            </Button>
+                        </View>
 
-					</View>
-				) }
-				</Foect.Form>
-
-				</View>
-                <View style={{height: 200}}/>
-			</ScrollView>
+                        </View>
+                    ) }
+                </Foect.Form>
+            </View>
+        </KeyboardAwareScrollView>
 	)
 }
 
