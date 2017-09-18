@@ -29,7 +29,7 @@ class Drinks extends Component {
     render = () => {
 
         const { navigate } = this.props.navigation;
-        const { shopId } = this.props;
+        const { shopId, cart } = this.props;
         return (
             <View
                 style={{
@@ -44,10 +44,11 @@ class Drinks extends Component {
                     }}
                 >
                     {
-                        shopId !== undefined && shopId !== null ? DrinksMock[shopId].map((ch, ind) => (
+                        shopId !== undefined && shopId !== null ? DrinksMock[shopId].map((ch, idx) => (
                             <ListItem
                                 key={ch.id}
                                 item={ch}
+                                cartItem={cart.byId[idx]}
                                 addItem={this.addItem.bind(this,ch)}
                                 navigate={navigate}
                             />
@@ -92,7 +93,7 @@ class Drinks extends Component {
 
 const mapState = (state) => {
     return {
-        //todo: selector
+        cart: state.cart,
         shopId:	state.shops.selected && state.shops.selected.shopId
     };
 };
