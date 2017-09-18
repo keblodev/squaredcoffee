@@ -65,6 +65,7 @@ class Drink extends Component {
 									<Text style={{
                                         ...itemStyles.title,
                                         alignSelf: 'center',
+                                        maxWidth:   '90%',
                                     }}>{item.title}</Text>
 								</CardTitle>
                                 <CardTitle
