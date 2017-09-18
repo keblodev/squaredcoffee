@@ -19,11 +19,14 @@ import { bindActionCreators } from 'redux';
 import AppActions from '../../../actions';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+const cartIcon = (<AwesomeIcon name="shopping-cart" size={20} style={{textAlign: 'center',}}/>)
 
 class Drink extends Component {
 	render = () => {
 		const {item, disabled} = this.props.navigation.state.params;
-		const {navigate} = this.props.navigation;
+        const {navigate} = this.props.navigation;
+        const {cart} = this.props;
+        const cartItem = cart.byId[item && item.id];
 		return (
 			<View
 				style={{
@@ -55,30 +58,49 @@ class Drink extends Component {
 								<CardTitle
                                     styles={{
                                         cardTitle: {
-                                            height: 100
+                                            height: 130
                                         }
                                     }}
                                 >
-									<Text style={itemStyles.title}>{item.title}</Text>
+									<Text style={{
+                                        ...itemStyles.title,
+                                        alignSelf: 'center',
+                                    }}>{item.title}</Text>
 								</CardTitle>
-								<CardTitle
-									styles={{
-										cardTitle: {
-											position: 'absolute',
-											right: 	0,
-											top: 	0
-										}
-								}}>
-								<View>
-									<Text style={{
-										...itemStyles.title,
-									}}>{item.price}</Text>
-									<Text style={{
-										...itemStyles.title,
-										fontSize: 	20,
-										textAlign: 	'right'
-									}}>{item.currency}</Text>
-								</View>
+                                <CardTitle
+                                    styles={{
+                                        cardTitle: {
+                                            position: 'absolute',
+                                            right: 	0,
+                                            top: 	0,
+                                            bottom: 0,
+                                        }
+                                }}>
+                                    <View
+                                        style={{
+                                            alignSelf: 'center',
+                                        }}
+                                    >
+                                        <Text style={{
+                                            ...itemStyles.title,
+                                        }}>{item.price}</Text>
+                                        <Text style={{
+                                            ...itemStyles.title,
+                                            fontSize: 	20,
+                                            textAlign: 	'right'
+                                        }}>{item.currency}</Text>
+                                        {
+                                            cartItem ?
+                                            <Text
+                                                style={{
+                                                    ...itemStyles.title,
+                                                    textAlign: 'right',
+                                                    fontSize: 15,
+                                                }}
+                                            >{cartIcon} {cartItem.qty}</Text>
+                                            : null
+                                        }
+                                    </View>
 								</CardTitle>
 							</View>
 						</Card>
@@ -163,6 +185,7 @@ class Drink extends Component {
 
 const mapState = (state) => {
 	return {
+        cart:   state.cart,
 		shopId:	state.shops.selected.shopId
 	};
 };

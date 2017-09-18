@@ -13,7 +13,10 @@ import {
 
 import styles from '../../../statics/styles';
 
-export default ({item, addItem, disabled, navigate}) => {
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+const cartIcon = (<AwesomeIcon name="shopping-cart" size={20} style={{textAlign: 'center',}}/>)
+
+export default ({item, addItem, disabled, navigate, cartItem}) => {
 	return (
 		<View>
 			<Button
@@ -44,7 +47,10 @@ export default ({item, addItem, disabled, navigate}) => {
 						}
 					>
 						<CardTitle>
-							<Text style={itemStyles.title}>{item.title}</Text>
+							<Text style={{
+                                ...itemStyles.title,
+                                maxWidth: '90%'
+                            }}>{item.title}</Text>
 						</CardTitle>
 						<CardTitle
 							styles={{
@@ -63,6 +69,17 @@ export default ({item, addItem, disabled, navigate}) => {
 								fontSize: 	20,
 								textAlign: 	'right'
 							}}>{item.currency}</Text>
+                            {
+                                cartItem ?
+                                <Text
+                                    style={{
+                                        ...itemStyles.title,
+                                        textAlign: 'right',
+                                        fontSize: 15,
+                                    }}
+                                >{cartIcon} {cartItem.qty}</Text>
+                                : null
+                            }
 						</View>
 						</CardTitle>
 						<CardAction >

@@ -19,9 +19,7 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 const userIcon = (<AwesomeIcon name="user-o" size={30} color="grey" />)
-const cartIcon = (<AwesomeIcon name="shopping-cart" size={30} color="grey" />)
-
-const matIcon1 = (<MaterialIcon name="face" size={30} color="grey"/>);
+const cartIcon = (<AwesomeIcon name="shopping-cart" size={30} color="grey" style={{textAlign: 'center',}}/>)
 
 const staticImagesBullShit = [
 	//TODO: images should come from uri
@@ -92,8 +90,8 @@ class Home extends Component {
 								<View
 									style={{
 										padding:40,
-										paddingLeft: 80,
-										paddingRight: 80,
+										paddingLeft: 60,
+										paddingRight: 60,
 									}}
 								>
 									{userIcon}
@@ -106,14 +104,15 @@ class Home extends Component {
 								<View
 									style={{
 										padding:40,
-										paddingLeft: 80,
-										paddingRight: 80,
+										paddingLeft: 60,
+										paddingRight: 60,
 									}}
 								>
 									<Text
 										style={{
 											fontSize: 20,
 											color: 'grey',
+                                            textAlign: 'center',
 										}}
 									>Login/Sign Up</Text>
 								</View>
@@ -127,8 +126,8 @@ class Home extends Component {
 						<View
 							style={{
 								padding:40,
-								paddingLeft: 80,
-								paddingRight: 80,
+								paddingLeft: 60,
+								paddingRight: 60,
 							}}
 						>
 							{cartIcon}
