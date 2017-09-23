@@ -5,23 +5,25 @@ import Button from 'react-native-button';
 
 import { StackNavigator, DrawerButton } from 'react-navigation';
 
-import Home from '../components/home';
-import About from '../components/about';
-import Drinks from '../components/drinks';
-import Drink from '../components/drinks/drink';
-import Checkout from '../components/checkout';
-import StoreSelect from '../components/storeselect'
+import Home         from '../components/home';
+import About        from '../components/about';
+import Drinks       from '../components/drinks';
+import Drink        from '../components/drinks/drink';
+import Checkout     from '../components/checkout';
+import StoreSelect  from '../components/storeselect'
 
-import User from '../components/user';
-import Account from '../components/user/account';
-import PaymentMethods from '../components/user/paymentmethods';
+import User             from '../components/user';
+import Account          from '../components/user/account';
+import PaymentMethods   from '../components/user/paymentmethods';
+import Orders           from '../components/orders';
+import Order           from '../components/orders/order';
 
-import Login from '../components/login';
+import Login    from '../components/login';
 
-import styles from '../statics/styles';
+import styles   from '../statics/styles';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
-const backIcon = (<Text><AwesomeIcon name="chevron-up" size={20} color="grey" /></Text>)
+const backIcon = (<Text><AwesomeIcon name="chevron-up" size={20} color="grey" /></Text>);
 
 const flexHeaderAmount = 0.1
 
@@ -48,65 +50,72 @@ const BackButton= ({navigation}) => (
 )
 
 export const MainCardNavigator = StackNavigator({
-	User: {
-		screen: User,
-		navigationOptions: {
-			// header: null
-			title: 'Account Info'
-		}
-	},
+    User: {
+        screen: User,
+        navigationOptions: {
+            // header: null
+            title: 'Account Info'
+        }
+    },
 
-	Account: {
-		screen: Account,
-		navigationOptions: {
-			title: 'Account information'
-		}
-	},
+    Account: {
+        screen: Account,
+        navigationOptions: {
+            title: 'Account information'
+        }
+    },
 
-	PaymentMethods: {
-		screen: PaymentMethods,
-		navigationOptions: {
-			title: 'Payment Methods'
-		}
-	},
+    Orders: {
+        screen: Orders,
+        navigationOptions: {
+            title: 'Orders History'
+        }
+    },
 
-	StoreSelect: {
-		screen: StoreSelect,
-		navigationOptions: {
-			// header: null
-			title: 'Select a store'
-		}
-	},
-  	Home: {
-		screen: Home,
-		navigationOptions: {
-			headerStyle: {
-				backgroundColor: '#2A2F3A',
-			}
-		}
-	},
-	About: {
-		screen: About,
-		navigationOptions: {
-			title: 'About',
-		}
-	},
-	Drinks: {
-		screen: Drinks,
-		navigationOptions: {
-			title: 'Coffee and stuff',
-		}
-	}
+    PaymentMethods: {
+        screen: PaymentMethods,
+        navigationOptions: {
+            title: 'Payment Methods'
+        }
+    },
+
+    StoreSelect: {
+        screen: StoreSelect,
+        navigationOptions: {
+            // header: null
+            title: 'Select a store'
+        }
+    },
+    Home: {
+        screen: Home,
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#2A2F3A',
+            }
+        }
+    },
+    About: {
+        screen: About,
+        navigationOptions: {
+            title: 'About',
+        }
+    },
+    Drinks: {
+        screen: Drinks,
+        navigationOptions: {
+            title: 'Coffee and stuff',
+        }
+    },
 },{
-	navigationOptions: {
+    navigationOptions: {
         headerStyle: {
-			backgroundColor: '#2A2F3A',
-			//TODO: this not really working
-			elevation: 0,       //remove shadow on Android
-			shadowOpacity: 0,   //remove shadow on iOS
-		},
-		headerTintColor: '#8393b1',
-	}
+            backgroundColor: '#2A2F3A',
+            //TODO: this not really working
+            elevation: 0,       //remove shadow on Android
+            shadowOpacity: 0,   //remove shadow on iOS
+        },
+        headerTintColor: '#8393b1',
+    }
 });
 
 
@@ -182,6 +191,50 @@ export default StackNavigator({
         screen: Account,
         navigationOptions: {
             title: 'Account information',
+
+            header: ({navigation}) => (
+                <View
+                    style={{
+                        backgroundColor: 	'#2A2F3A',
+                        //TODO: to be removed this whole thing
+                        flex: 				flexHeaderAmount,
+                        justifyContent: 	'center',
+                    }}
+                >
+                <BackButton
+                    navigation={navigation}
+                />
+                </View>
+            )
+        }
+    },
+
+    Order: {
+        screen: Order,
+        navigationOptions: {
+            title: 'Order',
+
+            header: ({navigation}) => (
+                <View
+                    style={{
+                        backgroundColor: 	'#2A2F3A',
+                        //TODO: to be removed this whole thing
+                        flex: 				flexHeaderAmount,
+                        justifyContent: 	'center',
+                    }}
+                >
+                <BackButton
+                    navigation={navigation}
+                />
+                </View>
+            )
+        }
+    },
+
+    OrdersModal: {
+        screen: Orders,
+        navigationOptions: {
+            title: 'Orders',
 
             header: ({navigation}) => (
                 <View

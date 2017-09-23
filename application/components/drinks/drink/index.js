@@ -15,47 +15,46 @@ import styles from '../../../statics/styles';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import AppActions from '../../../actions';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 const cartIcon = (<AwesomeIcon name="shopping-cart" size={20} style={{textAlign: 'center',}}/>)
 
 class Drink extends Component {
-	render = () => {
-		const {item, disabled} = this.props.navigation.state.params;
-        const {navigate} = this.props.navigation;
-        const {cart} = this.props;
-        const cartItem = cart.byId[item && item.id];
-		return (
-			<View
-				style={{
+    render = () => {
+        const {item, disabled}  = this.props.navigation.state.params;
+        const {navigate}        = this.props.navigation;
+        const {cart}            = this.props;
+        const cartItem          = cart.byId[item && item.id];
+        return (
+            <View
+                style={{
                     ...styles.container,
-					height: '100%'
-				}}
-			>
-				<ScrollView>
-						<Card
-							styles={{
-								card: {
-									overflow: 'hidden'
-								}
-							}}
-						>
-							<Image
-								style={itemStyles.image}
-								source={item.img}
-							/>
-							<View
-								style={
-									disabled ?
-										{
-											...itemStyles.card,
-											...itemStyles.cardDisabled
-										} : itemStyles.card
-								}
-							>
-								<CardTitle
+                    height: '100%'
+                }}
+            >
+                <ScrollView>
+                        <Card
+                            styles={{
+                                card: {
+                                    overflow: 'hidden'
+                                }
+                            }}
+                        >
+                            <Image
+                                style={itemStyles.image}
+                                source={item.img}
+                            />
+                            <View
+                                style={
+                                    disabled ?
+                                        {
+                                            ...itemStyles.card,
+                                            ...itemStyles.cardDisabled
+                                        } : itemStyles.card
+                                }
+                            >
+                                <CardTitle
                                     styles={{
                                         cardTitle: {
                                             height: 130
@@ -185,10 +184,9 @@ class Drink extends Component {
 };
 
 const mapState = (state) => {
-	return {
+    return {
         cart:   state.cart,
-		shopId:	state.shops.selected.shopId
-	};
+    };
 };
 
 const mapDispatch = dispatch => ({

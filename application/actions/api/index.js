@@ -4,6 +4,10 @@ import {BASE_URL} from '../../statics/configs';
 
 const baseUrl = BASE_URL;
 
+const __handleSuccessError = function(response){
+    return response.status !== 200 ? response.json().then(Promise.reject) : response.json();
+}
+
 const createUser = userConfig => {
     return dispatch => {
         dispatch({ type: types.CREATE_USER, userConfig });
@@ -13,7 +17,7 @@ const createUser = userConfig => {
                     body: JSON.stringify({...userConfig}),
                     headers: { 'Content-Type': 'application/json' },
                 })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(userCreated(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(createUserError(error)))
@@ -30,7 +34,7 @@ const createRemoteUser = remoteUserConfig => {
                     body: JSON.stringify({...remoteUserConfig}),
                     headers: { 'Content-Type': 'application/json' },
                 })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(userRemoteCreated(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(userRemoteCreateError(error)))
@@ -47,7 +51,7 @@ const updateRemoteUser = remoteUserConfig => {
                     body: JSON.stringify({...remoteUserConfig}),
                     headers: { 'Content-Type': 'application/json' },
                 })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(userRemoteUpdated(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(userRemoteUpdateError(error)))
@@ -63,17 +67,17 @@ const loginUser = loginConfig => {
                     body: JSON.stringify({...loginConfig}),
                     headers: { 'Content-Type': 'application/json' },
                 })
-                .then(response => {
-                    //todo
-                    //cookie = response.headers.map['set-cookie'];
-                    return response.json();
+                .then(__handleSuccessError)
+                .then(json => {
+                    return dispatch(userLoggedIn(
+                            json.data,
+                        //  cookie
+                        ))
                 })
-                .then(json => dispatch(userLoggedIn(
-                    json.data,
-                    //  cookie
-                    )))
                 .then(data => console.log(data))
-                .catch(error => dispatch(createUserError(error)))
+                .catch(({error}) => {
+                    return dispatch(createUserError(error))
+                })
 	};
 };
 
@@ -91,7 +95,7 @@ const createUserCard = ({nonce, auth}) => {
                 'Cookie': auth.cookie && auth.cookie[0]
             },
         })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(userCardCreated(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(createUserCardError(error)))
@@ -109,7 +113,7 @@ const getUserCards = ({auth}) => {
                 'Content-Type': 'application/json',
             },
         })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(gotUserCards(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(gettingtUserCardsError(error)))
@@ -127,7 +131,7 @@ const getUserAccountInfo = ({auth}) => {
                 'Content-Type': 'application/json',
             },
         })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(gotUserAccountInfo(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(gettingUserAccountInfoError(error)))
@@ -143,7 +147,7 @@ const deleteUserCard = ({cardRemoteId, auth}) => {
             body: JSON.stringify({remote_card_id: cardRemoteId, token: auth.token}),
             headers: { 'Content-Type': 'application/json' },
         })
-            .then(response => response.json())
+            .then(__handleSuccessError)
             .then(json =>
                 dispatch(userCardDeleted(json))
             )
@@ -163,12 +167,18 @@ const chargeUserCard = ({auth, card}) => dispatch => {
         body: JSON.stringify({customer_card_id: card.id, token: auth.token}),
         headers: { 'Content-Type': 'application/json' },
     })
-        .then(response => response.json())
-        .then(json =>
-            dispatch(userCardCharged(json))
-        )
+        .then(__handleSuccessError)
+        // .then((json)=>{
+        //     const ok = new Promise((resolve, reject) => {
+        //         setTimeout(()=> {
+        //             resolve(json);
+        //         }, 1000)
+        //     });
+        //     return ok
+        // })
+        .then(json =>dispatch(userCardCharged(json)))
         .then(data => console.log(data))
-        .catch(error => dispatch(chargeUserCardError(error)));
+        .catch(({error}) => dispatch(chargeUserCardError(error)));
 };
 
 const chargeNonce = ({nonce}) => dispatch => {
@@ -179,11 +189,11 @@ const chargeNonce = ({nonce}) => dispatch => {
         body: JSON.stringify({nonce}),
         headers: { 'Content-Type': 'application/json' },
     })
-        .then(response => response.json())
+        .then(__handleSuccessError)
         .then(json =>
             dispatch(nonceCharged(json))
     )
-        .catch(error => dispatch(chargeNonceError(error)));
+        .catch(({error}) => dispatch(chargeNonceError(error)));
 };
 
 const logoutUser = () => {
@@ -195,7 +205,7 @@ const logoutUser = () => {
                     body: JSON.stringify({...user}),
                     headers: { 'Content-Type': 'application/json' },
                 })
-                .then(response => response.json())
+                .then(__handleSuccessError)
                 .then(json => dispatch(userLoggedOut(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(logoutUserError(error)));

@@ -22,34 +22,20 @@ import OneTimePaymentListItem from './oneTimePaymentListItem';
 
 import styles from '../../../statics/styles';
 import strings from '../../../statics/strings';
-
 import { ADDING_CARD, REMOVING_CARD, MAKING_ORDER } from '../../../statics/actions/user';
 
 class PaymentMethodsView extends Component {
 
-    onCardSelected(card) {
-        this.props.actions.setPayementMethod({
-            type: strings.PAYMENT_METHOD_CARD,
-            instrument: {
-                card: card.id
-            }
-        })
-    }
-
     componentWillMount() {
-        const auth = this.props.auth;
+        const {auth} = this.props;
         if (auth) {
             this.props.actions.getUserCards({auth});
         }
     }
 
-    onOneTimeSelected() {
-        //todo
+    onSaveCardToggle(checked) {
+       this.props.actions.persistPaymentMethod(!checked);
     }
-
-	onSaveCardToggle(checked) {
-		this.props.actions.persistPaymentMethod(!checked);
-	}
 
     handleAddSaveCard(isUserAddingCard) {
         if (isUserAddingCard) {
@@ -59,11 +45,11 @@ class PaymentMethodsView extends Component {
         }
     }
 
-	render() {
-		const {cards, persistPaymentMethod, paymentInstrument, userAction} = this.props;
-		let paymentMethodView;
+    render() {
+        const {cards, persistPaymentMethod, paymentInstrument, userAction} = this.props;
+        let paymentMethodView;
 
-		let selectedCardId = paymentInstrument && paymentInstrument.card && paymentInstrument.card.id;
+        let selectedCardId = paymentInstrument && paymentInstrument.card && paymentInstrument.card.id;
 
         paymentMethodView = (
             <View>
@@ -74,13 +60,11 @@ class PaymentMethodsView extends Component {
                             {...card}
                             idx={idx}
                             isSelected={idx===selectedCardId}
-                            onCardsSelected={this.onCardSelected.bind(this, card)}
                         />
                     })
                 }
                 <OneTimePaymentListItem
                     isSelected={!!paymentInstrument && paymentInstrument.nonce}
-                    onCardsSelected={this.onOneTimeSelected.bind(this)}
                 />
             </View>
         )
@@ -96,18 +80,18 @@ class PaymentMethodsView extends Component {
 };
 
 const mapState = (state) => {
-	return {
-		auth:					state.user.auth,
-		cards: 					state.user.cards,
-		userAction:				state.user.userAction,
-		paymentInstrument:		state.user.paymentInstrument,
-		persistPaymentMethod: 	state.user.persistPaymentMethod
-	};
+    return {
+        auth:                   state.user.auth,
+        cards:                  state.user.cards,
+        userAction:             state.user.userAction,
+        paymentInstrument:      state.user.paymentInstrument,
+        persistPaymentMethod:   state.user.persistPaymentMethod
+    };
 };
 
 const mapDispatch = dispatch => ({
-	actions: bindActionCreators(AppActions, dispatch)
+    actions: bindActionCreators(AppActions, dispatch)
 });
 
 export default
-		connect(mapState, mapDispatch)(PaymentMethodsView);
+    connect(mapState, mapDispatch)(PaymentMethodsView);

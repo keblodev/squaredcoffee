@@ -11,6 +11,9 @@ import AppActions from '../../actions';
 import {GEO_ACTIVE} from '../../statics/strings/geo';
 // import styles from '../../statics/styles';
 
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+const cartIcon = (<AwesomeIcon name="shopping-cart" size={30} color="grey" style={{textAlign: 'center',}}/>)
+
 class User extends Component {
 
 	componentDidUpdate() {
@@ -40,54 +43,76 @@ class User extends Component {
 		}
 	}
 
-	render = () => {
-		const { navigate } = this.props.navigation;
-		const isLoggedIn = !!this.props.user.auth;
-		const isGeoActive = this.props.geoStatus === GEO_ACTIVE
+    render = () => {
+        const { navigate } = this.props.navigation;
+        const isLoggedIn = !!this.props.user.auth;
+        const isGeoActive = this.props.geoStatus === GEO_ACTIVE
 
-		return (
-			<View
-				style={{
-					...styles.container,
-					height: '100%'
-				}}
-			>
-				{
-					isLoggedIn ? (
-						<View>
-							<Button
-								style={styles.buttonStyle}
-								onPress={()=>navigate('Account')}
-							>
-								Account Information
-							</Button>
-							<Button
-								style={styles.buttonStyle}
-								onPress={()=>navigate('PaymentMethods')}
-							>
-								Payment Methods
-							</Button>
-						</View>
-					) : null
-				}
-				<Button
-					style={styles.buttonStyle}
-					onPress={()=>navigate('Checkout')}
-				>
-					Cart
-				</Button>
-				{/* <Button
-					style={styles.buttonStyle}
-					onPress={this.handleGeoStartStop.bind(this, isGeoActive)}
-				>
-					{ isGeoActive ? 'StopGeo' : 'StartGeo'}
-				</Button> */}
-				<Button
-					style={styles.buttonStyle}
-					onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
-				>
-					{ isLoggedIn ? 'LogOut' : 'SignIn'}
-				</Button>
+        return (
+            <View
+                style={{
+                    ...styles.container,
+                    height: '100%'
+                }}
+            >
+                {
+                    isLoggedIn ? (
+                        <View>
+                            <Button
+                                style={styles.buttonStyle}
+                                onPress={()=>navigate('Account')}
+                            >
+                                Account Information
+                            </Button>
+                            <Button
+                                style={styles.buttonStyle}
+                                onPress={()=>navigate('PaymentMethods')}
+                            >
+                                Payment Methods
+                            </Button>
+                            <Button
+                                style={styles.buttonStyle}
+                                onPress={()=>navigate('Orders')}
+                            >
+                                Orders
+                            </Button>
+                        </View>
+                    ) : null
+                }
+                {/* <Button
+                    style={styles.buttonStyle}
+                    onPress={this.handleGeoStartStop.bind(this, isGeoActive)}
+                >
+                    { isGeoActive ? 'StopGeo' : 'StartGeo'}
+                </Button> */}
+                <Button
+                    style={styles.buttonStyle}
+                    onPress={this.handleLoginLogout.bind(this, isLoggedIn)}
+                >
+                    { isLoggedIn ? 'LogOut' : 'SignIn'}
+                </Button>
+                <View
+                    style={{
+                        bottom:         0,
+                        flexDirection:  'row',
+                        position:       'absolute'
+                    }}
+                >
+                    <Button
+                        style={styles.buttonStyle}
+                        onPress={()=>navigate('Checkout')}
+                    >
+                        <View
+                            style={{
+                                padding:40,
+                                paddingLeft: 60,
+                                paddingRight: 60,
+                            }}
+                        >
+                            {cartIcon}
+                        </View>
+                    </Button>
+                </View>
 			</View>
 		);
 	}

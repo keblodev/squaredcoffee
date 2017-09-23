@@ -1,4 +1,5 @@
 import { LOADING_ACTIVE, LOADING_NOT_ACTIVE, FETCHING_ACTIVE, FETCHING_NOT_ACTIVE, NONE } from '../statics/actions';
+import { LOAD, SAVE } from 'redux-storage';
 
 const initialState = {
     fetching: NONE,
@@ -7,6 +8,8 @@ const initialState = {
 
 export default function sync(state = initialState, action) {
     switch (action.type) {
+        case LOAD:
+            return initialState;
         case LOADING_ACTIVE:
             return {
                 ...state,
@@ -27,6 +30,7 @@ export default function sync(state = initialState, action) {
                 ...state,
                 fetching:  action.msg
             };
+        case SAVE:
         default:
             return state;
     }

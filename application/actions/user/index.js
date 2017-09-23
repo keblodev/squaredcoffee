@@ -12,10 +12,10 @@ const saveNonce = () => ({ type: userTypes.USER_NONCE_SAVE });
 const setOneTimePayment = () => ({type: userTypes.USER_NONCE_FORM, userAction: userTypes.SETTING_ONE_TIME_PAYMENT});
 const closeSetOneTimePayment = () => ({type: userTypes.USER_NONCE_FORM_CLOSE});
 
-const removeCard = (cardId, cardRemoteId) => ({ type: userTypes.USER_CARD_REMOVE, userAction: userTypes.REMOVING_CARD, cardId, cardRemoteId});
-const placeOrder = _ => ({type: types.PLACE_ORDER, userAction: userTypes.MAKING_ORDER});
-
-const dropCart = () => ({type: userTypes.DROP_CART});
+const removeCard    = (cardId, cardRemoteId) => ({ type: userTypes.USER_CARD_REMOVE, userAction: userTypes.REMOVING_CARD, cardId, cardRemoteId});
+const placeOrder    = order     => ({type: types.PLACE_ORDER, userAction: userTypes.MAKING_ORDER, order});
+const removeOrder   = orderId   => ({type: types.REMOVE_ORDER, orderId});
+const dropCart      = ()        => ({type: userTypes.DROP_CART});
 
 export default {
     persistPaymentMethod,
@@ -27,5 +27,6 @@ export default {
     dropCart,
     removeCard,
     selectCard,
-    placeOrder
+    placeOrder,
+    removeOrder,
 };
