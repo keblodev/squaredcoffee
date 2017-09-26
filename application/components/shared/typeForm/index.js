@@ -32,6 +32,7 @@ export default ({action, formDefaultValues = null, formControls}) => {
                     defaultValue={formDefaultValues || {
                         email:                            'john@doe.com',
                         password:                         'J1@doe.com',
+                        password_confirmation:            'J1@doe.com',
                         new_password:                     'J1@doe.com',
                         given_name:                       'Amelia',
                         family_name:                      'Earhart',

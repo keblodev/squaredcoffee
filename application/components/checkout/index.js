@@ -28,13 +28,18 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 class Checkout extends Component {
 
     placeOrder = () => {
-        this.props.actions.placeOrder();
+        const {cart, selectedShop} = this.props
+        const orderConfig = {
+            cart,
+            selectedShop,
+        }
+        this.props.actions.placeOrder(orderConfig);
     }
 
     render = () => {
-        const { navigate } = this.props.navigation;
-        const {cart, user} = this.props;
-
+        const {navigate}  = this.props.navigation;
+        const {cart, user}  = this.props;
+        const {orders}      = user;
         return (
             <View
                 style={{
@@ -120,9 +125,18 @@ class Checkout extends Component {
                     }}
                 >
                     <CartAction
+                        actionCb={this.placeOrder.bind(this)}
                         disabled={!cart.ids.length || !user.paymentInstrument}
-                        placeOrderCb={this.placeOrder.bind(this)}
+                        title="5. Place Order"
                     />
+                    {
+                        orders.length ? (
+                            <CartAction
+                                actionCb={()=>{navigate('OrdersModal')}}
+                                title="6. Orders History"
+                            />
+                        ) : null
+                    }
                 </View>
                 <CheckoutWebView
                     navigation={this.props.navigation}
@@ -134,16 +148,17 @@ class Checkout extends Component {
 };
 
 const mapState = (state) => {
-	return {
-		checkoutWebViewOutput: state.webviews.checkout.output,
-		user: state.user,
-		cart: state.cart
-	};
+    return {
+        checkoutWebViewOutput:  state.webviews.checkout.output,
+        user:                   state.user,
+        cart:                   state.cart,
+        selectedShop:           state.shops.selected,
+    };
 };
 
 const mapDispatch = dispatch => ({
-	actions: bindActionCreators(AppActions, dispatch)
+    actions: bindActionCreators(AppActions, dispatch)
 });
 
 export default
-		connect(mapState, mapDispatch)(Checkout);
+    connect(mapState, mapDispatch)(Checkout);

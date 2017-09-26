@@ -5,7 +5,10 @@ import {
     PAYMENT_CREATE_NEW,
     RECEIVED_USER_CARD_NONCE,
     PAYMENT_UPDATE,
+    PAYMENT_SUCCESS,
+    PAYMENT_PENDING,
     PLACE_ORDER,
+    REMOVE_ORDER,
     RESET_PAYMENT_INSTRUMENT,
     NONE
 } from '../statics/actions';
@@ -26,31 +29,91 @@ const initialState = {
 };
 
 const updatePayment = (state = initialState.payments, action) => {
-	state[action.updateId] = action.updateValue;
+    const newPayments = state.map((payment, idx)=> {
+        if (payment.id === action.updateId) {
+            payment = action.updateValue
+        }
+        return payment;
+    })
+	return newPayments;
+}
+
+const updateOrders = (state = initialState.orders, action) => {
+    const lastOrder         = state[state.length-1];
+    lastOrder.state         = action.updateValue.state;
+    lastOrder.transaction   = action.updateValue.transaction;
+	state[lastOrder.id]     = lastOrder;
 	return [...state];
 }
+
+const maxTransactionsStoreForAuth       = 20;
+const maxTransactionsStoreForNonAuth    = 3;
 
 export default user = (state = initialState, action) => {
     switch (action.type) {
         case PAYMENT_UPDATE:
             return {
                 ...state,
-                payments: updatePayment(state.payments, action.paymentUpdated),
-                userAction: NONE
+                payments:   updatePayment(state.payments, action.paymentUpdated),
+                userAction: NONE,
+                orders:     updateOrders(state.orders, action.paymentUpdated)
             }
         case PAYMENT_CREATE_NEW:
+            if ((!state.auth && state.payments.length >= maxTransactionsStoreForNonAuth)
+                || (state.auth && state.payments.length >= maxTransactionsStoreForAuth)
+            ) {
+                state.payments.shift()
+            }
+
+            const lastOrder = state.orders.length ? state.orders[state.orders.length-1] : null;
+            const newPayment = {
+                ...action.payment,
+                id:      state.payments.length-1,
+                orderId: lastOrder.id
+            };
+
             return {
                 ...state,
                 payments: [
-                    action.payment,
                     ...state.payments,
+                    newPayment,
                 ]
+            };
+        case PLACE_ORDER:
+            if ((!state.auth && state.orders.length >= maxTransactionsStoreForNonAuth)
+                || (state.auth && state.orders.length >= maxTransactionsStoreForAuth)
+            ) {
+                state.orders.shift()
             }
+
+            const newOrder = {
+                ...action.order,
+                id:         state.orders.length,
+                state:      PAYMENT_PENDING,
+                timestamp:  new Date()
+            };
+
+            var newOrders = [
+                ...state.orders,
+                newOrder
+            ];
+
+            return {
+                ...state,
+                userAction: action.userAction,
+                orders: newOrders
+            };
+        case REMOVE_ORDER:
+            var newOrders = state.orders.filter((order, idx) => order.id !== action.orderId);
+            return {
+                ...state,
+                orders: newOrders
+            };
         case PERSIST_PAYMENT_METHOD:
             return {
                 ...state,
                 persistPaymentMethod: action.bool
-            }
+            };
         case apiTypes.LOGOUT_USER:
             return initialState;
 
@@ -58,13 +121,13 @@ export default user = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.accountInfo
-            }
+            };
 
         case apiTypes.CREATE_REMOTE_USER:
             return {
                 ...state,
                 billing: action.remoteUserConfig.billing
-            }
+            };
         case apiTypes.REMOTE_USER_CREATED:
             return {
                 ...state,
@@ -99,11 +162,6 @@ export default user = (state = initialState, action) => {
                 //TODO: refak dis :/
                 userAction: state.userAction === userTypes.MAKING_ORDER ? state.userAction : NONE
             };
-        case PLACE_ORDER:
-            return {
-                ...state,
-                userAction: action.userAction
-            }
         case RECEIVED_USER_CARD_NONCE:
             return {
                 ...state,

@@ -21,6 +21,14 @@ import SaveCardOptionBox    from './saveCardOptionBox';
 import * as userTypes from '../../../statics/actions/user';
 
 class CheckoutWebView extends Component {
+
+    componentWillMount() {
+        const {userAction} = this.props.user;
+        if (userAction === userTypes.SETTING_ONE_TIME_PAYMENT) {
+            this.props.actions.closeSetOneTimePayment()
+        }
+    }
+
     onSaveCardToggle(checked) {
         this.props.actions.persistPaymentMethod(!checked);
     }
@@ -45,7 +53,7 @@ class CheckoutWebView extends Component {
             >
                 <View
                     style={{
-                        backgroundColor:    'rgba(0,0,0, .5)',
+                        backgroundColor:    'rgba(0,0,0, .85)',
                         height:             '100%',
                         position:           'absolute',
                         top:                0,

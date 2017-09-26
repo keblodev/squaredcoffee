@@ -39,13 +39,13 @@ class CheckoutSummary extends Component {
                         onAddCartItem={this.props.actions.cartAdd.bind(this, storeItem)}
                         onRemoveCartItem={this.props.actions.cartRemove.bind(this, storeItem)}
                     />
-            })
+            });
 
         const CartSummaryView = () => (
             <ScrollView>
                 {cartSummary}
             </ScrollView>
-        )
+        );
 
         return (
             <View>
@@ -123,7 +123,7 @@ class CheckoutSummary extends Component {
                                                 left: 10,
                                                 top: 8
                                             }}
-                                            name="info-circle" size={20} color="grey" /> Hmm.. No new orders? Buy some more :)
+                                            name="info-circle" size={20} color="grey" /> Well what can I say... Your cart really is EMPTY.
                             </Text>
                         </View>
                     )

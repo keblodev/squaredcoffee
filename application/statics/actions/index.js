@@ -32,7 +32,12 @@ export const SHOW_NOTIFY='SHOW_NOTIFY';
 export const HIDE_NOTIFY='HIDE_NOTIFY';
 
 //ORDERS
-export const PLACE_ORDER='PLACE_ORDER';
+export const PLACE_ORDER    =   'PLACE_ORDER';
+export const REMOVE_ORDER   =   'REMOVE_ORDER';
+export const ORDER_PENDING  =   'ORDER_PENDING';
+export const ORDER_SUCCESS  =   'ORDER_SUCCESS';
+export const ORDER_FAILED   =   'ORDER_FAILED';
+export const ORDER_UPDATE   =   'ORDER_UPDATE';
 
 //SHOPS
 export const SHOPS_ADDED='SHOPS_ADDED';

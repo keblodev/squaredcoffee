@@ -11,7 +11,7 @@ import {
   CardAction
 } from 'react-native-card-view';
 
-export default ({placeOrderCb, disabled}) => {
+export default ({actionCb, disabled, title}) => {
     return (
         <Card
             styles={{
@@ -32,9 +32,9 @@ export default ({placeOrderCb, disabled}) => {
                                 borderRadius: 22
                             }
                         }
-                        onPress={placeOrderCb}
+                        onPress={actionCb}
                     >
-                        5. Place Order
+                        {title}
                     </Button>
                 </CardAction>
             </View>
