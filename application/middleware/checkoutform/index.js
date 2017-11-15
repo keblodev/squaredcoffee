@@ -1,17 +1,5 @@
 
-import {
-    WEBVIEW_CHEKOUT_MESSAGE_OUT,
-    WEBVIEW_CHEKOUT_CLEAN_QUE,
-    RECEIVED_USER_CARD_NONCE,
-    PAYMENT_CREATE_NEW,
-    PAYMENT_BY_CARD,
-    PAYMENT_BY_NONCE,
-    PAYMENT_PENDING,
-    PAYMENT_SUCCESS,
-    PAYMENT_FAILED,
-    PLACE_ORDER,
-    NONE
-} from '../../statics/actions';
+import appTypes from '../../statics/actions';
 
 import {
     USER_CREATED,
@@ -23,7 +11,6 @@ import {
     CHARGE_USER_CARD_ERROR,
 } from '../../statics/actions/api';
 
-import * as userTypes from '../../statics/actions/user';
 import actions from '../../actions';
 
 const processReceivedNonce = () => {
@@ -93,13 +80,13 @@ const processCreatedCard = () => {
 
 	if (userAction === userTypes.MAKING_ORDER) {
 		switch(lastPayment.state) {
-			case PAYMENT_PENDING:
+			case appTypes.PAYMENT_PENDING:
 				chargeCard({card: card.val, auth, dispatch})
 				break;
-			case PAYMENT_SUCCESS:
+			case appTypes.PAYMENT_SUCCESS:
 				debugger;
 				break;
-			case PAYMENT_FAILED:
+			case appTypes.PAYMENT_FAILED:
 				debugger;
 				break;
 		}
@@ -107,25 +94,25 @@ const processCreatedCard = () => {
 };
 
 const getNonce = () => {
-	const {state, dispatch} = stateAndDispatch;
+    const {state, dispatch} = stateAndDispatch;
 
-	dispatch(actions.postCheckoutMsgIn({
-		message: 'GET_NONCE'
-	}));
+    dispatch(actions.postCheckoutMsgIn({
+        message: 'GET_NONCE'
+    }));
 }
 
 const processOrder = () => {
-	const {state, dispatch} = stateAndDispatch;
-	const {paymentInstrument} = state.user;
-	//we always need to request new nonce
-	//unless we have saved card
-	if (paymentInstrument) {
+    const {state, dispatch} = stateAndDispatch;
+    const {paymentInstrument} = state.user;
+    //we always need to request new nonce
+    //unless we have saved card
+    if (paymentInstrument) {
         dispatch(actions.createNewPayment({
             //refact this to be a different logic on selecting the payement mthd
             paymentMethod: paymentInstrument.card ? PAYMENT_BY_CARD : PAYMENT_BY_NONCE,
             state: PAYMENT_PENDING
         }));
-	}
+    }
 }
 
 const processPurchaseFailure = (error) => {
@@ -199,31 +186,40 @@ export default store => next => action => {
         stateAndDispatch = {state, dispatch};
 
         switch(action.type) {
-            case userTypes.USER_NONCE_SAVE:
-            case userTypes.USER_CARD_SAVE:
+            case appTypes.USER_NONCE_SAVE:
+            case appTypes.USER_CARD_SAVE:
                 getNonce();
                 break;
-            case PLACE_ORDER:
-                processOrder();
+            case appTypes.PLACE_ORDER:
+                const {auth}  = state.user;
+                const {cart, shop} = action;
+
+                const order = cart.ids.map(id => cart.byUuid[id]);
+                dispatch(actions.placeNewOrder({
+                    userConfig:     {auth},
+                    order,
+                    shopId:         shop.remote_id,
+                    isDriveThrough: cart.isDriveThrough,
+                }))
                 break;
-            case WEBVIEW_CHEKOUT_MESSAGE_OUT:
+            case appTypes.WEBVIEW_CHEKOUT_MESSAGE_OUT:
                 processWebViewMsgOut();
                 break;
-            case USER_CARD_CREATED:
+            case appTypes.USER_CARD_CREATED:
                 processCreatedCard();
                 break;
-            case RECEIVED_USER_CARD_NONCE:
+            case appTypes.RECEIVED_USER_CARD_NONCE:
                 processReceivedNonce();
                 break;
-            case PAYMENT_CREATE_NEW:
+            case appTypes.PAYMENT_CREATE_NEW:
                 processPayment();
                 break;
-            case CHARGE_NONCE_ERROR:
-            case CHARGE_USER_CARD_ERROR:
+            case appTypes.CHARGE_NONCE_ERROR:
+            case appTypes.CHARGE_USER_CARD_ERROR:
                 processPurchaseFailure(action.error)
                 break;
-            case NONCE_CHARGED:
-            case USER_CARD_CHARGED:
+            case appTypes.NONCE_CHARGED:
+            case appTypes.USER_CARD_CHARGED:
                 processPurchaseSuccess(action.success && action.success.data);
                 break;
        }

@@ -1,17 +1,20 @@
 import { combineReducers } from 'redux';
 import testReducer from "./testReducer";
 
-import nav from './navReducer';
-import cart from './cartReducer';
-import user from './userReducer';
-import webviews from './webviewsReducer';
-import modal from './modalReducer';
-import geo from './geoReducer';
+import nav          from './navReducer';
+import cart         from './cart';
+import user         from './user';
+import webviews     from './webviewsReducer';
+import modal        from './modalReducer';
+import geo          from './geoReducer';
 import notification from './notifyReducer';
-import shops from './shopsReducer';
-import sync from './syncReducer';
+import shops        from './shops';
+import sync         from './syncReducer';
+import images       from './images';
+import appConfig    from './appConfig';
 
 const rootReducer = combineReducers({
+    images,
     cart,
     geo,
     modal,
@@ -22,6 +25,7 @@ const rootReducer = combineReducers({
     testReducer,
     user,
     webviews,
+    appConfig,
 });
 
 export default rootReducer;

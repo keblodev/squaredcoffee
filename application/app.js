@@ -3,6 +3,7 @@ import { View, BackHandler, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import AppActions from './actions';
 
 import { addNavigationHelpers } from 'react-navigation';
 
@@ -14,10 +15,15 @@ import ProgressOverlay      from './components/shared/progressOverlay';
 import FetchOverlay         from './components/shared/fetchOverlay';
 import PopupNotifyOverlay   from './components/shared/popupNotifyOverlay';
 
-
 class App extends Component {
 
     androidBackButtonListener = null;
+
+    componentWillMount() {
+        const {assetsRoute} = this.props.appConfig;
+        this.props.actions.getConfig({route: assetsRoute});
+        this.props.actions.getAuthorizedShops();
+    }
 
     componentWillUnmount() {
         if (Platform.OS === "android" && this.androidBackButtonListener !== null) {
@@ -30,7 +36,7 @@ class App extends Component {
         return true;
     }
 
-	render () {
+    render () {
         const isLoading = !!this.props.sync.loading;
         const isFetching = !!this.props.sync.fetching;
         const isPopupNotification = !!this.props.notification.active;
@@ -39,7 +45,7 @@ class App extends Component {
         const fetchMsg = this.props.sync.fetching;
 
         const globalNavigator = addNavigationHelpers({
-            dispatch: 	this.props.dispatch,
+            dispatch: 	this.props.actions.dispatch,
             state:		this.props.nav,
         });
 
@@ -84,10 +90,15 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  nav: 			state.nav,
-  sync:         state.sync,
-  notification: state.notification
+    nav:            state.nav,
+    sync:           state.sync,
+    notification:   state.notification,
+    appConfig:      state.appConfig,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+	actions: {dispatch, ...bindActionCreators(AppActions, dispatch)}
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 

@@ -15,65 +15,95 @@ import styles from '../../../../statics/styles';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-export default ({itemId, storeItem, onRemoveCartItem, onAddCartItem}) =>
-<View
-    style={{
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 2,
-        backgroundColor: 'white',
-        width: '100%'
-    }}
->
-	<CardContent>
-		<View
-			style={{
-				alignItems: 'center',
-				flex: 1,
-				flexDirection: 'row'
-			}}
-		>
-			<Text
-				style={{
-                    color: 'gray',
-					width: '25%'
-				}}
-			>amount: {storeItem.qty}</Text>
-			<Text
-				style={{
-					textAlign: 'center',
-                    fontSize: 20,
-					width: '60%'
-				}}
-			>{storeItem.title}</Text>
-            <View
-                style={{
-                    position: 'absolute',
-                    right: 0,
-                    flex: 1,
-                    flexDirection: 'row',
-                }}
+export default ({itemId, storeItem, onSelectCb, onRemoveCartItem, onAddCartItem}) => {
+
+    const itemModifiersFormatted = storeItem.selectedModifiers.map(mod => ({
+        name:       mod.name,
+        selected:   mod.selectedModifier.name,
+    }))
+    const itemCost = storeItem.priceCalculated/100;
+    const currency = 'USD'; //thanks Clover :\
+
+    return (
+        <View
+            style={{
+                marginBottom: 10,
+                borderWidth: 1,
+                borderColor: 'lightgray',
+                borderRadius: 2,
+                backgroundColor: 'white',
+                width: '100%'
+            }}
+        >
+            <Button
+                onPress={() => {
+                        onSelectCb && onSelectCb();
+                        // navigate("CategoryItemDetails", {title: item.name});
+                    }
+                }
             >
-                <Button
-                    onPress={onRemoveCartItem}
-                >
+                <CardContent>
                     <View
                         style={{
-                            padding: 5
+                            alignItems: 'center',
+                            flex: 1,
+                            flexDirection: 'row'
                         }}
-                    ><AwesomeIcon name="minus" size={30} color="grey" /></View>
-                </Button>
-                <Button
-                    onPress={onAddCartItem}
-                >
-                    <View
-                        style={{
-                            padding: 5
-                        }}
-                    ><AwesomeIcon name="plus" size={30} color="grey" /></View>
-                </Button>
-            </View>
-		</View>
-	</CardContent>
-</View>
+                    >
+                        <View
+                            style={{
+                                width: '100%'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: 'gray',
+                                }}
+                            >{storeItem.name} - {itemCost} {currency} </Text>
+                            {
+                                itemModifiersFormatted.map((mod, idx) => {
+                                    return (
+                                        <Text
+                                            key={idx}
+                                            style={{
+                                                marginLeft: 10,
+                                                color:      'gray',
+                                            }}
+                                        >{mod.name}: {mod.selected}</Text>
+                                    )
+                                })
+                            }
+                        </View>
+                        <View
+                            style={{
+                                position: 'absolute',
+                                right: 0,
+                                flex: 1,
+                                flexDirection: 'row',
+                            }}
+                        >
+                            <Button
+                                onPress={onRemoveCartItem}
+                            >
+                                <View
+                                    style={{
+                                        padding: 5
+                                    }}
+                                ><AwesomeIcon name="minus" size={30} color="grey" /></View>
+                            </Button>
+                            <Button
+                                onPress={onAddCartItem}
+                            >
+                                <View
+                                    style={{
+                                        padding: 5
+                                    }}
+                                ><AwesomeIcon name="plus" size={30} color="grey" /></View>
+                            </Button>
+                        </View>
+                    </View>
+                </CardContent>
+            </Button>
+        </View>
+    )
+}

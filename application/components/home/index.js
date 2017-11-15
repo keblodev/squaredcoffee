@@ -3,38 +3,39 @@ import { Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button'
 
-import About from '../about';
-import Drinks from '../drinks';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
-import {GEO_ACTIVE} from '../../statics/strings/geo';
+import {GEO_ACTIVE}                 from '../../statics/strings/geo';
 
 import HomeListItem from './homelistitem';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-const userIcon = (<AwesomeIcon name="user-o" size={30} color="grey" />)
-const cartIcon = (<AwesomeIcon name="shopping-cart" size={30} color="grey" style={{textAlign: 'center',}}/>)
-
-const staticImagesBullShit = [
-	//TODO: images should come from uri
-	//TODO: cache remote images
-	[
-		require('../../statics/images/shopscontent/0/home/about.jpg'),
-		require('../../statics/images/shopscontent/0/home/drinks.jpg'),
-		require('../../statics/images/shopscontent/0/home/food.jpg'),
-	],
-	[
-		require('../../statics/images/shopscontent/1/home/about.jpg'),
-		require('../../statics/images/shopscontent/1/home/drinks.jpg'),
-		require('../../statics/images/shopscontent/1/home/food.jpg'),
-	]
-];
+const userIcon = (<AwesomeIcon
+    style={{
+        textShadowColor: 	'rgba(0,0,0, .7)',
+		textShadowRadius: 	4,
+		textShadowOffset: 	{
+				height: 1,
+				width: 1,
+			}
+    }}
+    name="user" size={30} color="grey" />)
+const cartIcon = (<AwesomeIcon
+    style={{
+        textAlign:          'center',
+        textShadowColor: 	'rgba(0,0,0, .7)',
+		textShadowRadius: 	2,
+		textShadowOffset: 	{
+				height: 1,
+				width: 1,
+			}
+    }}
+    name="shopping-cart" size={30} color="grey"/>)
 
 class Home extends Component {
 
@@ -46,57 +47,70 @@ class Home extends Component {
         this.props.actions.dropCart();
     }
 
+    onCategorySelected = categoryId => this.props.actions.selectCategory(categoryId);
+
 	render = () => {
-		const { navigate } = this.props.navigation;
-		const { shopId } = this.props.navigation.state.params;
-		const isLoggedIn = !!this.props.user.auth;
-		return (
-			<View style={styles.container}>
-				<ScrollView
-					scrollEnabled={false}
-					centerContent={true}
-				>
-					<HomeListItem
-						shopImg={staticImagesBullShit[shopId][0]}
-						navToRouteId='About'
-						navRouteTitle='About Us'
-						navigate={navigate}
-					/>
-					<HomeListItem
-						shopImg={staticImagesBullShit[shopId][1]}
-						navToRouteId='Drinks'
-						navRouteTitle='Coffee?'
-						navigate={navigate}
-					/>
-					{/* <HomeListItem
-						disabled={true}
-						shopImg={staticImagesBullShit[shopId][2]}
-						navToRouteId='Foods'
-						navRouteTitle='Something to eat'
-						navigate={navigate}
-					/> */}
-				</ScrollView>
-				<View
-					style={{
-						flexDirection: 'row'
-					}}
-				>
-					{
-						isLoggedIn ? (
-							<Button
-								style={styles.buttonStyle}
-								onPress={()=>navigate('User')}
-							>
-								<View
-									style={{
-										padding:40,
-										paddingLeft: 60,
-										paddingRight: 60,
-									}}
-								>
-									{userIcon}
-								</View>
-							</Button>
+        const { navigate }      = this.props.navigation;
+        const { shopId }        = this.props.navigation.state.params;
+        const {images, categories}  = this.props;
+        const {assetsRoute}         = this.props.appConfig;
+        const shopCategories = categories && categories.byShopId[shopId] || [];
+        const isLoggedIn = !!this.props.user.auth;
+
+        return (
+            <View style={styles.container}>
+                <ScrollView
+                    contentInset={{top: 0, left: 0, bottom: 110, right: 0}}
+                    contentOffset={{x:0,y:0}}
+                >
+                    <HomeListItem
+                        imgUrl={`${assetsRoute}/${images[shopId+'about']}`}
+                        navToRouteId='About'
+                        navRouteTitle='About Us'
+                        navigate={navigate}
+                    />
+                    {
+                        shopCategories.map((category, idx) => {
+                            const url = images[category.id] && `${assetsRoute}/${images[category.id]}`;
+
+                            return (
+                                <HomeListItem
+                                    imgUrl={url}
+                                    key={idx}
+                                    navToRouteId='CategoryStore'
+                                    navRouteTitle={category.name}
+                                    navigate={navigate}
+                                    actionCb={this.onCategorySelected.bind(this, category.id)}
+                                />
+                            )
+                        })
+                    }
+                    </ScrollView>
+                    <View
+                        style={{
+                            backgroundColor:    'transparent',
+                            position:           'absolute',
+                            bottom:             0,
+                            flexDirection:      'row',
+                        }}
+                    >
+                        {
+                        isLoggedIn ? (
+                            <Button
+                                style={styles.buttonStyle}
+                                onPress={()=>navigate('User')}
+                            >
+                                <View
+                                    style={{
+                                        padding:40,
+                                        paddingLeft: 60,
+                                        paddingRight: 60,
+
+                                    }}
+                                >
+                                    {userIcon}
+                                </View>
+                            </Button>
 						) : (
 							<Button
 								onPress={()=>navigate('Login')}
@@ -113,6 +127,12 @@ class Home extends Component {
 											fontSize: 20,
 											color: 'grey',
                                             textAlign: 'center',
+                                            textShadowColor: 	'rgba(0,0,0, .7)',
+                                            textShadowRadius: 	4,
+                                            textShadowOffset: 	{
+                                                    height: 1,
+                                                    width: 1,
+                                                }
 										}}
 									>Login/Sign Up</Text>
 								</View>
@@ -141,7 +161,10 @@ class Home extends Component {
 
 const mapState = (state) => {
 	return {
-		user: 		state.user
+        user:           state.user,
+        categories:     state.shops.categories,
+        images:         state.images,
+        appConfig:      state.appConfig,
 	};
 };
 

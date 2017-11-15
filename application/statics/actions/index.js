@@ -1,9 +1,13 @@
+import api              from './api';
+import * as sync        from './sync';
+import * as geo         from './geo';
+import * as user        from './user';
+import * as shops       from './shops';
+import * as cart        from './cart';
+import * as order       from './order';
+
 export const APP_TEST_ACTION = 'APP_TEST_ACTION';
 export const APP_TEST_ACTION_DVA = 'APP_TEST_ACTION_DVA';
-
-//CHECKOUT/CART
-export const CART_ADD = 'CART_ADD';
-export const CART_REMOVE = 'CART_REMOVE';
 
 //NAV
 export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
@@ -31,26 +35,21 @@ export const PUSH_NOTIFY='PUSH_NOTIFY';
 export const SHOW_NOTIFY='SHOW_NOTIFY';
 export const HIDE_NOTIFY='HIDE_NOTIFY';
 
-//ORDERS
-export const PLACE_ORDER    =   'PLACE_ORDER';
-export const REMOVE_ORDER   =   'REMOVE_ORDER';
-export const ORDER_PENDING  =   'ORDER_PENDING';
-export const ORDER_SUCCESS  =   'ORDER_SUCCESS';
-export const ORDER_FAILED   =   'ORDER_FAILED';
-export const ORDER_UPDATE   =   'ORDER_UPDATE';
-
-//SHOPS
-export const SHOPS_ADDED='SHOPS_ADDED';
-export const SHOP_SELECTED='SHOP_SELECTED';
-
 //CHECKOUT
 export const SHOW_CHECKOUT_FORM='SHOW_CHECKOUT_FORM';
 export const HIDE_CHECKOUT_FORM='HIDE_CHECKOUT_FORM';
 
-//SYNC
-export const LOADING_ACTIVE='LOADING_ACTIVE';
-export const LOADING_NOT_ACTIVE='LOADING_NOT_ACTIVE';
-export const FETCHING_ACTIVE='FETCHING_ACTIVE';
-export const FETCHING_NOT_ACTIVE='FETCHING_NOT_ACTIVE';
-
 export const NONE = null;
+
+export default {
+    ...api,
+    ...user,
+    ...geo,
+    ...sync,
+    ...shops,
+    ...cart,
+    ...order,
+    NAV_BACK,
+    NAV_NAVIGATE,
+    NONE,
+}

@@ -29,22 +29,7 @@ export default ({action, formDefaultValues = null, formControls}) => {
                     }}
                 >
                 <Foect.Form
-                    defaultValue={formDefaultValues || {
-                        email:                            'john@doe.com',
-                        password:                         'J1@doe.com',
-                        password_confirmation:            'J1@doe.com',
-                        new_password:                     'J1@doe.com',
-                        given_name:                       'Amelia',
-                        family_name:                      'Earhart',
-                        email_address:                    'Amelia.Earhart@example.com',
-                        address_line_1:                   '500 Electric Ave',
-                        address_line_2:                   'Suite 600',
-                        locality:                         'New York',
-                        administrative_district_level_1:  'NY',
-                        postal_code:                      '94103',
-                        country:                          'US',
-                        phone_number:                     '1-555-555-0122',
-                    }}
+                    defaultValue={formDefaultValues || {}}
                     onValidSubmit={model => {
                         console.log(model); // { fullName: 'John Doe', email: 'john@doe.com' ... }
                         action.actionCb({...model})
@@ -92,7 +77,7 @@ export default ({action, formDefaultValues = null, formControls}) => {
                                                 onChangeText={(text) => control.onChange(text)}
                                                 value={control.value}
                                                 enablesReturnKeyAutomatically={true}
-
+                                                autoCapitalize="none"
                                                 onSubmitEditing={({ nativeEvent: { key: keyValue } })=>{
                                                     if (!control.isInvalid) {
                                                         if(!isLast) {
@@ -140,6 +125,16 @@ export default ({action, formDefaultValues = null, formControls}) => {
                             >
                                 {action.actionLabel}
                             </Button>
+                            {
+                                action.secondaryAction ? (
+                                    <Button
+                                        style={styles.buttonStyle}
+                                        onPress={action.secondaryAction}
+                                    >
+                                        {action.secondaryActionLabel}
+                                    </Button>
+                                ) : null
+                            }
                         </View>
 
                         </View>

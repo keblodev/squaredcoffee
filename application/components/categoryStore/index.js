@@ -20,16 +20,26 @@ import ListItem from './listitem';
 
 import DrinksMock from '../../statics/mocks/drinks';
 
-class Drinks extends Component {
+class CategoryStore extends Component {
+
+	static navigationOptions = ({navigation}) => ({
+		title: `${navigation.state.params.title}`,
+    })
 
     addItem(item) {
         this.props.actions.cartAdd(item);
     }
 
-    render = () => {
+    onItemSelected = itemId => this.props.actions.selectItem(itemId);
 
+    render = () => {
         const { navigate } = this.props.navigation;
-        const { shopId, cart } = this.props;
+        const { shopId, cart, category, images } = this.props;
+        const {assetsRoute} = this.props.appConfig;
+        let items = [];
+        if (category && category.items) {
+            items = category.items.elements
+        }
         return (
             <View
                 style={{
@@ -44,15 +54,22 @@ class Drinks extends Component {
                     }}
                 >
                     {
-                        shopId !== undefined && shopId !== null ? DrinksMock[shopId].map((ch, idx) => (
-                            <ListItem
-                                key={ch.id}
-                                item={ch}
-                                cartItem={cart.byId[idx]}
-                                addItem={this.addItem.bind(this,ch)}
+                        shopId !== undefined && shopId !== null ? items.map((item, idx) => {
+                            const inCartCount = cart.ids.reduce((acc, uuid) => {
+                                return acc + (item.id === cart.byUuid[uuid].id ? 1 : 0)
+                            },0);
+                            const url = images[item.id] && `${assetsRoute}/${images[item.id]}`;
+                            return ( <ListItem
+                                key={idx}
+                                item={item}
+                                inCartCount={inCartCount}
+                                // inCartCount={cart.byId[idx]}
+                                imgUrl={url}
+                                addItem={this.addItem.bind(this,item)}
                                 navigate={navigate}
+                                actionCb={this.onItemSelected.bind(this, item.id)}
                             />
-                        )) : null
+                        )}) : null
                     }
                     <View style={{height: 80}}/>
                 </ScrollView>
@@ -93,8 +110,11 @@ class Drinks extends Component {
 
 const mapState = (state) => {
     return {
-        cart: state.cart,
-        shopId:	state.shops.selected && state.shops.selected.shopId
+        cart:       state.cart,
+        shopId:	    state.shops.selected && state.shops.selected.shopId,
+        images:     state.images,
+        category:   state.shops.categories.selected,
+        appConfig:  state.appConfig,
     };
 };
 
@@ -103,4 +123,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default
-    connect(mapState, mapDispatch)(Drinks)
+    connect(mapState, mapDispatch)(CategoryStore)

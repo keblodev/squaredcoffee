@@ -26,13 +26,38 @@ import Button from 'react-native-button';
 
 class Order extends Component {
     render = () => {
-        const {id, selectedShop, cart, currency, state, timestamp, transaction} = this.props.navigation.state && this.props.navigation.state.params;
         let totalCost = 0;
 
-        const timeStampDate = timestamp && new Date(timestamp);
+        // TODO
+        const transaction = null;
+
+        const { navigate }      = this.props.navigation;
+        const {order, shops}    = this.props;
+        const {href, id, clientCreatedTime, state, total, note, lineItems, currency = "USD"} = order;
+
+        totalCost = Math.round(total)/100
+
+        let shopId = "";
+        let address = [];
+        // cuz again -> clover is so awesome with their api that they don't tell you
+        // who's the owner of the order)
+        const shopIdMatch = href.match(/\/merchants\/(\w+)\/orders\//);
+        if (shopIdMatch && shopIdMatch.length > 1) {
+            shopId = shopIdMatch.pop();
+
+            if(shops.byId[shopId] && shops.byId[shopId].address) {
+                const {address1, city, country, state, zip} = JSON.parse(shops.byId[shopId].address);
+                address = [shops.byId[shopId].name, address1, city + " " + state + " " + zip];
+            }
+        }
+
+        const isDriveThrough = note.match("DRIVE THROUGH");
+
+
+        const timeStampDate = clientCreatedTime && new Date(clientCreatedTime);
         const timeStampStr = timeStampDate.toDateString() + ' ' + timeStampDate.toLocaleTimeString();
         let orderStateIconName = 'clock-o';
-        let orderStateString = 'Pending...'
+        let orderStateString = 'open';
         switch (state) {
             case PAYMENT_FAILED:
                 orderStateString = 'Something went wrong :( ';
@@ -45,9 +70,9 @@ class Order extends Component {
         }
 
         const cartSummary =
-            cart.ids.map((itemId,idx) => {
-                const storeItem = cart.byId[itemId];
-                totalCost = totalCost + (parseFloat(storeItem.price) * storeItem.qty)
+            lineItems.elements.map((lineItem,idx) => {
+                const {modifications} = lineItem;
+                const mods = modifications && modifications.elements || []
                 return (
                     <View
                         key={idx}
@@ -63,14 +88,21 @@ class Order extends Component {
                                 color: 'gray',
                                 textAlign: 'left',
                             }}
-                        >{storeItem.title}</Text>
-                        <Text
-                            style={{
-                                flexGrow: 1,
-                                color: 'gray',
-                                textAlign: 'right',
-                            }}
-                        > amount: {storeItem.qty}</Text>
+                        >{lineItem.name} </Text>
+                        <View>
+                            {
+                                mods.map((mod, idx) => {
+                                    return <Text
+                                        key={idx}
+                                        style={{
+                                            flexGrow: 1,
+                                            color: 'gray',
+                                            textAlign: 'right',
+                                        }}
+                                    > {mod.name} </Text>
+                                })
+                            }
+                        </View>
                     </View>
                 )
             });
@@ -105,16 +137,32 @@ class Order extends Component {
                             <AwesomeIcon name={orderStateIconName} size={60} color="grey" />
                         </Text>
                     </View>
-                    {
-                        state !== PAYMENT_FAILED ? <Text
+                    <View
+                        style={{
+                            alignSelf: 'center',
+                            padding: 20,
+                            borderWidth: 1,
+                            borderColor: 'lightgray',
+                            borderRadius: 5,
+                            margin: 10,
+                            width: '100%',
+                        }}
+                    >
+                        <Text
                             style={{
                                 ...styles.title,
                                 color: 'gray',
                                 fontSize: 20
                             }}
-                        >Pickup at: {selectedShop && selectedShop.name}</Text> : null
-                    }
-
+                        >Order Number:</Text>
+                        <Text
+                            style={{
+                                ...styles.title,
+                                color: 'gray',
+                                fontSize: 20
+                            }}
+                        >{order.id}</Text>
+                    </View>
                     <View
                         style={{
                             alignSelf: 'center',
@@ -156,7 +204,7 @@ class Order extends Component {
                                 flexGrow: 1,
                                 textAlign: 'left'
                             }}
-                        >Cost:</Text>
+                        >Total with tax:</Text>
                         <Text
                             style={{
                                 ...styles.title,
@@ -167,6 +215,83 @@ class Order extends Component {
                             }}
                         >{totalCost} {currency}</Text>
                     </View>
+                    {
+                        address.length ? (
+                            <View
+                                style={{
+                                    alignSelf: 'center',
+                                    padding: 20,
+                                    borderWidth: 1,
+                                    borderColor: 'lightgray',
+                                    borderRadius: 5,
+                                    margin: 10,
+                                    width: '100%',
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        ...styles.title,
+                                        color: 'gray',
+                                        fontSize: 20
+                                    }}
+                                >Ordered at:
+                                </Text>
+                                {
+                                    address.map((addr, idx) => {
+                                        return (
+                                            <View
+                                                key={idx}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        fontSize: 20,
+                                                        color: 'gray',
+                                                    }}
+                                                    key={idx}
+                                                >
+                                                    {addr}
+                                                </Text>
+                                            </View>
+                                        )
+                                    })
+                                }
+                            </View>
+                        ): null
+                    }
+                    {
+                        isDriveThrough ? (
+                            <View
+                                style={{
+                                    alignSelf: 'center',
+                                    padding: 20,
+                                    borderWidth: 1,
+                                    borderColor: 'lightgray',
+                                    borderRadius: 5,
+                                    margin: 10,
+                                    width: '100%',
+                                    flex: 1,
+                                    flexDirection: 'column',
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            ...styles.title,
+                                            color: 'gray',
+                                            fontSize: 20,
+                                            flexGrow: 1,
+                                            textAlign: 'left'
+                                        }}
+                                    >Drive Through pickup</Text>
+                                </View>
+                            </View>
+                        ) : null
+                    }
                     <View
                         style={{
                             alignSelf: 'center',
@@ -289,9 +414,34 @@ class Order extends Component {
                             </View>
                         </View> : null
                     }
+                    <View>
+                        <Button
+                            style={{
+                                padding:            15,
+                                margin:             10,
+                                height:             55,
+                                overflow:           'hidden',
+                                borderRadius:       4,
+                                backgroundColor:    '#41495a',
+                                fontSize:           20,
+                                color:              'grey',
+                            }}
+                            onPress={()=>navigate('ReceiptModal')}
+                        >
+                            Get Receipt
+                        </Button>
+                    </View>
                 </ScrollView>
             </View>
         );
+    }
+};
+
+const mapState = (state) => {
+    return {
+        auth:   state.user,
+        order:  state.user.orders.selected,
+        shops:  state.shops,
     }
 };
 
@@ -300,4 +450,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default
-    connect(null, mapDispatch)(Order)
+    connect(mapState, mapDispatch)(Order)

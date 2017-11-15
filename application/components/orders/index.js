@@ -12,10 +12,10 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 class Orders extends Component {
 
-    onOrderSelect(order) {
+    onOrderSelect(id) {
         const {navigate} = this.props.navigation;
-        const {currency} = this.props;
-        navigate('Order', {...order, currency})
+        this.props.actions.selectOrder(id);
+        navigate('Order');
     }
 
     onOrderRemove(orderId) {
@@ -25,8 +25,9 @@ class Orders extends Component {
     componentWillMount() {
         const auth = this.props.auth;
         if (auth) {
-            //TODO
-            //this.props.actions.getUserOrders({auth});
+            this.props.actions.getUserOrders({auth});
+        } else {
+            this.props.navigation.goBack();
         }
     }
 
@@ -42,12 +43,13 @@ class Orders extends Component {
                 <ScrollView>
 
                     {
-                        orders.length ? orders.map((order, idx) => {
+                        orders.ids.length ? orders.ids.map((orderId, idx) => {
+                            const order = orders.byId[orderId];
                             return <OrderListItem
                                 key={idx}
                                 {...order}
                                 idx={idx}
-                                onOrderSelect={this.onOrderSelect.bind(this, order)}
+                                onOrderSelect={this.onOrderSelect.bind(this, order.id)}
                                 onOrderRemove={this.onOrderRemove.bind(this, order.id)}
                             />
                         }) : <View
@@ -77,6 +79,7 @@ class Orders extends Component {
                         </View>
                     }
                     {
+                        // TODO auth only
                         !auth ? (
                             <View
                             style={{

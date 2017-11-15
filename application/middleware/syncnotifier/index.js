@@ -1,5 +1,5 @@
 
-import * as types       from '../../statics/actions/api';
+import appActions      from '../../statics/actions';
 
 import actions          from '../../actions';
 
@@ -10,7 +10,28 @@ export default store => next => action => {
         stateAndDispatch = {state, dispatch};
 
         switch(action.type) {
-            case types.USER_CARD_CREATED:
+
+
+            case appActions.GETTING_AUTHORIZED_SHOPS:
+                dispatch(actions.loadingActive("getting authorized shops..."));
+                break;
+
+            case appActions.GETTING_SHOP_CATEGORIES:
+                dispatch(actions.fetchingActive("syncing shop categories... "));
+                break;
+
+            case appActions.PLACING_NEW_ORDER:
+                dispatch(actions.loadingActive("placing your order..."));
+                break;
+
+            case appActions.GOT_SHOP_CATEGORIES:
+                dispatch(actions.fetchingNotActive())
+                break;
+            case appActions.GOT_AUTHORIZED_SHOPS:
+                dispatch(actions.loadingNotActive());
+                break;
+
+            case appActions.USER_CARD_CREATED:
                 var notifyConfig = {
                     msg: "card added",
                     popup: true,
@@ -18,7 +39,7 @@ export default store => next => action => {
                 dispatch(actions.showNotify({...notifyConfig}));
                 dispatch(actions.loadingNotActive());
                 break;
-            case types.USER_LOGGEDIN:
+            case appActions.USER_LOGGEDIN:
                 var notifyConfig = {
                     msg: "you're in",
                     popup: true,
@@ -26,7 +47,7 @@ export default store => next => action => {
                 dispatch(actions.showNotify({...notifyConfig}));
                 dispatch(actions.loadingNotActive());
                 break;
-            case types.USER_CREATED:
+            case appActions.USER_CREATED:
                 var notifyConfig = {
                     msg: "good to go!",
                     popup: true,
@@ -34,7 +55,7 @@ export default store => next => action => {
                 dispatch(actions.showNotify({...notifyConfig}));
                 dispatch(actions.loadingNotActive());
                 break;
-            case types.REMOTE_USER_CREATED:
+            case appActions.REMOTE_USER_CREATED:
                 var notifyConfig = {
                     msg: "thanks!",
                     popup: true,
@@ -42,7 +63,7 @@ export default store => next => action => {
                 dispatch(actions.showNotify({...notifyConfig}));
                 dispatch(actions.loadingNotActive());
                 break;
-            case types.USER_CARD_DELETED:
+            case appActions.USER_CARD_DELETED:
                 var notifyConfig = {
                     msg: "card deleted",
                     popup: true,
@@ -51,8 +72,16 @@ export default store => next => action => {
                 dispatch(actions.loadingNotActive());
                 break;
 
-            case types.USER_CARD_CHARGED:
-            case types.NONCE_CHARGED:
+            case appActions.RESET_PASSWORD_REQUEST_SUCCESS:
+                var notifyConfig = {
+                    msg: "reset link sent",
+                    popup: true,
+                }
+                dispatch(actions.showNotify({...notifyConfig}));
+                dispatch(actions.loadingNotActive());
+                break;
+
+            case appActions.GOT_NEW_ORDER_PLACED:
                 var notifyConfig = {
                     msg: "order placed",
                     popup: true,
@@ -61,7 +90,8 @@ export default store => next => action => {
                 dispatch(actions.loadingNotActive());
                 break;
 
-            case types.REMOTE_USER_UPDATED:
+            case appActions.USER_UPDATED:
+            case appActions.REMOTE_USER_UPDATED:
                 var notifyConfig = {
                     msg: 'updated',
                     popup: true,
@@ -71,39 +101,46 @@ export default store => next => action => {
 
                 break;
 
-            case types.GET_USER_CARDS:
-            case types.GET_USER_ACCOUNT_INFO:
+            case appActions.GETTING_USER_ORDERS:
+            case appActions.GET_USER_CARDS:
+            case appActions.GET_USER_ACCOUNT_INFO:
                 dispatch(actions.fetchingActive("hang on there... "));
                 break;
 
-            case types.GOT_USER_ACCOUNT_INFO:
-            case types.GOT_USER_CARDS:
+            case appActions.GOT_USER_ORDERS:
+            case appActions.GOT_USER_ACCOUNT_INFO:
+            case appActions.GOT_USER_CARDS:
                 dispatch(actions.fetchingNotActive())
                 break;
 
-            case types.LOGIN_USER:
-            case types.CREATE_USER:
-            case types.CREATE_REMOTE_USER:
-            case types.CREATE_USER_CARD:
-            case types.CHARGE_USER_CARD:
-            case types.CHARGE_NONCE:
-            case types.DELETE_USER_CARD:
-            case types.DELETE_USER:
+            case appActions.LOGIN_USER:
+            case appActions.CREATE_USER:
+            case appActions.CREATE_REMOTE_USER:
+            case appActions.CREATE_USER_CARD:
+            case appActions.CHARGE_USER_CARD:
+            case appActions.CHARGE_NONCE:
+            case appActions.DELETE_USER_CARD:
+            case appActions.DELETE_USER:
                 dispatch(actions.loadingActive("loading..."));
                 break;
 
-            case types.LOGIN_USER_ERROR:
-            case types.LOGOUT_USER_ERROR:
-            case types.CREATE_USER_ERROR:
-            case types.CREATE_REMOTE_USER_ERROR:
-            case types.CREATE_USER_CARD_ERROR:
-            case types.CHARGE_USER_CARD_ERROR:
-            case types.CHARGE_NONCE_ERROR:
-            case types.GETTING_USER_CARDS_ERROR:
-            case types.DELETING_USER_CARD_ERROR:
-            case types.DELETING_USER_ERROR:
-            case types.GETTING_USER_ACCOUNT_INFO_ERROR:
-            case types.UPDATE_REMOTE_USER_ERROR:
+            case appActions.LOGIN_USER_ERROR:
+            case appActions.LOGOUT_USER_ERROR:
+            case appActions.CREATE_USER_ERROR:
+            case appActions.CREATE_REMOTE_USER_ERROR:
+            case appActions.UPDATING_USER_ERROR:
+            case appActions.CREATE_USER_CARD_ERROR:
+            case appActions.CHARGE_USER_CARD_ERROR:
+            case appActions.CHARGE_NONCE_ERROR:
+            case appActions.GETTING_USER_ORDERS_ERROR:
+            case appActions.GETTING_USER_CARDS_ERROR:
+            case appActions.DELETING_USER_CARD_ERROR:
+            case appActions.DELETING_USER_ERROR:
+            case appActions.RESET_PASSWORD_REQUEST_ERROR:
+            case appActions.GETTING_USER_ACCOUNT_INFO_ERROR:
+            case appActions.UPDATE_REMOTE_USER_ERROR:
+            case appActions.GETTING_AUTHORIZED_SHOPS_ERROR:
+            case appActions.GETTING_SHOP_CATEGORIES_ERROR:
                 if (action.error) {
                     var notifyConfig = {
                         msg: action.error.message,

@@ -5,18 +5,20 @@ import Button from 'react-native-button';
 
 import { StackNavigator, DrawerButton } from 'react-navigation';
 
-import Home         from '../components/home';
-import About        from '../components/about';
-import Drinks       from '../components/drinks';
-import Drink        from '../components/drinks/drink';
-import Checkout     from '../components/checkout';
-import StoreSelect  from '../components/storeselect'
+import Home             from '../components/home';
+import About            from '../components/about';
+import CategoryStore    from '../components/categoryStore';
+import CategoryItemDetails     from '../components/categoryStore/categoryItemDetails';
+import CartItemDetails         from '../components/checkout/checkoutSummary/cartItemDetails';
+import Checkout         from '../components/checkout';
+import StoreSelect      from '../components/storeselect'
 
 import User             from '../components/user';
 import Account          from '../components/user/account';
 import PaymentMethods   from '../components/user/paymentmethods';
 import Orders           from '../components/orders';
-import Order           from '../components/orders/order';
+import Order            from '../components/orders/order';
+import Receipt          from '../components/orders/receipt';
 
 import Login    from '../components/login';
 
@@ -100,11 +102,8 @@ export const MainCardNavigator = StackNavigator({
             title: 'About',
         }
     },
-    Drinks: {
-        screen: Drinks,
-        navigationOptions: {
-            title: 'Coffee and stuff',
-        }
+    CategoryStore: {
+        screen: CategoryStore
     },
 },{
     navigationOptions: {
@@ -143,10 +142,31 @@ export default StackNavigator({
 			)
 		}
 	},
-	Drink: {
-		screen: Drink,
+	CategoryItemDetails: {
+		screen: CategoryItemDetails,
 		navigationOptions: {
 			title: 'Checkout',
+
+			header: ({navigation}) => (
+				<View
+					style={{
+						backgroundColor: 	'#2A2F3A',
+						//TODO: to be removed this whole thing
+						flex: 				flexHeaderAmount,
+						justifyContent: 	'center',
+					}}
+				>
+				<BackButton
+					navigation={navigation}
+				/>
+				</View>
+			)
+		}
+    },
+
+    CartItemDetails: {
+		screen: CartItemDetails,
+		navigationOptions: {
 
 			header: ({navigation}) => (
 				<View
@@ -191,6 +211,28 @@ export default StackNavigator({
         screen: Account,
         navigationOptions: {
             title: 'Account information',
+
+            header: ({navigation}) => (
+                <View
+                    style={{
+                        backgroundColor: 	'#2A2F3A',
+                        //TODO: to be removed this whole thing
+                        flex: 				flexHeaderAmount,
+                        justifyContent: 	'center',
+                    }}
+                >
+                <BackButton
+                    navigation={navigation}
+                />
+                </View>
+            )
+        }
+    },
+
+    ReceiptModal: {
+        screen: Receipt,
+        navigationOptions: {
+            title: 'Receipt',
 
             header: ({navigation}) => (
                 <View

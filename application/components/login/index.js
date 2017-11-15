@@ -43,9 +43,8 @@ class TabbedLogin extends PureComponent {
 	}
 
 	handleForgot(forgotConfig) {
-		//TODO
-		// this.props.actions.forgotUser({...forgotConfig})
-		// 	.then(response => console.log(response))
+        const {email} = forgotConfig;
+        this.props.actions.requestPasswordForgot({email: {auth}});
 	}
 
 	componentDidUpdate() {
@@ -93,7 +92,7 @@ class TabbedLogin extends PureComponent {
 						label: 'Password',
 						name:  'password',
 						keyboardType: 'default',
-						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n]).*$/),
 						isRequired: true,
 						secureTextEntry: true,
 						errorMessages: [
@@ -126,34 +125,17 @@ class TabbedLogin extends PureComponent {
 					{
 						label: 'Password',
 						name:  'password',
-                        equalToControl: 'password_confirmation',
+                        // equalToControl: 'password_confirmation',
 						keyboardType: 'default',
-						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
+						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n]).*$/),
 						isRequired: true,
 						secureTextEntry: true,
 						errorMessages: [
 							"8 symbols, Aa and at least one number.",
 							"don't forget the password.",
-                            "must be equal to confirmation"
+                            // "must be equal to confirmation"
 						]
 					},
-					{
-						label: 'Confirm Password',
-						name:  'password_confirmation',
-                        equalToControl: 'password',
-						keyboardType: 'default',
-						pattern: new RegExp(/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
-						isRequired: true,
-						secureTextEntry: true,
-						errorMessages: [
-							"8 symbols, Aa and at least one number.",
-							"don't forget the password.",
-                            "must be equal to password"
-						],
-						//todolmlm
-						customValidator: (value1, value2) => value1 === value2,
-						customValidatorErrorMessage: "Passwords should match"
-					}
 				]}
 			/>
     </View>;
@@ -161,8 +143,7 @@ class TabbedLogin extends PureComponent {
             <TypeForm
                 action={{
                     actionCb: this.handleForgot.bind(this),
-                    actionLabel: 'Get Password Reset',
-                    disabled: true
+                    actionLabel: 'Get Password Reset Link',
                 }}
                 formControls={[
                     {

@@ -64,12 +64,12 @@ class User extends Component {
                             >
                                 Account Information
                             </Button>
-                            <Button
+                            {/* <Button
                                 style={styles.buttonStyle}
                                 onPress={()=>navigate('PaymentMethods')}
                             >
                                 Payment Methods
-                            </Button>
+                            </Button> */}
                             <Button
                                 style={styles.buttonStyle}
                                 onPress={()=>navigate('Orders')}

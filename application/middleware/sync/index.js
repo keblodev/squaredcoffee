@@ -1,5 +1,5 @@
 
-import * as apiTypes    from '../../statics/actions/api';
+import appActions from '../../statics/actions';
 
 import {
    USER_CARD_REMOVE,
@@ -16,36 +16,46 @@ export default store => next => action => {
         const auth = state.user.auth;
 
         switch(action.type) {
-            case USER_CARD_REMOVE:
+            case appActions.USER_CARD_REMOVE:
                 const cardRemoteId = action.cardRemoteId;
 
                 dispatch(actions.deleteUserCard({cardRemoteId, auth}))
 
                 break;
-            case apiTypes.DELETE_USER_CARD:
+            case appActions.DELETE_USER_CARD:
                 console.log(action);
                 break;
 
-            case apiTypes.REMOTE_USER_UPDATED:
+            case appActions.UPDATING_USER:
+            case appActions.UPDATING_USER_ERROR:
+            case appActions.REMOTE_USER_UPDATED:
                 if (auth) {
                     dispatch(actions.getUserAccountInfo({auth}));
                 }
-            case apiTypes.USER_LOGGEDIN:
-            case apiTypes.USER_CREATED:
+            case appActions.USER_LOGGEDIN:
+            case appActions.USER_CREATED:
                 if (auth) {
                     dispatch(actions.getUserCards({auth}));
                     dispatch(actions.getUserAccountInfo({auth}));
                 }
                 break;
 
-            case apiTypes.DELETING_USER_CARD_ERROR:
-            case apiTypes.CREATE_USER_CARD_ERROR:
-            case apiTypes.USER_CARD_CREATED:
-            case apiTypes.USER_CARD_DELETED:
+            case appActions.DELETING_USER_CARD_ERROR:
+            case appActions.CREATE_USER_CARD_ERROR:
+            case appActions.USER_CARD_CREATED:
+            case appActions.USER_CARD_DELETED:
                 if (auth) {
                     dispatch(actions.getUserCards({auth}));
                     dispatch(actions.getUserAccountInfo({auth}));
                 }
+                break;
+
+            case appActions.GOT_AUTHORIZED_SHOPS:
+                const {shops} = action;
+                shops
+                && shops.length
+                && shops.forEach(shop => dispatch(actions.getShopCategories({shopId: shop.remote_id})))
+
                 break;
         }
     });

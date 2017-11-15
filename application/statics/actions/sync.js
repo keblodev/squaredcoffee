@@ -1,0 +1,5 @@
+//SYNC
+export const LOADING_ACTIVE         ='LOADING_ACTIVE';
+export const LOADING_NOT_ACTIVE     ='LOADING_NOT_ACTIVE';
+export const FETCHING_ACTIVE        ='FETCHING_ACTIVE';
+export const FETCHING_NOT_ACTIVE    ='FETCHING_NOT_ACTIVE';

@@ -33,13 +33,26 @@ class Checkout extends Component {
             cart,
             selectedShop,
         }
-        this.props.actions.placeOrder(orderConfig);
+        this.props.actions.placeOrder(cart, selectedShop);
+    }
+
+    componentWillMount() {
+        if (!this.props.cart.ids.length) {
+            this.props.navigation.goBack();
+        }
     }
 
     render = () => {
         const {navigate}  = this.props.navigation;
-        const {cart, user}  = this.props;
-        const {orders}      = user;
+        const {cart, user, selectedShop}  = this.props;
+        const {orders, auth}      = user;
+
+        let address = [];
+        if(selectedShop && selectedShop.address) {
+            const {address1, city, country, state, zip} = JSON.parse(selectedShop.address);
+            address = [address1, city, country, state, zip];
+        }
+
         return (
             <View
                 style={{
@@ -54,13 +67,15 @@ class Checkout extends Component {
                     }}
                 >
                     <View>
-                        <CheckoutSummary />
+                        <CheckoutSummary
+                            navigation={this.props.navigation}
+                        />
                     </View>
                     <View>
                         {
                             cart.ids.length ?
                             <View>
-                                <View
+                                {/* <View
                                     style={{
                                         padding: 10
                                     }}
@@ -73,7 +88,7 @@ class Checkout extends Component {
                                 </View>
                                 <PaymentMethodsView
                                     navigate={navigate}
-                                />
+                                /> */}
                                 <View
                                     style={{
                                         padding: 10
@@ -83,7 +98,7 @@ class Checkout extends Component {
                                         ...styles.title,
                                         color: 'gray',
                                         fontSize: 20
-                                    }}>4. Your pickup location:</Text>
+                                    }}>3. Your pickup location:</Text>
                                 </View>
                                 <View
                                     style={{
@@ -93,6 +108,7 @@ class Checkout extends Component {
                                         borderColor: 'lightgray',
                                         borderRadius: 5,
                                         margin: 10,
+                                        width: '90%',
                                     }}
                                 >
                                     <Text
@@ -100,15 +116,22 @@ class Checkout extends Component {
                                             fontSize: 20,
                                             color: 'gray',
                                         }}
-                                    >
-                                        <AwesomeIcon
+                                    >{selectedShop.name}</Text>
+                                    {
+                                        address.map((addr, idx) => {
+                                            return (
+                                                <Text
                                                     style={{
-                                                        position: 'absolute',
-                                                        left: 10,
-                                                        top: 8
+                                                        fontSize: 20,
+                                                        color: 'gray',
                                                     }}
-                                                    name="info-circle" size={20} color="grey" /> Pickup location address and working hours are gonna be here
-                                    </Text>
+                                                    key={idx}
+                                                >
+                                                    {addr}
+                                                </Text>
+                                            )
+                                        })
+                                    }
                                 </View>
                             </View>
                             : null
@@ -124,23 +147,27 @@ class Checkout extends Component {
                         right: 	0
                     }}
                 >
+                    {
+                        //TODO AUTH
+                    }
                     <CartAction
-                        actionCb={this.placeOrder.bind(this)}
-                        disabled={!cart.ids.length || !user.paymentInstrument}
-                        title="5. Place Order"
+                        actionCb={auth ? this.placeOrder.bind(this) : () => navigate('Login')}
+                        disabled={!cart.ids.length}
+                        title={auth ? "4. Place Order" : "4. Login"}
                     />
                     {
-                        orders.length ? (
+                        //TODO AUTH
+                        orders.ids.length ? (
                             <CartAction
                                 actionCb={()=>{navigate('OrdersModal')}}
-                                title="6. Orders History"
+                                title="5. Orders History"
                             />
                         ) : null
                     }
                 </View>
-                <CheckoutWebView
+                {/* <CheckoutWebView
                     navigation={this.props.navigation}
-                />
+                /> */}
 
             </View>
         );

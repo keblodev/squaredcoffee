@@ -8,61 +8,54 @@ import StoreListItem from './storelistitem';
 
 import AppActions from '../../actions';
 
-const staticImagesBullShit = [
-	//TODO: images should come from uri
-	//TODO: cache remote images
-	require('../../statics/images/shops/0.jpg'),
-	require('../../statics/images/shops/1.jpg'),
-]
-
 class StoreSelect extends Component {
 	actionCb = shopId => this.props.actions.selectShop(shopId);
 
 	render = () => {
-		const { navigate } = this.props.navigation;
-		return (
-			<View
-				style={styles.container}>
-					<ScrollView
-						scrollEnabled={false}
-						centerContent={true}
-					>
-						{
-							this.props.shops.ids.map((shopId, key) => {
-								const shop = this.props.shops.byId[shopId];
-								if (shop) {
-									//TODO: fetch or get from cache imges here
-									const shopImg = staticImagesBullShit[shopId];
-
-									return (
-										<StoreListItem
-											key={key}
-											actionCb={this.actionCb.bind(this, shopId)}
-											shop={shop}
-											shopId={shopId}
-											shopImg={shopImg}
-											navigate={navigate}
-										/>
-									);
-								} else {
-									return null;
-								}
-							})
-						}
-					</ScrollView>
-			</View>
-		);
-	}
+        const { navigate }      = this.props.navigation;
+        const {shops, images}   = this.props;
+        const {assetsRoute}     = this.props.appConfig;
+        return (
+            <View
+                style={styles.container}>
+                    <ScrollView
+                        scrollEnabled={false}
+                        centerContent={true}
+                    >
+                        {
+                            this.props.shops.ids.map((shopId, key) => {
+                                const shop = this.props.shops.byId[shopId];
+                                const {id, remote_id} = shop;
+                                if (shop && images[remote_id]) {
+                                    return (
+                                        <StoreListItem
+                                            key={key}
+                                            actionCb={this.actionCb.bind(this, shopId)}
+                                            shop={shop}
+                                            shopId={shopId}
+                                            imgUrl={`${assetsRoute}/${images[remote_id]}`}
+                                            navigate={navigate}
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                        }
+                    </ScrollView>
+            </View>
+        );
+    }
 };
 
-const mapState = ({shops}) => ({shops});
+const mapStateToProps = ({shops, images, appConfig}) => ({shops, images, appConfig});
 
-const mapDispatch = dispatch => ({
-	actions: bindActionCreators(AppActions, dispatch)
+const mapDispatchToProps = dispatch => ({
+	actions: Object.assign({dispatch: dispatch}, bindActionCreators(AppActions, dispatch))
 });
 
 export default
-		connect(mapState, mapDispatch)(StoreSelect)
+		connect(mapStateToProps, mapDispatchToProps)(StoreSelect)
 
 const styles = {
 	container: {

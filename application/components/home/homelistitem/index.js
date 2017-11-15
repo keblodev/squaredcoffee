@@ -12,12 +12,14 @@ import {
   CardAction
 } from 'react-native-card-view';
 
+import BaseLoader from '../../shared/baseLoader';
+
 export default class StoreListItem extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            loading: 	false,
+            loading: 	true,
 			bg: 		new Animated.Value(0),
 			top:		new Animated.Value((Math.random() > 0.5 ? -1 : 1) * Math.random() * 100),
             fadeOut: 	new Animated.Value(0)
@@ -26,7 +28,17 @@ export default class StoreListItem extends Component {
 
 	componentDidMount() {
 		this.animate()
-	}
+    }
+
+    componentWillMount() {
+        const {imgUrl} = this.props;
+        imgUrl && Image.prefetch(imgUrl)
+            .then(ok => {
+                this.setState({
+                    loading:false
+                })
+            })
+    }
 
 	animate() {
 		Animated.sequence([
@@ -55,7 +67,7 @@ export default class StoreListItem extends Component {
 	}
 
 	render = () => {
-		const {navToRouteId, navRouteTitle, disabled, shopImg, navigate} = this.props;
+		const {navToRouteId, navRouteTitle, actionCb, disabled, imgUrl, navigate} = this.props;
 		let loadingStyles = [styles.loadingScreen, {
 			position: 'relative',
 			top: this.state.top,
@@ -65,45 +77,53 @@ export default class StoreListItem extends Component {
 			<Animated.View key="Fuego" style={loadingStyles}>
 				<Button
 					disabled={disabled}
-					onPress={() =>
-						navigate(navToRouteId)
-					}
+                    onPress={() => {
+                        actionCb && actionCb();
+						navigate(navToRouteId,  {
+                            title: 	navRouteTitle,
+                        })
+                    }}
 				>
-					<Card
-						styles={{
-							card: {
-								overflow: 'hidden'
-							}
-						}}
-					>
-						<Image
-							style={styles.image}
-							source={shopImg}
-						/>
-						<View
-							style={
-								disabled ?
-									{
-										...styles.card,
-										...styles.cardDisabled
-									} : styles.card
-							}
-						>
-							<CardTitle>
-								<View
-									style={styles.titleView}
-								>
-									<Text style={
-										disabled ?
-											{
-												...styles.title,
-												...styles.titleDisabled
-											} : styles.title
-										}>{navRouteTitle}</Text>
-								</View>
-							</CardTitle>
-						</View>
-					</Card>
+                    {
+                        !this.state.loading || !imgUrl ? (
+                            <Card
+                                styles={{
+                                    card: {
+                                        backgroundColor: '#41495a',
+                                        overflow: 'hidden'
+                                    }
+                                }}
+                            >
+                                {imgUrl? (<Image
+                                    style={styles.image}
+                                    source={{url:imgUrl}}
+                                />) : null}
+                                <View
+                                    style={
+                                        disabled ?
+                                            {
+                                                ...styles.card,
+                                                ...styles.cardDisabled
+                                            } : styles.card
+                                    }
+                                >
+                                    <CardTitle>
+                                        <View
+                                            style={styles.titleView}
+                                        >
+                                            <Text style={
+                                                disabled ?
+                                                    {
+                                                        ...styles.title,
+                                                        ...styles.titleDisabled
+                                                    } : styles.title
+                                                }>{navRouteTitle}</Text>
+                                        </View>
+                                    </CardTitle>
+                                </View>
+                            </Card>
+                        ) : <BaseLoader />
+                    }
 				</Button>
 			</Animated.View>
 		)

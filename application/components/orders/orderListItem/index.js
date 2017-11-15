@@ -22,17 +22,17 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 export default class OrderListItem extends Component {
     render = () => {
-        const {id, onOrderSelect, onOrderRemove, timestamp} = this.props;
+        const {id, onOrderSelect, onOrderRemove, clientCreatedTime} = this.props;
         const orderState = this.props.state;
-        const timeStampDate = timestamp && new Date(timestamp);
+        const timeStampDate = clientCreatedTime && new Date(clientCreatedTime);
         const timeStampStr = timeStampDate.toDateString() + ' ' + timeStampDate.toLocaleTimeString();
         let orderStateIconName = 'clock-o';
         switch (orderState) {
             case PAYMENT_FAILED:
                 orderStateIconName = 'exclamation-circle';
                 break;
-            case PAYMENT_SUCCESS:
-                orderStateIconName = 'check-circle';
+            case "OPEN":
+                orderStateIconName = 'clock-circle-o';
                 break;
         }
 
@@ -58,7 +58,7 @@ export default class OrderListItem extends Component {
                             flexGrow:   1,
                             textAlign: 'left'
                         }}
-                    >  <AwesomeIcon name={orderStateIconName} size={16} color="grey" /></Text>
+                    >  <AwesomeIcon name={orderStateIconName} size={16} color="grey" /> {orderState} </Text>
                     <Text
                         style={{
                             fontSize:   15,
