@@ -77,10 +77,12 @@ const loginUser = loginConfig => {
                 })
                 .then(data => console.log(data))
                 .catch(({error}) => {
-                    return dispatch(createUserError(error))
+                    return dispatch(userLoginError(error))
                 })
 	};
 };
+
+const userLoginError    = error => ({type: appActions.LOGIN_USER_ERROR, error});
 
 const createUserCard = ({nonce, auth}) => {
     return dispatch => {
@@ -225,7 +227,6 @@ const userCardCreated               = card => ({ type: appActions.USER_CARD_CREA
 const createUserError               = error => ({type: appActions.CREATE_USER_ERROR, error});
 const userRemoteCreateError         = error => ({type: appActions.CREATE_REMOTE_USER_ERROR, error});
 const userRemoteUpdateError         = error => ({type: appActions.UPDATE_REMOTE_USER_ERROR, error});
-const userLoginError                = error => ({type: appActions.LOGIN_USER_ERROR, error});
 const userLogOutError               = error => ({type: appActions.LOGOUT_USER_ERROR, error});
 const chargeNonceError              = error => ({type: appActions.CHARGE_NONCE_ERROR, error});
 const chargeUserCardError           = error => ({type: appActions.CHARGE_USER_CARD_ERROR, error});
@@ -308,6 +309,28 @@ const requestPasswordForgot = ({formConfig}) => {
 const passwordForgotRequest  = message => ({ type: appActions.RESET_PASSWORD_REQUEST_SUCCESS, message});
 const passwordForgotError    = error   => ({ type: appActions.RESET_PASSWORD_REQUEST_ERROR, error});
 
+const requestEmailValidateResend = ({userConfig}) => {
+    return dispatch => {
+        dispatch({ type: appActions.EMAIL_VALIDATE_RESEND_REQUEST});
+        return fetch(`${BASE_URL}/user/email/validate/resend`,{
+                    method: 'POST',
+                    body: JSON.stringify({...userConfig}),
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then(__handleSuccessError)
+                .then(json => {
+                    console.log(json);
+                    return dispatch(validateResendRequested(json))
+                })
+                .then(data => console.log(data))
+                .catch((error) => dispatch(validateResendError(error)))
+	};
+};
+
+const validateResendRequested  = message => ({ type: appActions.VALIDATION_EMAIL_RESENT, message});
+const validateResendError    = error   => ({ type: appActions.EMAIL_VALIDATE_RESEND_REQUEST_ERROR, error});
+
+
 export default {
     ...cloverApi,
     createUser,
@@ -324,4 +347,5 @@ export default {
     updateUser,
     requestPasswordReset,
     requestPasswordForgot,
+    requestEmailValidateResend,
 };

@@ -24,6 +24,18 @@ export default store => next => action => {
                 dispatch(actions.loadingActive("placing your order..."));
                 break;
 
+            case appActions.UPDATING_USER:
+                dispatch(actions.loadingActive("updating you information..."));
+                break;
+
+            case appActions.RESET_PASSWORD_REQUEST:
+                dispatch(actions.loadingActive("sending new password reset link..."));
+                break;
+
+            case appActions.EMAIL_VALIDATE_RESEND_REQUEST:
+                dispatch(actions.loadingActive("sending new verification link..."));
+                break;
+
             case appActions.GOT_SHOP_CATEGORIES:
                 dispatch(actions.fetchingNotActive())
                 break;
@@ -73,8 +85,9 @@ export default store => next => action => {
                 break;
 
             case appActions.RESET_PASSWORD_REQUEST_SUCCESS:
+            case appActions.VALIDATION_EMAIL_RESENT:
                 var notifyConfig = {
-                    msg: "reset link sent",
+                    msg: "Link sent. Please check your inbox.",
                     popup: true,
                 }
                 dispatch(actions.showNotify({...notifyConfig}));
@@ -113,6 +126,8 @@ export default store => next => action => {
                 dispatch(actions.fetchingNotActive())
                 break;
 
+
+
             case appActions.LOGIN_USER:
             case appActions.CREATE_USER:
             case appActions.CREATE_REMOTE_USER:
@@ -141,6 +156,7 @@ export default store => next => action => {
             case appActions.UPDATE_REMOTE_USER_ERROR:
             case appActions.GETTING_AUTHORIZED_SHOPS_ERROR:
             case appActions.GETTING_SHOP_CATEGORIES_ERROR:
+            case appActions.EMAIL_VALIDATE_RESEND_REQUEST_ERROR:
                 if (action.error) {
                     var notifyConfig = {
                         msg: action.error.message,

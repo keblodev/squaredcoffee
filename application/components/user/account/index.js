@@ -92,6 +92,12 @@ class TabbedLogin extends PureComponent {
         this.props.actions.requestPasswordReset({userConfig: {auth}});
     }
 
+    handleEmailResend() {
+        //TODO
+        const {auth} = this.props.user;
+        this.props.actions.requestEmailValidateResend({userConfig: {auth}});
+    }
+
     componentDidUpdate() {
         const { navigation } = this.props;
         const isLoggedIn = !!this.props.user.auth;
@@ -117,8 +123,8 @@ class TabbedLogin extends PureComponent {
                 action={{
                     actionCb:               this.handleUpdate.bind(this),
                     actionLabel:            'Change email',
-                    secondaryAction:        this.handlePasswordReset.bind(this),
-                    secondaryActionLabel:   'Request Password Reset'
+                    secondaryAction:        is_verified ? this.handlePasswordReset.bind(this) : this.handleEmailResend.bind(this),
+                    secondaryActionLabel:   is_verified ? 'Request Password Reset' : 'Resend Email Validation'
                 }}
                 formDefaultValues={{
                     email: user.userAccount && user.userAccount.email

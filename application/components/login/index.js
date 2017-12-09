@@ -44,7 +44,7 @@ class TabbedLogin extends PureComponent {
 
 	handleForgot(forgotConfig) {
         const {email} = forgotConfig;
-        this.props.actions.requestPasswordForgot({email: {auth}});
+        this.props.actions.requestPasswordForgot({formConfig: {email}});
 	}
 
 	componentDidUpdate() {

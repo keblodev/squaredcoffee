@@ -12,7 +12,8 @@ const reducer = storage.reducer(reducers);
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage'
 
 const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || composeWithDevTools({ port: 5678 , realtime: true });
-const localStorageKey = "mySquaredCoffeeAppDev";
+const version = "devV20170108";
+const localStorageKey = ["mySquaredCoffeeAppDev", version].join('');
 const engine = createEngine(localStorageKey);
 const storeMiddleware = storage.createMiddleware(engine);
 
