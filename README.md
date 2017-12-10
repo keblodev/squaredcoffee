@@ -21,6 +21,22 @@ Below you'll find information about performing common tasks. The most recent ver
 * 4. [LOCAL_SERVER]In 3rd terminal in server/ folder run:
 	```bundle exec foreman start```
 
+* Android debug tips:
+ *gotta love android :/
+ - you need to have Port forwarding to your local machine IP enabled
+ - to do that:
+    - open in-your-app menu using this from console:
+    ```adb shell input keyevent 82```
+    - go to Dev settings
+    - in "Debug server host for device" set
+        <YOUR_DEBUG_MACHINE_LOCAL_IP>:8081
+ * Android release IMPORTANT tips
+  - DON"T RUN RELEASE IN IDE!!
+  - run in console following gradel command:
+  ```cd android && ./gradlew assembleRelease```
+  - then install using adb:
+  ```adb install app-release.apk```
+
 ## Table of Contents
 
 * [Updating to New Releases](#updating-to-new-releases)
