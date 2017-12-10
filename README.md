@@ -30,12 +30,21 @@ Below you'll find information about performing common tasks. The most recent ver
     - go to Dev settings
     - in "Debug server host for device" set
         <YOUR_DEBUG_MACHINE_LOCAL_IP>:8081
+
+    - OR! just run this:
+    ```adb reverse tcp:8081 tcp:8081```
+
+    - restart the app after
+
  * Android release IMPORTANT tips
   - DON"T RUN RELEASE IN IDE!!
   - run in console following gradel command:
   ```cd android && ./gradlew assembleRelease```
   - then install using adb:
   ```adb install app-release.apk```
+  - MAKE SURE YOU HAVE: android/app/my-release-key.keystore
+  - DO NOT MODIFY: android/gradle.properties
+  **if you loose release key -> no updates will be possible on Play Store
 
 ## Table of Contents
 

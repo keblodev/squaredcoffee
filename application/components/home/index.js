@@ -60,7 +60,10 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView
-                    contentInset={{top: 0, left: 0, bottom: 110, right: 0}}
+                    contentContainerStyle={{
+                        paddingBottom: 110
+                    }}
+                    // contentInset={{top: 0, left: 0, bottom: 110, right: 0}}
                     contentOffset={{x:0,y:0}}
                 >
                     <HomeListItem

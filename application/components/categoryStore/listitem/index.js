@@ -70,7 +70,7 @@ class CategoryListItem extends Component {
                                 { imgUrl ? (
                                     <Image
                                         style={itemStyles.image}
-                                        source={{url: imgUrl}}
+                                        source={{uri:imgUrl}}
                                     />
                                 ) : null}
                                 <View

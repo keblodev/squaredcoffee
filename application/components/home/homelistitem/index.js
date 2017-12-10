@@ -96,7 +96,7 @@ export default class StoreListItem extends Component {
                             >
                                 {imgUrl? (<Image
                                     style={styles.image}
-                                    source={{url:imgUrl}}
+                                    source={{uri:imgUrl}}
                                 />) : null}
                                 <View
                                     style={

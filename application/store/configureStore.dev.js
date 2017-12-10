@@ -32,10 +32,13 @@ export default function configureStore(initialState) {
 
     //TODO: it's buggy on reloads with exceptions
     const load = storage.createLoader(engine);
-
     load(store)
-        .then((newState) => console.log('Loaded state:', newState))
-        .catch(() => console.log('Failed to load previous state'));
+        .then((newState) => {
+            console.log('Loaded state:', newState)
+        })
+        .catch((e) => {
+            debugger;
+            console.log('Failed to load previous state')});
 
     if (module.hot) {
         // Enable Webpack hot module replacement for reducers

@@ -96,7 +96,7 @@ class CartItemDetails extends Component {
                                         {
                                             imgId ? <Image
                                                 style={itemStyles.image}
-                                                source={{url:`${assetsRoute}/${images[item.id]}`}}
+                                                source={{uri:`${assetsRoute}/${images[item.id]}`}}
                                             /> : null
                                         }
                                         <View
