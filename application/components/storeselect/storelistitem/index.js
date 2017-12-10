@@ -92,6 +92,7 @@ export default class StoreListItem extends Component {
                             <Card
                                 styles={{
                                     card: {
+                                        backgroundColor: '#41495a',
                                         overflow: 'hidden'
                                     }
                                 }}

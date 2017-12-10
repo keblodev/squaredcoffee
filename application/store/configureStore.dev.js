@@ -2,20 +2,25 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'remote-redux-devtools';
 
-import * as storage from 'redux-storage'
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import FilesystemStorage from 'redux-persist-filesystem-storage'
+import { persistStore, persistCombineReducers } from 'redux-persist'
 
 import actions from '../actions';
 import reducers from '../reducers';
 
-const reducer = storage.reducer(reducers);
+const version = "devV201701081";
+const localStorageKey = ["mySquaredCoffeeAppDev", version].join('');
+
+const config = {
+    key:      localStorageKey,
+    storage:  FilesystemStorage,
+    debug:    true,
+};
+
+const reducer = persistCombineReducers(config, {...reducers});//storage.reducer(reducers);
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage'
 
 const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || composeWithDevTools({ port: 5678 , realtime: true });
-const version = "devV20170108";
-const localStorageKey = ["mySquaredCoffeeAppDev", version].join('');
-const engine = createEngine(localStorageKey);
-const storeMiddleware = storage.createMiddleware(engine);
 
 import middleware from '../middleware';
 
@@ -25,28 +30,11 @@ export default function configureStore(initialState) {
             applyMiddleware(
                 thunk,
                 ...middleware,
-                storeMiddleware
             ),
         )
     );
 
-    //TODO: it's buggy on reloads with exceptions
-    const load = storage.createLoader(engine);
-    load(store)
-        .then((newState) => {
-            console.log('Loaded state:', newState)
-        })
-        .catch((e) => {
-            debugger;
-            console.log('Failed to load previous state')});
-
-    if (module.hot) {
-        // Enable Webpack hot module replacement for reducers
-        module.hot.accept('../reducers', () => {
-            const nextReducer = require('../reducers').default;
-            store.replaceReducer(nextReducer);
-        });
-    }
+    persistStore(store)
 
   return store;
 }

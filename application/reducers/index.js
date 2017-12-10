@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 import testReducer from "./testReducer";
 
 import nav          from './navReducer';
@@ -13,7 +13,7 @@ import sync         from './syncReducer';
 import images       from './images';
 import appConfig    from './appConfig';
 
-const rootReducer = combineReducers({
+export default {
     images,
     cart,
     geo,
@@ -26,6 +26,4 @@ const rootReducer = combineReducers({
     user,
     webviews,
     appConfig,
-});
-
-export default rootReducer;
+};
