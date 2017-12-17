@@ -85,7 +85,7 @@ class CategoryListItem extends Component {
                                     <CardTitle>
                                         <Text style={{
                                             ...itemStyles.title,
-                                            maxWidth: '90%'
+                                            maxWidth: '85%'
                                         }}>{item.name}</Text>
                                     </CardTitle>
                                     <CardTitle

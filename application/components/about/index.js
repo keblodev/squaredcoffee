@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import Button from 'react-native-button';
 import format from 'date-fns/format';
@@ -11,6 +11,8 @@ import {
   CardContent,
   CardAction
 } from 'react-native-card-view';
+
+import AddressButton from '../shared/addressButton';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,6 +27,14 @@ class About extends Component {
 
     render = () => {
         const {selectedShop} = this.props
+        const {desc} = selectedShop;
+
+        let address = [];
+
+        if(selectedShop && selectedShop.address) {
+            const {address1, address2, city, country, state, zip} = JSON.parse(selectedShop.address);
+            address = [address1, address2, city, country, state, zip].filter(val=>!!val);
+        }
 
         let schedule = [];
         let daysDic = ['Mon','Tue','Wed','Thurs','Fri','Sat','Sun'];
@@ -50,64 +60,113 @@ class About extends Component {
                     height: '100%'
                 }}
             >
-                <Text
+                <ScrollView
                     style={{
-                        fontSize:   20,
-                        color:      'gray',
-                        textAlign:  'center',
-                        width:      '100%',
+                        flex: 1
                     }}
                 >
-                    Weekly Schedule
-                </Text>
-                <View
-                    style={{
-                        alignSelf: 'center',
-                        padding: 20,
-                        borderWidth: 1,
-                        borderColor: 'lightgray',
-                        borderRadius: 5,
-                        margin: 10,
-                        width: '90%'
-                    }}
-                >
-                        {
-                            schedule.map((day, idx) => {
-                                return (
-                                    <View
-                                        key={idx}
-                                        style={{
-                                            // flex:           1,
-                                            // flexDirection:  'row',
-                                            // alignContent:   'space-between',
-                                            position: 'relative'
-                                        }}
-                                    >
+
+                    {
+                        desc ? (
+                            <View
+                                style={{
+                                    alignSelf: 'center',
+                                    padding: 20,
+                                    borderWidth: 1,
+                                    borderColor: 'lightgray',
+                                    borderRadius: 5,
+                                    margin: 10,
+                                    width: '90%'
+                                }}
+                            >
+                            <Text
+                                    style={{
+                                        fontSize: 20,
+                                        color: 'gray',
+                                        width: '100%',
+                                    }}
+                                >
+                                    {desc}
+                                </Text>
+                            </View>
+                        ) : null
+                    }
+
+                    <AddressButton
+                        address={address}
+                        name={selectedShop.name}
+                    />
+                    <Text
+                        style={{
+                            fontSize:   20,
+                            color:      'gray',
+                            textAlign:  'center',
+                            width:      '100%',
+                        }}
+                    >
+                        Weekly Schedule
+                    </Text>
+                    <View
+                        style={{
+                            alignSelf: 'center',
+                            padding: 20,
+                            borderWidth: 1,
+                            borderColor: 'lightgray',
+                            borderRadius: 5,
+                            margin: 10,
+                            width: '90%'
+                        }}
+                    >
+                            {
+                                schedule.map((day, idx) => {
+                                    return (
                                         <View
+                                            key={idx}
                                             style={{
-                                                position: 'absolute',
-                                                left: 5,
-                                                zIndex: 20,
+                                                // flex:           1,
+                                                // flexDirection:  'row',
+                                                // alignContent:   'space-between',
+                                                position: 'relative'
                                             }}
                                         >
-                                            <Text
+                                            <View
                                                 style={{
-                                                    fontSize: 20,
-                                                    color: 'gray',
-                                                    width: '100%',
+                                                    position: 'absolute',
+                                                    left: 5,
+                                                    zIndex: 20,
                                                 }}
                                             >
-                                                {daysDic[idx]}:
-                                            </Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                backgroundColor: 'transparent'
-                                            }}
-                                        >
-                                            {
-                                                day.length ? day.map((range, idx) => {
-                                                    return (
+                                                <Text
+                                                    style={{
+                                                        fontSize: 20,
+                                                        color: 'gray',
+                                                        width: '100%',
+                                                    }}
+                                                >
+                                                    {daysDic[idx]}:
+                                                </Text>
+                                            </View>
+                                            <View
+                                                style={{
+                                                    backgroundColor: 'transparent'
+                                                }}
+                                            >
+                                                {
+                                                    day.length ? day.map((range, idx) => {
+                                                        return (
+                                                            <Text
+                                                                style={{
+                                                                    fontSize:   20,
+                                                                    color:      'gray',
+                                                                    textAlign:  'right',
+                                                                    width:      '100%',
+                                                                }}
+                                                                key={idx}
+                                                            >
+                                                                {range.start} - {range.end}
+                                                            </Text>
+                                                        )
+                                                    }) : (
                                                         <Text
                                                             style={{
                                                                 fontSize:   20,
@@ -115,30 +174,18 @@ class About extends Component {
                                                                 textAlign:  'right',
                                                                 width:      '100%',
                                                             }}
-                                                            key={idx}
                                                         >
-                                                            {range.start} - {range.end}
+                                                            Closed
                                                         </Text>
                                                     )
-                                                }) : (
-                                                    <Text
-                                                        style={{
-                                                            fontSize:   20,
-                                                            color:      'gray',
-                                                            textAlign:  'right',
-                                                            width:      '100%',
-                                                        }}
-                                                    >
-                                                        Closed
-                                                    </Text>
-                                                )
-                                            }
+                                                }
+                                            </View>
                                         </View>
-                                    </View>
-                                )
-                            })
-                        }
-                </View>
+                                    )
+                                })
+                            }
+                    </View>
+                </ScrollView>
             </View>
         );
     }

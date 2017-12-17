@@ -40,6 +40,7 @@ export const SHOW_CHECKOUT_FORM='SHOW_CHECKOUT_FORM';
 export const HIDE_CHECKOUT_FORM='HIDE_CHECKOUT_FORM';
 
 export const NONE = null;
+export const APP_INIT = 'APP_INIT';
 
 export default {
     ...api,
@@ -52,4 +53,9 @@ export default {
     NAV_BACK,
     NAV_NAVIGATE,
     NONE,
+    APP_INIT,
+    PUSH_NOTIFY,
+    SHOW_NOTIFY,
+    HIDE_NOTIFY,
+
 }

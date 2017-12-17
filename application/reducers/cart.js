@@ -27,11 +27,15 @@ const byUuid = (state = initialState.byUuid, action) => {
                 }
             });
 
+            const recalculatedPrice = defaultModGroups.reduce((acc, modGroup, idx) => {
+                return acc + (modGroup && modGroup.selectedModifier && modGroup.selectedModifier.price || 0)
+            }, item.price);
+
             return {
                 ...state,
                 [itemUuid] : {
                     ...item,
-                    priceCalculated:   item.priceCalculated     || priceCalculated,
+                    priceCalculated:   item.priceCalculated     || recalculatedPrice,
                     selectedModifiers: item.selectedModifiers   || defaultModGroups,
                     uuid: itemUuid,
                 }
@@ -99,7 +103,7 @@ export default cart = (state = initialState, action) => {
             });
 
             const recalculatedPrice = newModGroups.reduce((acc, modGroup, idx) => {
-                return acc + modGroup.selectedModifier.price
+                return acc + (modGroup && modGroup.selectedModifier && modGroup.selectedModifier.price || 0)
             }, selectedItem.price);
 
             const newItemState = {

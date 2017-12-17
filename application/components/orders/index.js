@@ -18,8 +18,11 @@ class Orders extends Component {
         navigate('Order');
     }
 
-    onOrderRemove(orderId) {
-        this.props.actions.removeOrder(orderId);
+    onOrderRemove = (merchant_id, order_id) => {
+        const {auth} = this.props;
+        if (auth) {
+            this.props.actions.removeOrder({auth, merchant_id, order_id})
+        }
     }
 
     componentWillMount() {
@@ -45,12 +48,21 @@ class Orders extends Component {
                     {
                         orders.ids.length ? orders.ids.map((orderId, idx) => {
                             const order = orders.byId[orderId];
+                            const {href} = order;
+
+                            let shopId = "";
+
+                            const shopIdMatch = href.match(/\/merchants\/(\w+)\/orders\//);
+                            if (shopIdMatch && shopIdMatch.length > 1) {
+                                shopId = shopIdMatch.pop();
+                            }
+
                             return <OrderListItem
                                 key={idx}
                                 {...order}
                                 idx={idx}
                                 onOrderSelect={this.onOrderSelect.bind(this, order.id)}
-                                onOrderRemove={this.onOrderRemove.bind(this, order.id)}
+                                onOrderRemove={this.onOrderRemove.bind(this, shopId, order.id)}
                             />
                         }) : <View
                             style={{
@@ -114,8 +126,11 @@ class Orders extends Component {
 };
 
 const mapState = (state) => {
-    const {orders, auth, currency} = state.user;
-    return {orders, auth, currency};
+    return {
+        orders:     state.user.orders,
+        auth:       state.user.auth,
+        currency:   state.user.currency,
+    };
 };
 
 const mapDispatch = dispatch => ({

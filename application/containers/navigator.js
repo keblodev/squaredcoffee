@@ -19,6 +19,7 @@ import PaymentMethods   from '../components/user/paymentmethods';
 import Orders           from '../components/orders';
 import Order            from '../components/orders/order';
 import Receipt          from '../components/orders/receipt';
+import CreditCard       from '../components/shared/creditCard';
 
 import Login    from '../components/login';
 
@@ -233,6 +234,28 @@ export default StackNavigator({
         screen: Receipt,
         navigationOptions: {
             title: 'Receipt',
+
+            header: ({navigation}) => (
+                <View
+                    style={{
+                        backgroundColor: 	'#2A2F3A',
+                        //TODO: to be removed this whole thing
+                        flex: 				flexHeaderAmount,
+                        justifyContent: 	'center',
+                    }}
+                >
+                <BackButton
+                    navigation={navigation}
+                />
+                </View>
+            )
+        }
+    },
+
+    CreditCardModal: {
+        screen: CreditCard,
+        navigationOptions: {
+            title: 'Set Credit Card',
 
             header: ({navigation}) => (
                 <View

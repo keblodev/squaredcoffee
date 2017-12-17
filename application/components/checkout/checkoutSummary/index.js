@@ -110,7 +110,7 @@ class CheckoutSummary extends Component {
                                         fontSize: 20,
                                         position: 'relative',
                                         right: 0,
-                                    }}>{Math.round(totalCost)/100} {currency} {(totalTax > 0 ?" + tax " + (Math.round(totalTax)/100) + ` ${currency}` : "")} </Text>
+                                    }}>{(Math.round(totalCost)/100).toFixed(2)} {currency} {(totalTax > 0 ?" + tax " + (Math.round(totalTax)/100).toFixed(2) + ` ${currency}` : "")} </Text>
                                 </View>
                             </View>
                             <View
@@ -137,7 +137,7 @@ class CheckoutSummary extends Component {
                                             fontSize: 30,
                                             position: 'relative',
                                             right: 0,
-                                        }}>{(Math.round(totalCost+totalTax)/100)} {currency} </Text>
+                                        }}>{(Math.round(totalCost+totalTax)/100).toFixed(2)} {currency} </Text>
                                     </View>
                                 </View>
                                 <Card

@@ -11,7 +11,6 @@ export default store => next => action => {
 
         switch(action.type) {
 
-
             case appActions.GETTING_AUTHORIZED_SHOPS:
                 dispatch(actions.loadingActive("getting authorized shops..."));
                 break;
@@ -36,10 +35,28 @@ export default store => next => action => {
                 dispatch(actions.loadingActive("sending new verification link..."));
                 break;
 
+            case appActions.PAYING_FOR_ORDER:
+                dispatch(actions.loadingActive("Processing payment..."));
+                break;
+
+            case appActions.CANCELLING_ORDER:
+                dispatch(actions.loadingActive("Cancelling order..."));
+                break;
+
             case appActions.GOT_SHOP_CATEGORIES:
                 dispatch(actions.fetchingNotActive())
                 break;
             case appActions.GOT_AUTHORIZED_SHOPS:
+                dispatch(actions.loadingNotActive());
+                break;
+
+            case appActions.ORDER_IS_CANCELLED:
+            case appActions.ORDER_IS_PAYED:
+                var notifyConfig = {
+                    msg: "Success!",
+                    popup: true,
+                }
+                dispatch(actions.showNotify({...notifyConfig}));
                 dispatch(actions.loadingNotActive());
                 break;
 
@@ -87,7 +104,7 @@ export default store => next => action => {
             case appActions.RESET_PASSWORD_REQUEST_SUCCESS:
             case appActions.VALIDATION_EMAIL_RESENT:
                 var notifyConfig = {
-                    msg: "Link sent. Please check your inbox.",
+                    msg: "Link sent.",
                     popup: true,
                 }
                 dispatch(actions.showNotify({...notifyConfig}));
@@ -127,7 +144,6 @@ export default store => next => action => {
                 break;
 
 
-
             case appActions.LOGIN_USER:
             case appActions.CREATE_USER:
             case appActions.CREATE_REMOTE_USER:
@@ -139,6 +155,9 @@ export default store => next => action => {
                 dispatch(actions.loadingActive("loading..."));
                 break;
 
+
+            case appActions.CANCELLING_ORDER_ERROR:
+            case appActions.PAYING_FOR_ORDER_ERROR:
             case appActions.LOGIN_USER_ERROR:
             case appActions.LOGOUT_USER_ERROR:
             case appActions.CREATE_USER_ERROR:

@@ -13,7 +13,7 @@ const closeSetOneTimePayment = () => ({type: appActions.USER_NONCE_FORM_CLOSE});
 const removeCard    = (cardId, cardRemoteId) => ({ type: appActions.USER_CARD_REMOVE, userAction: appActions.REMOVING_CARD, cardId, cardRemoteId});
 const placeOrder    = (cart, shop)     => ({type: appActions.PLACE_ORDER, userAction: appActions.MAKING_ORDER, cart, shop});
 const selectOrder   = id   => ({type: appActions.SELECT_ORDER, id});
-const removeOrder   = id   => ({type: appActions.REMOVE_ORDER, id});
+// const removeOrder   = id   => ({type: appActions.REMOVE_ORDER, id});
 const dropCart      = ()        => ({type: appActions.DROP_CART});
 
 export default {
@@ -28,5 +28,5 @@ export default {
     selectCard,
     placeOrder,
     selectOrder,
-    removeOrder,
+    // removeOrder,
 };

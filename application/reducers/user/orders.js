@@ -39,10 +39,17 @@ export default orders = (state = ordersInitialState, action) => {
         case appActions.GOT_USER_ORDERS:
         case appActions.GOT_NEW_ORDER_PLACED:
             const newByIdState = byId(state.byId, action);
+
+            const newIds = Object.keys(newByIdState)
+            .sort((aKey, bKey) => {
+                return newByIdState[bKey].clientCreatedTime - newByIdState[aKey].clientCreatedTime;
+            })
+
             return {
                 ...state,
                 byId:           newByIdState,
-                ids:            Object.keys(newByIdState)
+                ids:            newIds,
+                selected:       state.selected && newByIdState[state.selected.id] || state.selected
             }
         default:
             return state;

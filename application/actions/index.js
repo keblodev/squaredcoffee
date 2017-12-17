@@ -26,7 +26,10 @@ const createNewPayment = payment => ({ type: appActions.PAYMENT_CREATE_NEW, paym
 const updatePayment = paymentUpdated => ({type: appActions.PAYMENT_UPDATE, paymentUpdated});
 const resetPaymentInstrument = () => ({type: appActions.RESET_PAYMENT_INSTRUMENT});
 
+const appInitAction = () => ({type: appActions.APP_INIT});
+
 export default {
+    appInitAction,
 	appTestAction,
 	appTestActionDva,
 	postCheckoutMsgIn,

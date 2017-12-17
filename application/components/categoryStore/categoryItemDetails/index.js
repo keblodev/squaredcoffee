@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView } from 'react-native';
+import { Text, View, Image, ScrollView, Linking } from 'react-native';
 
 import Button from 'react-native-button'
 
@@ -21,6 +21,7 @@ import AppActions from '../../../actions';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 const cartIcon = (<AwesomeIcon name="shopping-cart" size={20} style={{textAlign: 'center',}}/>)
+const dropDownIcon = (<AwesomeIcon name="caret-down" size={20} style={{textAlign: 'center',}}/>)
 
 import BaseLoader from '../../shared/baseLoader';
 
@@ -118,7 +119,8 @@ class CategoryItemDetails extends Component {
                                             <Text style={{
                                                 ...itemStyles.title,
                                                 alignSelf: 'center',
-                                                maxWidth:   '90%',
+                                                maxWidth:   '85%',
+                                                maxHeight:  120,
                                             }}>{item.name}</Text>
                                         </CardTitle>
                                         <CardTitle
@@ -198,7 +200,7 @@ class CategoryItemDetails extends Component {
                                                     alignItems:     'center',
                                                     justifyContent: 'space-between',
                                                     flexDirection: 'row',
-                                                    padding:        20,
+                                                    paddingLeft:    20,
                                                     borderWidth:    1,
                                                     borderColor:    'lightgray',
                                                     borderRadius:   5,
@@ -214,30 +216,56 @@ class CategoryItemDetails extends Component {
                                                 >
                                                     {modifierGroup.name}
                                                 </Text>
-                                                <ModalDropdown
-                                                    textStyle={{
-                                                        fontSize: 16,
-                                                        color: 'gray',
+                                                <View
+                                                    style={{
+                                                        flex:           1,
+                                                        flexGrow:       1,
+                                                        justifyContent: 'flex-end',
+                                                        flexDirection: 'row',
+                                                        width:          '5%',
+                                                        alignItems:     'center',
                                                     }}
-                                                    dropdownTextStyle={{
-                                                        fontSize: 16,
-                                                        color: 'gray',
-                                                    }}
-                                                    dropdownStyle={{
-                                                        height:         200,
-                                                        borderRadius:   5,
-                                                        width:          200,
-                                                        overflow:       'hidden',
-                                                        shadowColor:    '#000',
-                                                        shadowOffset:   { width: 0, height: 2 },
-                                                        shadowOpacity:  0.6,
-                                                        shadowRadius:   10,
-                                                    }}
-                                                    defaultIndex={selectedModifier.idx}
-                                                    defaultValue={selectedModifier.name}
-                                                    options={modifiersArray.map((modifier, idx) => modifier.name)}
-                                                    onSelect={this.onGroupModifierSelect.bind(this,modifierGroup.id, modifiersArray)}
-                                                />
+                                                >
+                                                    <ModalDropdown
+                                                        style={{
+                                                            height:          '100%',
+                                                        }}
+                                                        textStyle={{
+                                                            fontSize:       16,
+                                                            color:          'gray',
+                                                            padding:        20,
+                                                            paddingRight:   30,
+                                                            paddingLeft:    40,
+                                                        }}
+                                                        dropdownTextStyle={{
+                                                            fontSize: 16,
+                                                            color: 'gray',
+                                                        }}
+                                                        dropdownStyle={{
+                                                            height:         200,
+                                                            borderRadius:   5,
+                                                            width:          200,
+                                                            overflow:       'hidden',
+                                                            shadowColor:    '#000',
+                                                            shadowOffset:   { width: 0, height: 2 },
+                                                            shadowOpacity:  0.6,
+                                                            shadowRadius:   10,
+                                                        }}
+                                                        defaultIndex={selectedModifier.idx}
+                                                        defaultValue={selectedModifier.name}
+                                                        options={modifiersArray.map((modifier, idx) => modifier.name)}
+                                                        onSelect={this.onGroupModifierSelect.bind(this,modifierGroup.id, modifiersArray)}
+                                                    />
+                                                    <Text
+                                                        style={{
+                                                            fontSize:       16,
+                                                            color:          'gray',
+                                                            paddingRight:   10,
+                                                            position:       'absolute',
+                                                            backgroundColor:'transparent',
+                                                        }}
+                                                    >{dropDownIcon}</Text>
+                                                </View>
                                             </View>
                                         )
                                     })
@@ -346,7 +374,7 @@ const itemStyles = {
 	},
 	title: {
 		color:		 		'white',
-		fontSize:		 	40,
+		fontSize:		 	30,
 		textAlign:		 	'left',
 		textShadowColor: 	'rgba(0,0,0, .5)',
 		textShadowRadius: 	2,

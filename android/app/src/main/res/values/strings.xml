@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">stellanova_dev</string>
+    <string name="app_name">stellanova</string>
     <color name="black">#000</color>
     <color name="orange">#ed6922</color>
 </resources>

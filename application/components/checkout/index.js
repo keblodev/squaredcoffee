@@ -17,23 +17,37 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppActions from '../../actions';
 
-import PaymentMethodsView from '../shared/paymentMethodsView';
-import CheckoutSummary from './checkoutSummary';
-import CartAction from './cartAction';
+import PaymentMethodsView   from '../shared/paymentMethodsView';
+import AddressButton        from '../shared/addressButton';
+
+import CheckoutSummary      from './checkoutSummary';
+import CartAction           from './cartAction';
 
 import CheckoutWebView from '../shared/checkoutWebView';
 
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { addDays } from 'date-fns';
 
 class Checkout extends Component {
 
     placeOrder = () => {
-        const {cart, selectedShop} = this.props
-        const orderConfig = {
-            cart,
-            selectedShop,
+        const {orders, auth} = this.props.user;
+        const notClosedOrders = orders.ids.filter(id => orders.byId[id].state === 'open')
+
+        if (notClosedOrders.length < 5) {
+            const {cart, selectedShop} = this.props
+            const orderConfig = {
+                cart,
+                selectedShop,
+            }
+            this.props.actions.placeOrder(cart, selectedShop);
+        } else {
+            var notifyConfig = {
+                msg:    'too many opened',
+                popup:  true,
+                error:  true,
+            };
+            this.props.actions.showNotify(notifyConfig);
         }
-        this.props.actions.placeOrder(cart, selectedShop);
     }
 
     componentWillMount() {
@@ -100,39 +114,13 @@ class Checkout extends Component {
                                         fontSize: 20
                                     }}>3. Your pickup location:</Text>
                                 </View>
-                                <View
-                                    style={{
-                                        alignSelf: 'center',
-                                        padding: 20,
-                                        borderWidth: 1,
-                                        borderColor: 'lightgray',
-                                        borderRadius: 5,
-                                        margin: 10,
-                                        width: '90%',
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            fontSize: 20,
-                                            color: 'gray',
-                                        }}
-                                    >{selectedShop.name}</Text>
-                                    {
-                                        address.map((addr, idx) => {
-                                            return (
-                                                <Text
-                                                    style={{
-                                                        fontSize: 20,
-                                                        color: 'gray',
-                                                    }}
-                                                    key={idx}
-                                                >
-                                                    {addr}
-                                                </Text>
-                                            )
-                                        })
-                                    }
-                                </View>
+                                {
+                                    address && address.length ?
+                                    <AddressButton
+                                        address={address}
+                                        name={selectedShop.name}
+                                    /> : null
+                                }
                             </View>
                             : null
                         }

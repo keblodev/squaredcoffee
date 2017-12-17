@@ -1,15 +1,17 @@
 import geo          from './geo';
-import checkoutform from './checkoutform';
+import checkout     from './checkout';
 import notifier     from './notifier';
 import syncnotifier from './syncnotifier';
 import sync         from './sync';
 import imager       from './imager';
+import navigator    from './navigator';
 
 export default [
     geo,
-    checkoutform,
     notifier,
     syncnotifier,
     sync,
     imager,
+    navigator,
+    ...checkout,
 ]

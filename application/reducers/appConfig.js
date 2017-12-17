@@ -12,6 +12,7 @@ export default function appConfig(state = initialState, action) {
             return {
                 ...action.data.app_config,
             };
+
         default:
             return state;
     }

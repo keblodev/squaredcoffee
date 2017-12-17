@@ -13,18 +13,21 @@ import {
     CardAction
 } from 'react-native-card-view';
 
-import {
-    PAYMENT_UPDATE,
-    PAYMENT_SUCCESS,
-    PAYMENT_PENDING,
-    PAYMENT_FAILED,
-} from '../../../statics/actions';
+import * as OrderStates from '../../../statics/strings/orders';
 
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import Button from 'react-native-button';
 
 class Order extends Component {
+
+    onCancelOrder = (merchant_id, order_id) => {
+        const {auth} = this.props;
+        if (auth) {
+            this.props.actions.cancelOrder({auth, merchant_id, order_id})
+        }
+    }
+
     render = () => {
         let totalCost = 0;
 
@@ -33,7 +36,10 @@ class Order extends Component {
 
         const { navigate }      = this.props.navigation;
         const {order, shops}    = this.props;
-        const {href, id, clientCreatedTime, state, total, note, lineItems, currency = "USD"} = order;
+        const {href, id, clientCreatedTime,
+            state, total, note, lineItems, currency = "USD",
+            payments,
+        } = order;
 
         totalCost = Math.round(total)/100
 
@@ -53,19 +59,22 @@ class Order extends Component {
 
         const isDriveThrough = note.match("DRIVE THROUGH");
 
-
         const timeStampDate = clientCreatedTime && new Date(clientCreatedTime);
         const timeStampStr = timeStampDate.toDateString() + ' ' + timeStampDate.toLocaleTimeString();
         let orderStateIconName = 'clock-o';
-        let orderStateString = 'open';
+        let orderStateString = OrderStates.OPEN;
         switch (state) {
-            case PAYMENT_FAILED:
+            case OrderStates.ERROR_TYPE:
                 orderStateString = 'Something went wrong :( ';
                 orderStateIconName = 'exclamation-circle';
                 break;
-            case PAYMENT_SUCCESS:
-                orderStateString = 'Processed successfully';
-                orderStateIconName = 'check-circle';
+            case OrderStates.LOCKED_TYPE:
+                orderStateString    = 'Processed successfully';
+                orderStateIconName  = 'check-circle';
+                break;
+            case OrderStates.CANCELLED_TYPE:
+                orderStateString    = 'Canceled';
+                orderStateIconName  = 'ban';
                 break;
         }
 
@@ -358,7 +367,9 @@ class Order extends Component {
                         </View>
                     </View>
                     {
-                        transaction ? <View
+                        payments &&
+                        payments.elements &&
+                        payments.elements.length ? <View
                             style={{
                                 alignSelf: 'center',
                                 padding: 20,
@@ -379,56 +390,77 @@ class Order extends Component {
                                     flexGrow: 1,
                                     textAlign: 'left'
                                 }}
-                            >Transaction:</Text>
-                            <View
-                                style={{
-                                    flex: 1
-                                }}
-                            >
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        flexDirection: 'row',
-                                        paddingTop: 10,
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            ...styles.title,
-                                            color: 'gray',
-                                            fontSize: 12,
-                                            flexGrow: 1,
-                                            textAlign: 'left'
-                                        }}
-                                    >id:</Text>
-                                    <Text
-                                        style={{
-                                            ...styles.title,
-                                            color: 'gray',
-                                            fontSize: 12,
-                                            flexGrow: 1,
-                                            textAlign: 'right'
-                                        }}
-                                    >{transaction.id}</Text>
-                                </View>
-                            </View>
+                            >Transaction(-s):</Text>
+                                {
+                                    payments.elements.map((payment, idx) => {
+                                        return (
+                                            <View
+                                                key={idx}
+                                                style={{
+                                                    flex: 1
+                                                }}
+                                            >
+                                                <View
+                                                    style={{
+                                                        flex: 1,
+                                                        flexDirection: 'row',
+                                                        paddingTop: 10,
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={{
+                                                            ...styles.title,
+                                                            color: 'gray',
+                                                            fontSize: 12,
+                                                            flexGrow: 1,
+                                                            textAlign: 'left'
+                                                        }}
+                                                    >id:</Text>
+                                                    <Text
+                                                        style={{
+                                                            ...styles.title,
+                                                            color: 'gray',
+                                                            fontSize: 12,
+                                                            flexGrow: 1,
+                                                            textAlign: 'right'
+                                                        }}
+                                                    >{payment.id}</Text>
+                                                </View>
+                                            </View>
+                                        )
+                                    })
+                                }
                         </View> : null
                     }
                     <View>
                         <Button
-                            style={{
-                                padding:            15,
-                                margin:             10,
-                                height:             55,
-                                overflow:           'hidden',
-                                borderRadius:       4,
-                                backgroundColor:    '#41495a',
-                                fontSize:           20,
-                                color:              'grey',
-                            }}
+                            disabled={state !== OrderStates.OPEN_TYPE}
+                            style={state === OrderStates.OPEN_TYPE ? styles.buttonStyle : styles.buttonDisabledStyle}
+                            onPress={()=>navigate('CreditCardModal')}
+                        >
+                            Pay for order
+                        </Button>
+                        <Button
+                            disabled={state === OrderStates.CANCELLED_TYPE}
+                            style={state !== OrderStates.CANCELLED_TYPE ? styles.buttonStyle : styles.buttonDisabledStyle}
                             onPress={()=>navigate('ReceiptModal')}
                         >
                             Get Receipt
+                        </Button>
+                        {/* <Button
+                            style={styles.buttonStyle}
+                            onPress={()=>{
+                                // navigate('ReceiptModal')
+                            }}
+                        >
+                            Repeat Order
+                        </Button> */}
+                        <Button
+                            disabled={state !== OrderStates.OPEN_TYPE}
+                            style={state === OrderStates.OPEN_TYPE ? styles.buttonStyle : styles.buttonDisabledStyle}
+                            onPress={this.onCancelOrder.bind(this,shopId, order.id)}
+                        >
+                            Cancel Order
                         </Button>
                     </View>
                 </ScrollView>
@@ -439,7 +471,7 @@ class Order extends Component {
 
 const mapState = (state) => {
     return {
-        auth:   state.user,
+        auth:   state.user.auth,
         order:  state.user.orders.selected,
         shops:  state.shops,
     }
@@ -451,3 +483,33 @@ const mapDispatch = dispatch => ({
 
 export default
     connect(mapState, mapDispatch)(Order)
+
+const buttonStyle = {
+    padding:15,
+    margin: 10,
+    height:55,
+    overflow:'hidden',
+    borderRadius:4,
+    backgroundColor: '#41495a',
+    fontSize: 20,
+    color: 'grey',
+};
+
+const styles = {
+    container: {
+        alignItems: 		'center',
+        backgroundColor: 	'#1f232b',
+        flex: 				1,
+        justifyContent: 	'center',
+    },
+    buttonStyle,
+    buttonDisabledStyle: {
+        ...buttonStyle,
+        backgroundColor:    '#313744',
+        borderWidth:        0,
+        color:              '#525252',
+    },
+    buttonDisabledTextStyle: {
+        color: '#BCBCBC',
+    },
+};

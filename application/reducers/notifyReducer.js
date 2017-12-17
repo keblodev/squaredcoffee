@@ -1,5 +1,4 @@
-import {PUSH_NOTIFY, SHOW_NOTIFY, HIDE_NOTIFY} from '../statics/actions'
-
+import appActions from '../statics/actions';
 
 const initialState = {
     msg:        '',
@@ -9,27 +8,29 @@ const initialState = {
 }
 
 export default notification = (state = initialState, action) => {
-	switch(action.type) {
-		case PUSH_NOTIFY:
-			return {
+    switch(action.type) {
+        case appActions.APP_INIT:
+            return initialState;
+        case appActions.PUSH_NOTIFY:
+            return {
                 ...state,
-				msg:    action.msg
-			};
-        case SHOW_NOTIFY:
-			return {
+                msg:    action.msg
+            };
+        case appActions.SHOW_NOTIFY:
+            return {
                 ...state,
                 msg:        action.msg,
                 popup:      !!action.popup,
                 error:      !!action.error,
-				active:     true,
-			};
-		case HIDE_NOTIFY:
-			return {
+                active:     true,
+            };
+        case appActions.HIDE_NOTIFY:
+            return {
                 ...initialState,
                 msg:    state.msg,
                 error:  state.error
-			};
-		default:
-			return state;
-	}
+            };
+        default:
+            return state;
+    }
 }

@@ -8,8 +8,8 @@ import { persistStore, persistCombineReducers } from 'redux-persist'
 import actions from '../actions';
 import reducers from '../reducers';
 
-const version = "devV201701081";
-const localStorageKey = ["mySquaredCoffeeAppDev", version].join('');
+const version = "devV2017010891";
+const localStorageKey = ["myCloveredCoffeeApp", version].join('');
 
 const config = {
     key:      localStorageKey,
@@ -34,7 +34,7 @@ export default function configureStore(initialState) {
         )
     );
 
-    persistStore(store)
+    persistStore(store);
 
   return store;
 }

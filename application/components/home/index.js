@@ -8,11 +8,11 @@ import { bindActionCreators } from 'redux';
 
 import AppActions from '../../actions';
 
-import {GEO_ACTIVE}                 from '../../statics/strings/geo';
+import {GEO_ACTIVE} from '../../statics/strings/geo';
 
 import HomeListItem from './homelistitem';
 
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import AwesomeIcon  from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 const userIcon = (<AwesomeIcon
@@ -39,8 +39,8 @@ const cartIcon = (<AwesomeIcon
 
 class Home extends Component {
 
-	static navigationOptions = ({navigation}) => ({
-		title: `${navigation.state.params.title}`,
+    static navigationOptions = ({navigation}) => ({
+        title: `${navigation.state.params.title}`,
     })
 
     componentWillMount() {
@@ -49,7 +49,7 @@ class Home extends Component {
 
     onCategorySelected = categoryId => this.props.actions.selectCategory(categoryId);
 
-	render = () => {
+    render = () => {
         const { navigate }      = this.props.navigation;
         const { shopId }        = this.props.navigation.state.params;
         const {images, categories}  = this.props;
@@ -73,7 +73,7 @@ class Home extends Component {
                         navigate={navigate}
                     />
                     {
-                        shopCategories.map((category, idx) => {
+                        shopCategories.sort((a,b) => a.sortOrder - b.sortOrder).map((category, idx) => {
                             const url = images[category.id] && `${assetsRoute}/${images[category.id]}`;
 
                             return (

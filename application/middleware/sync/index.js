@@ -1,5 +1,6 @@
 
 import appActions from '../../statics/actions';
+import { PERSIST, REHYDRATE } from 'redux-persist';
 
 import {
    USER_CARD_REMOVE,
@@ -16,6 +17,10 @@ export default store => next => action => {
         const auth = state.user.auth;
 
         switch(action.type) {
+            case REHYDRATE:
+                dispatch(actions.appInitAction());
+                break;
+
             case appActions.USER_CARD_REMOVE:
                 const cardRemoteId = action.cardRemoteId;
 
@@ -37,6 +42,16 @@ export default store => next => action => {
                 if (auth) {
                     dispatch(actions.getUserCards({auth}));
                     dispatch(actions.getUserAccountInfo({auth}));
+                }
+                break;
+
+            case appActions.ORDER_IS_CANCELLED:
+            case appActions.CANCELLING_ORDER_ERROR:
+            case appActions.ORDER_IS_REMOVED:
+            case appActions.REMOVING_ORDER_ERROR:
+            case appActions.ORDER_IS_PAYED:
+                if(auth) {
+                    dispatch(actions.getUserOrders({auth}));
                 }
                 break;
 

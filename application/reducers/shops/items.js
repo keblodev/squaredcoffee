@@ -68,11 +68,15 @@ export default items = (state = itemsInitialState, action) => {
                 }
             });
 
+            var recalculatedPrice = modGroups.reduce((acc, modGroup, idx) => {
+                return acc + (modGroup && modGroup.selectedModifier && modGroup.selectedModifier.price || 0)
+            }, item.price);
+
             return {
                 ...state,
                 selected: {
                     ...item,
-                    priceCalculated:    item.price,
+                    priceCalculated:    recalculatedPrice,
                     selectedModifiers:  modGroups,
                 }
             }
@@ -99,8 +103,8 @@ export default items = (state = itemsInitialState, action) => {
                 return group
             });
 
-            const recalculatedPrice = newModGroups.reduce((acc, modGroup, idx) => {
-                return acc + modGroup.selectedModifier.price
+            var recalculatedPrice = newModGroups.reduce((acc, modGroup, idx) => {
+                return acc + (modGroup && modGroup.selectedModifier && modGroup.selectedModifier.price || 0)
             }, selectedItem.price);
 
             return {
