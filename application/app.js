@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, BackHandler, Platform } from 'react-native';
+import { View, BackHandler, Platform, UIManager } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -50,8 +50,11 @@ class App extends Component {
             state:		this.props.nav,
         });
 
-        if (Platform.OS === "android" && this.androidBackButtonListener === null) {
-            this.androidBackButtonListener = BackHandler.addEventListener("hardwareBackPress", this.__handleBackAndroid.bind(this, globalNavigator));
+        if (Platform.OS === "android") {
+            if (this.androidBackButtonListener === null) {
+                this.androidBackButtonListener = BackHandler.addEventListener("hardwareBackPress", this.__handleBackAndroid.bind(this, globalNavigator));
+            }
+            UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         }
 
         return (

@@ -497,7 +497,6 @@ const buttonStyle = {
 
 const styles = {
     container: {
-        alignItems: 		'center',
         backgroundColor: 	'#1f232b',
         flex: 				1,
         justifyContent: 	'center',
