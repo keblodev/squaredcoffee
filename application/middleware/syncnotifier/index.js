@@ -51,7 +51,7 @@ export default store => next => action => {
                 break;
 
             case appActions.ORDER_IS_CANCELLED:
-            case appActions.ORDER_IS_PAYED:
+            case appActions.ORDER_IS_PAID:
                 var notifyConfig = {
                     msg: "Success!",
                     popup: true,

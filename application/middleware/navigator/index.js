@@ -21,7 +21,7 @@ export default store => next => action => {
                 dispatch(NavigationActions.navigate({ routeName: 'Order' }));
                 break;
 
-            case appActions.ORDER_IS_PAYED:
+            case appActions.ORDER_IS_PAID:
                 if(auth) {
                     dispatch(NavigationActions.back());
                 }

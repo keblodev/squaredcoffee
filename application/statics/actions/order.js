@@ -16,6 +16,6 @@ export const GOT_USER_ORDERS            = 'GOT_USER_ORDERS';
 export const GETTING_USER_ORDERS_ERROR  = 'GETTING_USER_ORDERS_ERROR';
 
 export const PAYING_FOR_ORDER               = 'PAYING_FOR_ORDER';
-export const ORDER_IS_PAYED                 = 'ORDER_IS_PAYED';
+export const ORDER_IS_PAID                  = 'ORDER_IS_PAID';
 export const PAYING_FOR_ORDER_ERROR         = 'PAYING_FOR_ORDER_ERROR';
 export const SUBMIT_PAYMENT_INSTRUMENT_INFO = 'SUBMIT_PAYMENT_INSTRUMENT_INFO';

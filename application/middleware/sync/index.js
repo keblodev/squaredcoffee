@@ -49,7 +49,7 @@ export default store => next => action => {
             case appActions.CANCELLING_ORDER_ERROR:
             case appActions.ORDER_IS_REMOVED:
             case appActions.REMOVING_ORDER_ERROR:
-            case appActions.ORDER_IS_PAYED:
+            case appActions.ORDER_IS_PAID:
                 if(auth) {
                     dispatch(actions.getUserOrders({auth}));
                 }

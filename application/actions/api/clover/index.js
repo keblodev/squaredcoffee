@@ -126,14 +126,14 @@ const cloverPay = ({auth, merchant_id, order_id, payConfig}) => {
             },
         })
                 .then(__handleSuccessError)
-                .then(json => dispatch(orderPayed(json.data)))
+                .then(json => dispatch(orderPaid(json.data)))
                 .then(data => console.log(data))
                 .catch(error => dispatch(payingForOrderError(error)))
     };
 };
 
-const orderPayed             = ({orders}) => ({type: appActions.ORDER_IS_PAYED, orders});
-const payingForOrderError    = error => ({type: appActions.PAYING_FOR_ORDER_ERROR, error});
+const orderPaid             = ({orders}) => ({type: appActions.ORDER_IS_PAID, orders});
+const payingForOrderError   = error => ({type: appActions.PAYING_FOR_ORDER_ERROR, error});
 
 const cancelOrder = ({auth, merchant_id, order_id}) => {
     return dispatch => {

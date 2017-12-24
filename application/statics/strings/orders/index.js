@@ -1,5 +1,5 @@
 export const OPEN       = 'Opened';
-export const LOCKED     = 'Payed';
+export const LOCKED     = 'Paid';
 export const CANCELLED  = 'Cancelled';
 export const ERROR      = 'Error';
 
