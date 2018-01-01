@@ -130,6 +130,7 @@ class CreditCardView extends Component {
                     style={{
                         flex:   1,
                     }}
+                    keyboardShouldPersistTaps="always"
                 >
                     <CreditCard
                         style={{
@@ -157,12 +158,19 @@ class CreditCardView extends Component {
                         height={SWIPER_HEIGHT}
                         // showsButtons={true}
                         loop={false}
+                        keyboardShouldPersistTaps="always"
                         onMomentumScrollEnd = {this.onMomentumScrollEnd}
                         ref={(swiper) => {this.swiper = this.swiper || swiper}}
                         index={this.state.index}
                     >
                         <View style={styles.slide}>
                             <View style={styles.card}>
+                                <ScrollView
+                                    style={{
+                                        flex:   1,
+                                    }}
+                                    keyboardShouldPersistTaps="always"
+                                >
                                 <Hoshi
                                     style={{
                                         borderBottomColor:  'gray',
@@ -199,11 +207,11 @@ class CreditCardView extends Component {
                                         const {number:{value}} = this.state;
                                         const pattern = '^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$';
                                         if (new RegExp(pattern, 'gi').test(value)) {
+                                            this.refs[this.indexMap[this.state.index+1]].focus();
                                             this.setState({number: {
                                                 value: parseInt(value),
                                                 valid: true,
-                                            }})
-                                            this.onNext()
+                                            }},()=>this.onNext())
                                         } else {
                                             this.setState({number:{
                                                 value: "",
@@ -212,6 +220,7 @@ class CreditCardView extends Component {
                                         }
                                     }}
                                 />
+                                </ScrollView>
                             </View>
                         </View>
                         <View style={styles.slide}>
@@ -251,11 +260,11 @@ class CreditCardView extends Component {
                                     onSubmitEditing={({ nativeEvent: { key: keyValue } })=>{
                                         const {name:{value}} = this.state;
                                         if (new RegExp(/^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i).test(value)) {
+                                            this.refs[this.indexMap[this.state.index+1]].focus();
                                             this.setState({name: {
                                                 value: value,
                                                 valid: true,
-                                            }})
-                                            this.onNext()
+                                            }},()=>this.onNext())
                                         } else {
                                             this.setState({name:{
                                                 value: "",
@@ -321,11 +330,11 @@ class CreditCardView extends Component {
                                                 // exp should be at least one month ahead
                                                 && (expDate - today)/1000/60/60/24 > 30
                                             ) {
+                                                this.refs[this.indexMap[this.state.index+1]].focus();
                                                 this.setState({expiry: {
                                                     value: value,
                                                     valid: true,
-                                                }})
-                                                this.onNext()
+                                                }},()=>this.onNext())
                                             } else {
                                                 this.setState({expiry:{
                                                     value: "",

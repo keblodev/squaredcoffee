@@ -146,6 +146,13 @@ class Order extends Component {
                             <AwesomeIcon name={orderStateIconName} size={60} color="grey" />
                         </Text>
                     </View>
+                    <Button
+                        disabled={state !== OrderStates.OPEN_TYPE}
+                        style={state === OrderStates.OPEN_TYPE ? styles.buttonStyle : styles.buttonDisabledStyle}
+                        onPress={()=>navigate('CreditCardModal')}
+                    >
+                        Pay for order
+                    </Button>
                     <View
                         style={{
                             alignSelf: 'center',
@@ -433,13 +440,6 @@ class Order extends Component {
                         </View> : null
                     }
                     <View>
-                        <Button
-                            disabled={state !== OrderStates.OPEN_TYPE}
-                            style={state === OrderStates.OPEN_TYPE ? styles.buttonStyle : styles.buttonDisabledStyle}
-                            onPress={()=>navigate('CreditCardModal')}
-                        >
-                            Pay for order
-                        </Button>
                         <Button
                             disabled={state === OrderStates.CANCELLED_TYPE}
                             style={state !== OrderStates.CANCELLED_TYPE ? styles.buttonStyle : styles.buttonDisabledStyle}

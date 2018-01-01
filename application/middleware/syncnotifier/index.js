@@ -111,14 +111,14 @@ export default store => next => action => {
                 dispatch(actions.loadingNotActive());
                 break;
 
-            case appActions.GOT_NEW_ORDER_PLACED:
-                var notifyConfig = {
-                    msg: "order placed",
-                    popup: true,
-                }
-                dispatch(actions.showNotify({...notifyConfig}));
-                dispatch(actions.loadingNotActive());
-                break;
+            // case appActions.GOT_NEW_ORDER_PLACED:
+            //     var notifyConfig = {
+            //         msg: "order placed",
+            //         popup: true,
+            //     }
+            //     dispatch(actions.showNotify({...notifyConfig}));
+            //     dispatch(actions.loadingNotActive());
+            //     break;
 
             case appActions.USER_UPDATED:
             case appActions.REMOTE_USER_UPDATED:

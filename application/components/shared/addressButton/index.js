@@ -39,7 +39,7 @@ export default class AddressButton extends Component {
                                 left: 10,
                                 top: 8
                             }}
-                            name="info-circle" size={15} color="grey" /> press bellow to open in GoogleMaps
+                            name="info-circle" size={15} color="grey" /> press below to open in GoogleMaps
                     </Text>
                 </View>
                 <Button
