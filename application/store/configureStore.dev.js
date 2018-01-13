@@ -8,7 +8,7 @@ import { persistStore, persistCombineReducers } from 'redux-persist'
 import actions from '../actions';
 import reducers from '../reducers';
 
-const version = "devV2017010891";
+const version = "prodV2017010891";
 const localStorageKey = ["myCloveredCoffeeApp", version].join('');
 
 const config = {

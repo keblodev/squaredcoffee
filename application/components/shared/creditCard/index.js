@@ -38,19 +38,19 @@ class CreditCardView extends Component {
         focused:    'number',
         index:      0,
         number:     {
-            value: '4761739001010010',
+            value: '',
             valid: true,
         },
         name:       {
-            value: 'Albert Appleseed',
+            value: '',
             valid: true,
         },
         cvc:        {
-            value: '123',
+            value: '',
             valid: true,
         },
         expiry:     {
-            value: '1218',
+            value: '',
             valid: true,
         },
     }
