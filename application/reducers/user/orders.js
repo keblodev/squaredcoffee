@@ -9,7 +9,10 @@ export const ordersInitialState = {
 const byId = (state = ordersInitialState.byId, action) => {
     switch(action.type) {
         case appActions.GOT_USER_ORDERS:
-            return action.orders.reduce((acc,order) => {
+            return action.orders
+            // when order not found
+            .filter(order=>!!order.href)
+            .reduce((acc,order) => {
                 return {
                     ...acc,
                     [order.id]: order

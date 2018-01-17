@@ -49,21 +49,24 @@ class Orders extends Component {
                         orders.ids.length ? orders.ids.map((orderId, idx) => {
                             const order = orders.byId[orderId];
                             const {href} = order;
+                            if (href) {
+                                let shopId = "";
 
-                            let shopId = "";
+                                const shopIdMatch = href.match(/\/merchants\/(\w+)\/orders\//);
+                                if (shopIdMatch && shopIdMatch.length > 1) {
+                                    shopId = shopIdMatch.pop();
+                                }
 
-                            const shopIdMatch = href.match(/\/merchants\/(\w+)\/orders\//);
-                            if (shopIdMatch && shopIdMatch.length > 1) {
-                                shopId = shopIdMatch.pop();
+                                return <OrderListItem
+                                    key={idx}
+                                    {...order}
+                                    idx={idx}
+                                    onOrderSelect={this.onOrderSelect.bind(this, order.id)}
+                                    onOrderRemove={this.onOrderRemove.bind(this, shopId, order.id)}
+                                />
+                            } else {
+                                return null;
                             }
-
-                            return <OrderListItem
-                                key={idx}
-                                {...order}
-                                idx={idx}
-                                onOrderSelect={this.onOrderSelect.bind(this, order.id)}
-                                onOrderRemove={this.onOrderRemove.bind(this, shopId, order.id)}
-                            />
                         }) : <View
                             style={{
                                 alignSelf: 'center',
