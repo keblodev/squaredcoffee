@@ -48,7 +48,7 @@ const refetchAuthorizedShops = () => {
     };
 }
 
-const gotAuthorizedShops            = ({shops}) => ({type: appActions.GOT_AUTHORIZED_SHOPS, shops});
+const gotAuthorizedShops            = data => ({type: appActions.GOT_AUTHORIZED_SHOPS, ...data});
 const gettingAuthorizedShopsError   = error => ({type: appActions.GETTING_AUTHORIZED_SHOPS_ERROR, error});
 
 // 3.

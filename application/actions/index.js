@@ -28,6 +28,8 @@ const resetPaymentInstrument = () => ({type: appActions.RESET_PAYMENT_INSTRUMENT
 
 const appInitAction = () => ({type: appActions.APP_INIT});
 
+const appResetAction = () => ({type: appActions.APP_RESET});
+
 export default {
     appInitAction,
 	appTestAction,
@@ -38,6 +40,7 @@ export default {
 	createNewPayment,
     updatePayment,
     resetPaymentInstrument,
+    appResetAction,
 	...api,
 	...user,
 	...pushNotifications,

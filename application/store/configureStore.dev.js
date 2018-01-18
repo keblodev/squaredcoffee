@@ -4,9 +4,12 @@ import { composeWithDevTools } from 'remote-redux-devtools';
 
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import { persistStore, persistCombineReducers } from 'redux-persist'
+import reduxReset from 'redux-reset';
 
 import actions from '../actions';
 import reducers from '../reducers';
+
+import appActions from '../statics/actions';
 
 const version = "prodV2017010891";
 const localStorageKey = ["myCloveredCoffeeApp", version].join('');
@@ -31,6 +34,7 @@ export default function configureStore(initialState) {
                 thunk,
                 ...middleware,
             ),
+            reduxReset(appActions.APP_RESET),
         )
     );
 

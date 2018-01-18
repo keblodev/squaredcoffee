@@ -151,6 +151,7 @@ export default store => next => action => {
                 break;
 
 
+            case appActions.REMOVING_ORDER_ERROR:
             case appActions.CANCELLING_ORDER_ERROR:
             case appActions.PAYING_FOR_ORDER_ERROR:
             case appActions.LOGIN_USER_ERROR:
@@ -171,6 +172,8 @@ export default store => next => action => {
             case appActions.GETTING_AUTHORIZED_SHOPS_ERROR:
             case appActions.GETTING_SHOP_CATEGORIES_ERROR:
             case appActions.EMAIL_VALIDATE_RESEND_REQUEST_ERROR:
+            case appActions.PLACING_NEW_ORDER_ERROR:
+            case appActions.REFETCHING_AUTHORIZED_SHOPS:
                 if (action.error) {
                     var notifyConfig = {
                         msg: action.error.message,

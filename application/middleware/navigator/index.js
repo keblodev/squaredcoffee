@@ -15,6 +15,16 @@ export default store => next => action => {
        const auth = state.user.auth;
 
        switch(action.type) {
+            case appActions.APP_RESET:
+                dispatch(NavigationActions.reset(
+                    {
+                       index: 0,
+                       actions: [
+                         NavigationActions.navigate({ routeName: 'StoreSelect'})
+                       ]
+                     }));
+                break;
+
             case appActions.GOT_NEW_ORDER_PLACED:
                 const {id} = action.order;
                 dispatch(actions.selectOrder(id));

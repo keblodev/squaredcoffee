@@ -41,6 +41,7 @@ export const HIDE_CHECKOUT_FORM='HIDE_CHECKOUT_FORM';
 
 export const NONE = null;
 export const APP_INIT = 'APP_INIT';
+export const APP_RESET = 'RESET';
 
 export default {
     ...api,
@@ -54,6 +55,7 @@ export default {
     NAV_NAVIGATE,
     NONE,
     APP_INIT,
+    APP_RESET,
     PUSH_NOTIFY,
     SHOW_NOTIFY,
     HIDE_NOTIFY,

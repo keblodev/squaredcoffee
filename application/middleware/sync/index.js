@@ -1,6 +1,7 @@
 
 import appActions from '../../statics/actions';
 import { PERSIST, REHYDRATE } from 'redux-persist';
+import { persistStore} from 'redux-persist'
 
 import {
    USER_CARD_REMOVE,
@@ -65,11 +66,21 @@ export default store => next => action => {
                 }
                 break;
 
+            case appActions.APP_RESET:
+                persistStore(store).purge();
+                break;
+
+            case appActions.GETTING_AUTHORIZED_SHOPS_ERROR:
+                dispatch(actions.appResetAction());
+                break;
+
             case appActions.GOT_AUTHORIZED_SHOPS:
-                const {shops} = action;
-                shops
-                && shops.length
-                && shops.forEach(shop => dispatch(actions.getShopCategories({shopId: shop.remote_id})))
+                const {shops,reset_app_state} = action;
+                if (shops && shops.length && !reset_app_state) {
+                    shops.forEach(shop => dispatch(actions.getShopCategories({shopId: shop.remote_id})))
+                } else {
+                    dispatch(actions.appResetAction());
+                }
 
                 break;
         }

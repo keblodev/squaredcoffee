@@ -10,6 +10,7 @@ const initialState = {
 export default notification = (state = initialState, action) => {
     switch(action.type) {
         case appActions.APP_INIT:
+        case appActions.APP_RESET:
             return initialState;
         case appActions.PUSH_NOTIFY:
             return {

@@ -47,6 +47,7 @@ class CheckoutSummary extends Component {
                 const itemTaxRate = storeItem.taxRates.elements || []
                 const itemTaxPers = itemTaxRate.reduce((acc, taxRate) => acc + taxRate.rate /100000,0);
                 totalTax += parseFloat(storeItem.priceCalculated) * itemTaxPers/100
+                console.info(totalTax);
                     return <CartListItem
                         key={itemUuid}
                         storeItem={storeItem}

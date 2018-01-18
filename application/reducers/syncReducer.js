@@ -8,6 +8,7 @@ const initialState = {
 export default function sync(state = initialState, action) {
     switch (action.type) {
         case appActions.APP_INIT:
+        case appActions.APP_RESET:
             return initialState;
         case appActions.LOADING_ACTIVE:
             return {
