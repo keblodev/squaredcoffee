@@ -57,6 +57,8 @@ class Home extends Component {
         const shopCategories = categories && categories.byShopId[shopId] || [];
         const isLoggedIn = !!this.props.user.auth;
 
+        const aboutUrl = images[shopId+'about'] && `${assetsRoute}/${images[shopId+'about']}`;
+
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -67,7 +69,7 @@ class Home extends Component {
                     contentOffset={{x:0,y:0}}
                 >
                     <HomeListItem
-                        imgUrl={`${assetsRoute}/${images[shopId+'about']}`}
+                        imgUrl={aboutUrl}
                         navToRouteId='About'
                         navRouteTitle='About Us'
                         navigate={navigate}

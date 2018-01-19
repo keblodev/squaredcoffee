@@ -35,9 +35,15 @@ export default store => next => action => {
             case appActions.UPDATING_USER:
             case appActions.UPDATING_USER_ERROR:
             case appActions.REMOTE_USER_UPDATED:
-                if (auth) {
-                    dispatch(actions.getUserAccountInfo({auth}));
+                var {reset_app_state} = action;
+                if (reset_app_state) {
+                    dispatch(actions.appResetAction());
+                } else {
+                    if (auth) {
+                        dispatch(actions.getUserAccountInfo({auth}));
+                    }
                 }
+                break;
             case appActions.USER_LOGGEDIN:
             case appActions.USER_CREATED:
                 if (auth) {
@@ -51,8 +57,13 @@ export default store => next => action => {
             case appActions.ORDER_IS_REMOVED:
             case appActions.REMOVING_ORDER_ERROR:
             case appActions.ORDER_IS_PAID:
-                if(auth) {
-                    dispatch(actions.getUserOrders({auth}));
+                var {reset_app_state} = action;
+                if (reset_app_state) {
+                    dispatch(actions.appResetAction());
+                } else {
+                    if(auth) {
+                        dispatch(actions.getUserOrders({auth}));
+                    }
                 }
                 break;
 
@@ -60,9 +71,14 @@ export default store => next => action => {
             case appActions.CREATE_USER_CARD_ERROR:
             case appActions.USER_CARD_CREATED:
             case appActions.USER_CARD_DELETED:
-                if (auth) {
-                    dispatch(actions.getUserCards({auth}));
-                    dispatch(actions.getUserAccountInfo({auth}));
+                var {reset_app_state} = action;
+                if (reset_app_state) {
+                    dispatch(actions.appResetAction());
+                } else {
+                    if (auth) {
+                        dispatch(actions.getUserCards({auth}));
+                        dispatch(actions.getUserAccountInfo({auth}));
+                    }
                 }
                 break;
 
@@ -72,6 +88,31 @@ export default store => next => action => {
 
             case appActions.GETTING_AUTHORIZED_SHOPS_ERROR:
                 dispatch(actions.appResetAction());
+                dispatch(actions.refetchAuthorizedShops());
+                break;
+
+
+            case appActions.PAYING_FOR_ORDER_ERROR:
+            case appActions.LOGIN_USER_ERROR:
+            case appActions.LOGOUT_USER_ERROR:
+            case appActions.CREATE_USER_ERROR:
+            case appActions.CREATE_REMOTE_USER_ERROR:
+            case appActions.CHARGE_USER_CARD_ERROR:
+            case appActions.CHARGE_NONCE_ERROR:
+            case appActions.GETTING_USER_ORDERS_ERROR:
+            case appActions.GETTING_USER_CARDS_ERROR:
+            case appActions.DELETING_USER_ERROR:
+            case appActions.RESET_PASSWORD_REQUEST_ERROR:
+            case appActions.GETTING_USER_ACCOUNT_INFO_ERROR:
+            case appActions.UPDATE_REMOTE_USER_ERROR:
+            case appActions.GETTING_SHOP_CATEGORIES_ERROR:
+            case appActions.EMAIL_VALIDATE_RESEND_REQUEST_ERROR:
+            case appActions.PLACING_NEW_ORDER_ERROR:
+                debugger;
+                if (action.error && action.error.reset_app_state) {
+                    dispatch(actions.appResetAction());
+                    dispatch(actions.refetchAuthorizedShops());
+                }
                 break;
 
             case appActions.GOT_AUTHORIZED_SHOPS:

@@ -69,11 +69,11 @@ export default store => next => action => {
                 dispatch(actions.loadingNotActive());
                 break;
             case appActions.USER_LOGGEDIN:
-                var notifyConfig = {
-                    msg: "you're in",
-                    popup: true,
-                }
-                dispatch(actions.showNotify({...notifyConfig}));
+                // var notifyConfig = {
+                //     msg: "you're in",
+                //     popup: true,
+                // }
+                // dispatch(actions.showNotify({...notifyConfig}));
                 dispatch(actions.loadingNotActive());
                 break;
             case appActions.USER_CREATED:

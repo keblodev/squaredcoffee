@@ -107,7 +107,6 @@ export default class StoreListItem extends Component {
                                         }}
                                         source={{uri: imgUrl}}
                                     /> : null
-
                                 }
                                 <View
                                     style={styles.card}

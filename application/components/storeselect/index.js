@@ -38,14 +38,16 @@ class StoreSelect extends Component {
                             this.props.shops.ids.length ? this.props.shops.ids.map((shopId, key) => {
                                 const shop = this.props.shops.byId[shopId];
                                 const {id, remote_id} = shop;
-                                if (shop && images[remote_id]) {
+                                const url = images[remote_id] && `${assetsRoute}/${images[remote_id]}`;
+
+                                if (shop) {
                                     return (
                                         <StoreListItem
                                             key={key}
                                             actionCb={this.actionCb.bind(this, shopId)}
                                             shop={shop}
                                             shopId={shopId}
-                                            imgUrl={`${assetsRoute}/${images[remote_id]}`}
+                                            imgUrl={url}
                                             navigate={navigate}
                                         />
                                     );

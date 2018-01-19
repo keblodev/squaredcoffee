@@ -11,7 +11,7 @@ import reducers from '../reducers';
 
 import appActions from '../statics/actions';
 
-const version = "prodV2017010891";
+const version = "prodV2017010894";
 const localStorageKey = ["myCloveredCoffeeApp", version].join('');
 
 const config = {
