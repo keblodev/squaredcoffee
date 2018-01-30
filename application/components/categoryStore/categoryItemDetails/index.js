@@ -101,27 +101,39 @@ class CategoryItemDetails extends Component {
                                         /> : null
                                     }
                                     <View
-                                        style={
-                                            disabled ?
+                                        style={{
+                                            ...(disabled ?
                                                 {
                                                     ...itemStyles.card,
                                                     ...itemStyles.cardDisabled
-                                                } : itemStyles.card
-                                        }
+                                                } : itemStyles.card),
+                                                height: 140,
+                                        }}
                                     >
                                         <CardTitle
                                             styles={{
                                                 cardTitle: {
-                                                    height: 130
+                                                    position: 'absolute',
+                                                    left:   0,
+                                                    top:    0,
+                                                    bottom: 0,
+                                                    right:  '15%',
                                                 }
-                                            }}
-                                        >
-                                            <Text style={{
-                                                ...itemStyles.title,
-                                                alignSelf: 'center',
-                                                maxWidth:   '85%',
-                                                maxHeight:  120,
-                                            }}>{item.name}</Text>
+                                        }}>
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    height: '100%',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Text style={{
+                                                    ...itemStyles.title,
+                                                }}
+                                                numberOfLines={3}
+                                                // workaround due to line wrap bug in RN
+                                                >{item.name + "              \u2060  \u2060"}</Text>
+                                            </View>
                                         </CardTitle>
                                         <CardTitle
                                             styles={{

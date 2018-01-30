@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppActions from '../../../actions';
 
-import Button from 'react-native-button'
+import Button from 'react-native-button';
 
 import {
   Card,
@@ -74,20 +74,26 @@ class CategoryListItem extends Component {
                                     />
                                 ) : null}
                                 <View
-                                    style={
-                                        disabled ?
+                                    style={{
+                                        ...(disabled ?
                                             {
                                                 ...itemStyles.card,
                                                 ...itemStyles.cardDisabled
-                                            } : itemStyles.card
-                                    }
+                                            } : itemStyles.card),
+                                    }}
                                 >
-                                    <CardTitle>
-                                        <Text style={{
-                                            ...itemStyles.title,
-                                            maxWidth: '85%'
-                                        }}>{item.name}</Text>
-                                    </CardTitle>
+                                    <Text style={{
+                                        ...itemStyles.title,
+                                        fontSize:       28,
+                                        paddingTop:     15,
+                                        paddingLeft:    15,
+                                        maxWidth:       '90%',
+                                        flex:1,
+                                        flexWrap:'wrap'
+                                    }}
+                                    numberOfLines={3}
+                                    // workaround due to line wrap bug in RN
+                                    >{item.name + "              \u2060  \u2060"}</Text>
                                     <CardTitle
                                         styles={{
                                             cardTitle: {
@@ -99,6 +105,7 @@ class CategoryListItem extends Component {
                                     <View>
                                         <Text style={{
                                             ...itemStyles.title,
+                                            fontSize:  28,
                                         }}>{item.price/100}</Text>
                                         <Text style={{
                                             ...itemStyles.title,
@@ -154,7 +161,6 @@ const itemStyles = {
 	card: {
 		backgroundColor: 'transparent',
 		width: '100%'
-
 	},
 	cardViewContent: {
 		backgroundColor: 	'rgba(0,0,0, .6)',
@@ -175,7 +181,7 @@ const itemStyles = {
 		textShadowOffset: 	{
 				height: 1,
 				width: 1,
-			}
+            },
 	},
 	titleView: {
 		backgroundColor: 	'rgba(0,0,0, .6)',
@@ -191,7 +197,7 @@ const itemStyles = {
 		textShadowOffset: 	{
 				height: 1,
 				width: 1,
-			}
+            },
 	},
 	titleDisabled: {
 		color: 	'rgba(255,255,255, .6)',
