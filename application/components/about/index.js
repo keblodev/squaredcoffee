@@ -13,6 +13,7 @@ import {
 } from 'react-native-card-view';
 
 import AddressButton from '../shared/addressButton';
+import PhoneButton from '../shared/phoneButton';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,9 +31,11 @@ class About extends Component {
         const {desc} = selectedShop;
 
         let address = [];
+        let storePhoneNumber = '';
 
         if(selectedShop && selectedShop.address) {
-            const {address1, address2, city, country, state, zip} = JSON.parse(selectedShop.address);
+            const {address1, address2, city, country, state, zip, phoneNumber} = JSON.parse(selectedShop.address);
+            storePhoneNumber = phoneNumber;
             address = [address1, address2, city, country, state, zip].filter(val=>!!val);
         }
 
@@ -96,6 +99,12 @@ class About extends Component {
                         address={address}
                         name={selectedShop.name}
                     />
+                    {
+                        storePhoneNumber ?
+                        <PhoneButton
+                            phoneNumber={storePhoneNumber}
+                        /> : null
+                    }
                     <Text
                         style={{
                             fontSize:   20,

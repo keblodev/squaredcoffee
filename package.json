@@ -45,6 +45,7 @@
     "react-native-flip-card": "3.4.0",
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
     "react-native-modal-dropdown": "^0.5.0",
+    "react-native-phone-call": "^1.0.4",
     "react-native-statusbar-alert": "0.2.0",
     "react-native-swiper": "^1.5.13",
     "react-native-tab-view": "0.0.69",
