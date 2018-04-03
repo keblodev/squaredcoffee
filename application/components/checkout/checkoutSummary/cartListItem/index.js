@@ -59,7 +59,7 @@ export default ({itemId, storeItem, onSelectCb, onRemoveCartItem, onAddCartItem}
                                 style={{
                                     color: 'gray',
                                 }}
-                            >{storeItem.name} - {itemCost} {currency} </Text>
+                            >{storeItem.name} - {(itemCost).toFixed(2)} {currency} </Text>
                             {
                                 itemModifiersFormatted.map((mod, idx) => {
                                     return (

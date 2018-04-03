@@ -106,7 +106,7 @@ class CategoryListItem extends Component {
                                         <Text style={{
                                             ...itemStyles.title,
                                             fontSize:  28,
-                                        }}>{item.price/100}</Text>
+                                        }}>{(item.price/100).toFixed(2)}</Text>
                                         <Text style={{
                                             ...itemStyles.title,
                                             fontSize: 	20,

@@ -137,7 +137,7 @@ class CartItemDetails extends Component {
                                                 >
                                                     <Text style={{
                                                         ...itemStyles.title,
-                                                    }}>{(price)}</Text>
+                                                    }}>{(price).toFixed(2)}</Text>
                                                     <Text style={{
                                                         ...itemStyles.title,
                                                         fontSize: 	20,

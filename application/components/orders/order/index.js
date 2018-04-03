@@ -229,7 +229,7 @@ class Order extends Component {
                                 flexGrow: 1,
                                 textAlign: 'right'
                             }}
-                        >{totalCost} {currency}</Text>
+                        >{(totalCost).toFixed(2)} {currency}</Text>
                     </View>
                     {
                         address.length ? (
