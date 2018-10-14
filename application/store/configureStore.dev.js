@@ -12,7 +12,7 @@ import reducers from '../reducers';
 import appActions from '../statics/actions';
 
 const version = "prodV2017010894";
-const localStorageKey = ["myCloveredCoffeeApp", version].join('');
+const localStorageKey = ["myCloveredCoffeeAppOne", version].join('');
 
 const config = {
     key:      localStorageKey,
@@ -20,10 +20,11 @@ const config = {
     debug:    true,
 };
 
-const reducer = persistCombineReducers(config, {...reducers});//storage.reducer(reducers);
+const reducer = persistCombineReducers(config, {...reducers});
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage'
 
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || composeWithDevTools({ port: 5678 , realtime: true });
+const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  || composeWithDevTools({ port: 5678 , realtime: true });
 
 import middleware from '../middleware';
 

@@ -130,7 +130,7 @@ class CategoryListItem extends Component {
                                         style={itemStyles.buttonStyle}
                                         onPress={addItem}
                                         >
-                                            + to Cart
+                                                + to Cart
                                         </Button>
                                     </CardAction>
                                 </View>

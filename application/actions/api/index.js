@@ -3,7 +3,7 @@ import cloverApi from './clover';
 import appActions from '../../statics/actions';
 import {BASE_URL} from '../../statics/configs';
 
-const baseUrl = BASE_URL;
+const ${BASE_URL} = BASE_URL;
 
 const __handleSuccessError = function(response){
     return response.status !== 200 ? response.json().then(Promise.reject) : response.json();
@@ -13,7 +13,7 @@ const createUser = userConfig => {
     return dispatch => {
         dispatch({ type: appActions.CREATE_USER, userConfig });
 
-        return fetch(baseUrl + '/user/signup', {
+        return fetch(`${BASE_URL}/user/signup`, {
                     method: 'POST',
                     body: JSON.stringify({...userConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -30,7 +30,7 @@ const createRemoteUser = remoteUserConfig => {
     return dispatch => {
         dispatch({ type: appActions.CREATE_REMOTE_USER, remoteUserConfig });
 
-        return fetch(baseUrl + '/user/signup_remote', {
+        return fetch(`${BASE_URL}/user/signup_remote`, {
                     method: 'POST',
                     body: JSON.stringify({...remoteUserConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ const updateRemoteUser = remoteUserConfig => {
     return dispatch => {
         dispatch({ type: appActions.UPDATE_REMOTE_USER, remoteUserConfig });
 
-        return fetch(baseUrl + '/user/update_remote', {
+        return fetch(`${BASE_URL}/user/update_remote`, {
                     method: 'POST',
                     body: JSON.stringify({...remoteUserConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -63,7 +63,7 @@ const loginUser = loginConfig => {
     return dispatch => {
         dispatch({ type: appActions.LOGIN_USER, loginConfig });
         let cookie = '';
-        return fetch(baseUrl + '/user/login',{
+        return fetch(`${BASE_URL}/user/login`, {
                     method: 'POST',
                     body: JSON.stringify({...loginConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -88,7 +88,7 @@ const createUserCard = ({nonce, auth}) => {
     return dispatch => {
         dispatch({ type: appActions.CREATE_USER_CARD, nonce });
 
-        return fetch(baseUrl + '/card/new', {
+        return fetch(`${BASE_URL}/card/new`, {
             method: 'POST',
             body: JSON.stringify({nonce, token: auth.token}),
             credentials: 'include',
@@ -109,7 +109,7 @@ const getUserCards = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.GET_USER_CARDS });
 
-        return fetch(baseUrl + '/cards', {
+        return fetch(`${BASE_URL}/cards`, {
             method: 'POST',
             body: JSON.stringify({token: auth.token}),
             headers: {
@@ -127,7 +127,7 @@ const getUserAccountInfo = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.GET_USER_ACCOUNT_INFO });
 
-        return fetch(baseUrl + '/user/info', {
+        return fetch(`${BASE_URL}/user/info`, {
             method: 'POST',
             body: JSON.stringify({token: auth.token}),
             headers: {
@@ -148,7 +148,7 @@ const deleteUserCard = ({cardRemoteId, auth}) => {
     return dispatch => {
         dispatch({ type: appActions.DELETE_USER_CARD, cardRemoteId });
 
-        return fetch(baseUrl + '/card/delete', {
+        return fetch(`${BASE_URL}/card/delete`, {
             method: 'POST',
             body: JSON.stringify({remote_card_id: cardRemoteId, token: auth.token}),
             headers: { 'Content-Type': 'application/json' },
@@ -168,7 +168,7 @@ const deleteUserCard = ({cardRemoteId, auth}) => {
 const chargeUserCard = ({auth, card}) => dispatch => {
     dispatch({ type: appActions.CHARGE_USER_CARD });
 
-    return fetch(baseUrl + '/card/charge', {
+    return fetch(`${BASE_URL}/card/charge`, {
         method: 'POST',
         body: JSON.stringify({customer_card_id: card.id, token: auth.token}),
         headers: { 'Content-Type': 'application/json' },
@@ -190,7 +190,7 @@ const chargeUserCard = ({auth, card}) => dispatch => {
 const chargeNonce = ({nonce}) => dispatch => {
     dispatch({ type: appActions.CHARGE_NONCE });
 
-    return fetch(baseUrl + '/charge', {
+    return fetch(`${BASE_URL}/charge`, {
         method: 'POST',
         body: JSON.stringify({nonce}),
         headers: { 'Content-Type': 'application/json' },
@@ -206,7 +206,7 @@ const logoutUser = () => {
     return dispatch => {
         dispatch({ type: appActions.LOGOUT_USER, user });
 
-        return fetch(baseUrl + '/user/logout', {
+        return fetch(`${BASE_URL}/user/logout`, {
                     method: 'POST',
                     body: JSON.stringify({...user}),
                     headers: { 'Content-Type': 'application/json' },

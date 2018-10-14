@@ -35,8 +35,8 @@ export default store => next => action => {
             case appActions.UPDATING_USER:
             case appActions.UPDATING_USER_ERROR:
             case appActions.REMOTE_USER_UPDATED:
-                var {reset_app_state} = action;
-                if (reset_app_state) {
+                var {resetClientAppState} = action;
+                if (resetClientAppState) {
                     dispatch(actions.appResetAction());
                 } else {
                     if (auth) {
@@ -57,8 +57,8 @@ export default store => next => action => {
             case appActions.ORDER_IS_REMOVED:
             case appActions.REMOVING_ORDER_ERROR:
             case appActions.ORDER_IS_PAID:
-                var {reset_app_state} = action;
-                if (reset_app_state) {
+                var {resetClientAppState} = action;
+                if (resetClientAppState) {
                     dispatch(actions.appResetAction());
                 } else {
                     if(auth) {
@@ -71,8 +71,8 @@ export default store => next => action => {
             case appActions.CREATE_USER_CARD_ERROR:
             case appActions.USER_CARD_CREATED:
             case appActions.USER_CARD_DELETED:
-                var {reset_app_state} = action;
-                if (reset_app_state) {
+                var {resetClientAppState} = action;
+                if (resetClientAppState) {
                     dispatch(actions.appResetAction());
                 } else {
                     if (auth) {
@@ -109,15 +109,15 @@ export default store => next => action => {
             case appActions.EMAIL_VALIDATE_RESEND_REQUEST_ERROR:
             case appActions.PLACING_NEW_ORDER_ERROR:
                 debugger;
-                if (action.error && action.error.reset_app_state) {
+                if (action.error && action.error.resetClientAppState) {
                     dispatch(actions.appResetAction());
                     dispatch(actions.refetchAuthorizedShops());
                 }
                 break;
 
             case appActions.GOT_AUTHORIZED_SHOPS:
-                const {shops,reset_app_state} = action;
-                if (shops && shops.length && !reset_app_state) {
+                const {shops,resetClientAppState} = action;
+                if (shops && shops.length && !resetClientAppState) {
                     shops.forEach(shop => dispatch(actions.getShopCategories({shopId: shop.remote_id})))
                 } else {
                     dispatch(actions.appResetAction());

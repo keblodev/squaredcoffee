@@ -11,10 +11,13 @@ const __handleSuccessError = function(response){
 const getConfig = (route = CLOVER_IMG_ROUTE) => {
     return dispatch => {
         dispatch({ type: appActions.GETTING_CONFIGS });
-
-        return fetch(`${BASE_URL}/shops/clover/config/remote`)
+        debugger;
+        return fetch(`${BASE_URL}/assets/clover/config/img/remote`)
                 .then(__handleSuccessError)
-                .then(json => dispatch(gotConfig(json.data)))
+                .then(json => {
+                  debugger;
+                  // return dispatch(gotConfig(json.data));
+                })
                 .then(data => {console.log(data)})
                 .catch(error => dispatch(gettingConfigError(error)))
     };
@@ -27,12 +30,18 @@ const gettingConfigError   = error => ({type: appActions.GETTING_CONFIGS_ERROR, 
 const getAuthorizedShops = () => {
     return dispatch => {
         dispatch({ type: appActions.GETTING_AUTHORIZED_SHOPS });
-
+        debugger;
         return fetch(`${BASE_URL}/shops/clover`)
                 .then(__handleSuccessError)
-                .then(json => dispatch(gotAuthorizedShops(json.data)))
+                .then(json => {
+                  debugger;
+                  return dispatch(gotAuthorizedShops(json.data));
+                })
                 .then(data => console.log(data))
-                .catch(error => dispatch(gettingAuthorizedShopsError(error)))
+                .catch(error =>  {
+                  debugger;
+                  return dispatch(gettingAuthorizedShopsError(error));
+                })
     };
 }
 
@@ -40,11 +49,15 @@ const refetchAuthorizedShops = () => {
     return dispatch => {
         dispatch({ type: appActions.REFETCHING_AUTHORIZED_SHOPS });
 
+        debugger;
         return fetch(`${BASE_URL}/shops/clover/refetch`)
                 .then(__handleSuccessError)
                 .then(json => dispatch(gotAuthorizedShops(json.data)))
                 .then(data => console.log(data))
-                .catch(error => dispatch(gettingAuthorizedShopsError(error)))
+                .catch(error => {
+                  debugger;
+                  return dispatch(gettingAuthorizedShopsError(error));
+                })
     };
 }
 

@@ -21,9 +21,13 @@ class App extends Component {
 
     componentWillMount() {
         const {assetsRoute} = this.props.appConfig;
-        this.props.actions.getConfig({route: assetsRoute});
+
         this.props.actions.getAuthorizedShops();
-        this.props.actions.refetchAuthorizedShops();
+        // TODO: should be PER SHOP request
+        // this.props.actions.getConfig({route: assetsRoute});
+
+        // TODO
+        // this.props.actions.refetchAuthorizedShops();
     }
 
     componentWillUnmount() {
