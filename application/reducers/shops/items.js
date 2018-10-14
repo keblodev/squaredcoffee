@@ -11,7 +11,7 @@ const byCategoryId = (state = itemsInitialState.byCategoryId, action) => {
         case appActions.GOT_SHOP_CATEGORIES:
             return {
                 ...state,
-                ...action.data.reduce((acc,item,idx)=> {
+                ...action.categories.reduce((acc,item,idx)=> {
                     return {
                         ...acc,
                         [item.id]: item.items.elements
@@ -28,7 +28,7 @@ const byId = (state = itemsInitialState.byId, action) => {
         case appActions.GOT_SHOP_CATEGORIES:
             return {
                 ...state,
-                ...action.data.reduce((acc,item,idx)=> {
+                ...action.categories.reduce((acc,item,idx)=> {
                     return {
                         ...acc,
                         ...item.items.elements.reduce(

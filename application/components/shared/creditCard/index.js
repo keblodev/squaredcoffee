@@ -87,7 +87,6 @@ class CreditCardView extends Component {
         if (validItems.length === this.indexMap.length) {
             this.props.actions.submitPayment(validItems)
         } else {
-            debugger;
             this.setState({...this.initialState})
         }
     }

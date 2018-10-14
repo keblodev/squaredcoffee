@@ -42,8 +42,8 @@ class About extends Component {
         let schedule = [];
         let daysDic = ['Mon','Tue','Wed','Thurs','Fri','Sat','Sun'];
 
-        if(selectedShop.opening_hours) {
-            const {monday,tuesday,wednesday,thursday,friday,saturday,sunday} = JSON.parse(selectedShop.opening_hours);
+        if(selectedShop.openingHours) {
+            const {monday,tuesday,wednesday,thursday,friday,saturday,sunday} = JSON.parse(selectedShop.openingHours);
             schedule = [monday,tuesday,wednesday,thursday,friday,saturday,sunday]
             .map(day => {
                 return day.elements.map(range => {

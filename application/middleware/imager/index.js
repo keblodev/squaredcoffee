@@ -12,7 +12,7 @@ export default store => next => action => {
         stateAndDispatch = {state, dispatch};
 
         switch(action.type) {
-            case appActions.GOT_CONFIGS:
+            case appActions.GOT_SHOP_IMG_CONFIG:
                 const {data} = action;
 
                 // for (shoId in data) {

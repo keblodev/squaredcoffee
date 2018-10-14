@@ -118,7 +118,10 @@ export default store => next => action => {
             case appActions.GOT_AUTHORIZED_SHOPS:
                 const {shops,resetClientAppState} = action;
                 if (shops && shops.length && !resetClientAppState) {
-                    shops.forEach(shop => dispatch(actions.getShopCategories({shopId: shop.remote_id})))
+                    shops.forEach(shop => {
+                      dispatch(actions.getShopCategories({shopId: shop.remoteId}));
+                      dispatch(actions.getShopImgConfig({shopId: shop.remoteId}));
+                    });
                 } else {
                     dispatch(actions.appResetAction());
                 }

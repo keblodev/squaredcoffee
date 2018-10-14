@@ -199,7 +199,7 @@ export default store => next => action => {
                 dispatch(actions.placeNewOrder({
                     userConfig:     {auth},
                     order,
-                    shopId:         shop.remote_id,
+                    shopId:         shop.remoteId,
                     isDriveThrough: cart.isDriveThrough,
                 }))
                 break;

@@ -8,38 +8,44 @@ const __handleSuccessError = function(response){
 }
 
 // 1.
-const getConfig = (route = CLOVER_IMG_ROUTE) => {
+const getAppConfig = () => {
     return dispatch => {
-        dispatch({ type: appActions.GETTING_CONFIGS });
-        debugger;
-        return fetch(`${BASE_URL}/assets/clover/config/img/remote`)
+        dispatch({ type: appActions.GETTING_APP_CONFIG });
+        return fetch(`${BASE_URL}/assets/config/app`)
                 .then(__handleSuccessError)
-                .then(json => {
-                  debugger;
-                  // return dispatch(gotConfig(json.data));
-                })
+                .then(json => dispatch(gotAppConfig(json.data)))
                 .then(data => {console.log(data)})
-                .catch(error => dispatch(gettingConfigError(error)))
+                .catch(error => dispatch(gettingAppConfigError(error)))
     };
 }
 
-const gotConfig            = ({data}) => ({type: appActions.GOT_CONFIGS, data});
-const gettingConfigError   = error => ({type: appActions.GETTING_CONFIGS_ERROR, error});
+const gotAppConfig            = (data) => ({type: appActions.GOT_APP_CONFIG, data});
+const gettingAppConfigError   = error => ({type: appActions.GETTING_APP_CONFIG_ERROR, error});
+
+// 1.1
+const getShopImgConfig = ({shopId}) => {
+  return dispatch => {
+      dispatch({ type: appActions.GETTING_SHOP_IMG_CONFIG });
+      return fetch(`${BASE_URL}/assets/clover/config/img/${shopId}`)
+              .then(__handleSuccessError)
+              .then(json => dispatch(gotShopImgConfig(json.data)))
+              .then(data => {console.log(data)})
+              .catch(error => dispatch(gettingShopImgConfigError(error)))
+  };
+}
+
+const gotShopImgConfig            = (data) => ({type: appActions.GOT_SHOP_IMG_CONFIG, data});
+const gettingShopImgConfigError   = error => ({type: appActions.GETTING_SHOP_IMG_CONFIG_ERROR, error});
 
 // 2.
 const getAuthorizedShops = () => {
     return dispatch => {
         dispatch({ type: appActions.GETTING_AUTHORIZED_SHOPS });
-        debugger;
         return fetch(`${BASE_URL}/shops/clover`)
                 .then(__handleSuccessError)
-                .then(json => {
-                  debugger;
-                  return dispatch(gotAuthorizedShops(json.data));
-                })
+                .then(json => dispatch(gotAuthorizedShops(json.data)))
                 .then(data => console.log(data))
                 .catch(error =>  {
-                  debugger;
                   return dispatch(gettingAuthorizedShopsError(error));
                 })
     };
@@ -49,15 +55,11 @@ const refetchAuthorizedShops = () => {
     return dispatch => {
         dispatch({ type: appActions.REFETCHING_AUTHORIZED_SHOPS });
 
-        debugger;
         return fetch(`${BASE_URL}/shops/clover/refetch`)
                 .then(__handleSuccessError)
                 .then(json => dispatch(gotAuthorizedShops(json.data)))
                 .then(data => console.log(data))
-                .catch(error => {
-                  debugger;
-                  return dispatch(gettingAuthorizedShopsError(error));
-                })
+                .catch(error => dispatch(gettingAuthorizedShopsError(error)))
     };
 }
 
@@ -68,7 +70,6 @@ const gettingAuthorizedShopsError   = error => ({type: appActions.GETTING_AUTHOR
 const getShopCategories = ({shopId}) => {
     return dispatch => {
         dispatch({ type: appActions.GETTING_SHOP_CATEGORIES });
-
         return fetch(`${BASE_URL}/shops/clover/${shopId}/categories`)
                 .then(__handleSuccessError)
                 .then(json => dispatch(gotShopCategories(json.data)))
@@ -77,7 +78,7 @@ const getShopCategories = ({shopId}) => {
     };
 }
 
-const gotShopCategories            = ({data, id}) => ({type: appActions.GOT_SHOP_CATEGORIES, data, id});
+const gotShopCategories            = ({categories, id}) => ({type: appActions.GOT_SHOP_CATEGORIES, categories, id});
 const gettingShopCategoriesError   = error => ({type: appActions.GETTING_SHOP_CATEGORIES_ERROR, error});
 
 // 3.
@@ -191,7 +192,8 @@ const orderRemoved          = ({orders}) => ({type: appActions.ORDER_IS_REMOVED,
 const removingOrderError    = error => ({type: appActions.REMOVING_ORDER_ERROR, error});
 
 export default {
-    getConfig,
+    getAppConfig,
+    getShopImgConfig,
     getAuthorizedShops,
     getShopCategories,
     placeNewOrder,

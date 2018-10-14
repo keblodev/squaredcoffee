@@ -23,11 +23,8 @@ class App extends Component {
         const {assetsRoute} = this.props.appConfig;
 
         this.props.actions.getAuthorizedShops();
-        // TODO: should be PER SHOP request
-        // this.props.actions.getConfig({route: assetsRoute});
-
-        // TODO
-        // this.props.actions.refetchAuthorizedShops();
+        this.props.actions.getAppConfig();
+        this.props.actions.refetchAuthorizedShops();
     }
 
     componentWillUnmount() {

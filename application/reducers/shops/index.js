@@ -15,11 +15,10 @@ const initialState = {
 const byId = (state = initialState.byId, action) => {
     switch(action.type) {
         case appActions.GOT_AUTHORIZED_SHOPS:
-            debugger;
             return action.shops.reduce((acc,item,idx)=> {
                     return {
                         ...acc,
-                        [item.remote_id]: item
+                        [item.remoteId]: item
                     }
                 }, {})
 

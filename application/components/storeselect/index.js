@@ -17,7 +17,6 @@ class StoreSelect extends Component {
 
     __getAppInitials = () => {
         const {assetsRoute} = this.props.appConfig;
-        this.props.actions.getConfig({route: assetsRoute});
         this.props.actions.getAuthorizedShops();
     }
 
@@ -37,8 +36,8 @@ class StoreSelect extends Component {
                         {
                             this.props.shops.ids.length ? this.props.shops.ids.map((shopId, key) => {
                                 const shop = this.props.shops.byId[shopId];
-                                const {id, remote_id} = shop;
-                                const url = images[remote_id] && `${assetsRoute}/${images[remote_id]}`;
+                                const {id, remoteId} = shop;
+                                const url = images[remoteId] && `${assetsRoute}/${images[remoteId]}`;
 
                                 if (shop) {
                                     return (

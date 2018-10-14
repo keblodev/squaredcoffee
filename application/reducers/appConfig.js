@@ -8,9 +8,9 @@ const initialState = {
 
 export default function appConfig(state = initialState, action) {
     switch (action.type) {
-        case appTypes.GOT_CONFIGS:
+        case appTypes.GOT_APP_CONFIG:
             return {
-                ...action.data.app_config,
+                ...action.data,
             };
 
         default:
