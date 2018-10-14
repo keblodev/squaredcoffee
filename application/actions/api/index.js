@@ -3,8 +3,6 @@ import cloverApi from './clover';
 import appActions from '../../statics/actions';
 import {BASE_URL} from '../../statics/configs';
 
-const ${BASE_URL} = BASE_URL;
-
 const __handleSuccessError = function(response){
     return response.status !== 200 ? response.json().then(Promise.reject) : response.json();
 }

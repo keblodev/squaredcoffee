@@ -1,10 +1,8 @@
 {
-  "presets": ["react-native"],
+  "presets": ["react-native", "module:metro-react-native-babel-preset"],
 	"env": {
 		"development": {
 			"plugins": [
-        ["@babel/plugin-syntax-dynamic-import"],
-				["transform-react-jsx-source"],
 				["transform-object-rest-spread"],
 				["syntax-object-rest-spread"]
 			]

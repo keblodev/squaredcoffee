@@ -38,7 +38,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "date-fns": "^1.29.0",
     "foect": "0.1.5",
-    "react": "16.5.2",
+    "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
     "react-native-animated-overlay": "0.0.10",
     "react-native-button": "^2.3.0",
