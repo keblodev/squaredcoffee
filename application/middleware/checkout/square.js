@@ -197,7 +197,7 @@ export default store => next => action => {
 
                 const order = cart.ids.map(id => cart.byUuid[id]);
                 dispatch(actions.placeNewOrder({
-                    userConfig:     {auth},
+                    auth,
                     order,
                     shopId:         shop.remoteId,
                     isDriveThrough: cart.isDriveThrough,

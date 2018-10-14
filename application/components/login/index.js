@@ -113,7 +113,11 @@ class TabbedLogin extends PureComponent {
 				action={{
 					actionCb: this.handleSignup.bind(this),
 					actionLabel: 'Sign Up'
-				}}
+        }}
+        formDefaultValues={{
+          email: "pagy@nada.email",
+          password: "123456789aA"
+      }}
 				formControls={[
 					{
 						label: 'Email Address',
@@ -150,6 +154,9 @@ class TabbedLogin extends PureComponent {
                     actionCb: this.handleForgot.bind(this),
                     actionLabel: 'Get Password Reset Link',
                 }}
+                formDefaultValues={{
+                  email: "pagy@nada.email",
+              }}
                 formControls={[
                     {
                         label: 'Email Address',

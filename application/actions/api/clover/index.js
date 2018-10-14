@@ -82,7 +82,7 @@ const gotShopCategories            = ({categories, id}) => ({type: appActions.GO
 const gettingShopCategoriesError   = error => ({type: appActions.GETTING_SHOP_CATEGORIES_ERROR, error});
 
 // 3.
-const placeNewOrder = ({userConfig, order, shopId, isDriveThrough}) => {
+const placeNewOrder = ({auth, order, shopId, isDriveThrough}) => {
     return dispatch => {
 
         console.log("SENDING ORDER FOR SHOP: " + shopId);
@@ -92,7 +92,7 @@ const placeNewOrder = ({userConfig, order, shopId, isDriveThrough}) => {
 
         return fetch(`${BASE_URL}/shops/clover/${shopId}/order/new`,{
                     method: 'POST',
-                    body: JSON.stringify({...userConfig, order, isDriveThrough}),
+                    body: JSON.stringify({...auth, order, isDriveThrough}),
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then(__handleSuccessError)

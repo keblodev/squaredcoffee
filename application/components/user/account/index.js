@@ -81,7 +81,7 @@ class TabbedLogin extends PureComponent {
     handleUpdate(formState) {
         const {auth} = this.props.user;
         this.props.actions.updateUser({
-            userConfig: {auth},
+            auth,
             config: formState
         })
     }
@@ -89,13 +89,13 @@ class TabbedLogin extends PureComponent {
     handlePasswordReset() {
         //TODO
         const {auth} = this.props.user;
-        this.props.actions.requestPasswordReset({userConfig: {auth}});
+        this.props.actions.requestPasswordReset({auth});
     }
 
     handleEmailResend() {
         //TODO
         const {auth} = this.props.user;
-        this.props.actions.requestEmailValidateResend({userConfig: {auth}});
+        this.props.actions.requestEmailValidateResend({auth});
     }
 
     componentDidUpdate() {

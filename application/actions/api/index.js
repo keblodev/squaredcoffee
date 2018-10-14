@@ -7,13 +7,13 @@ const __handleSuccessError = function(response){
     return response.status !== 200 ? response.json().then(Promise.reject) : response.json();
 }
 
-const createUser = userConfig => {
+const createUser = auth => {
     return dispatch => {
-        dispatch({ type: appActions.CREATE_USER, userConfig });
+        dispatch({ type: appActions.CREATE_USER, auth });
         debugger;
         return fetch(`${BASE_URL}/users/signup`, {
                     method: 'POST',
-                    body: JSON.stringify({...userConfig}),
+                    body: JSON.stringify({...auth}),
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then(__handleSuccessError)
@@ -235,14 +235,14 @@ const userCardDeleted               = success           => ({ type: appActions.U
 const nonceCharged                  = success           => ({ type: appActions.NONCE_CHARGED, success })
 
 
-const updateUser = ({userConfig, config}) => {
+const updateUser = ({auth, config}) => {
     return dispatch => {
 
         dispatch({ type: appActions.UPDATING_USER});
 
         return fetch(`${BASE_URL}/users/update/me`, {
             method: 'POST',
-            body: JSON.stringify({...userConfig, config}),
+            body: JSON.stringify({...auth, config}),
             headers: { 'Content-Type': 'application/json' },
         })
         .then(__handleSuccessError)
@@ -255,12 +255,12 @@ const updateUser = ({userConfig, config}) => {
 const userUpdated            = ({user, staged}) => ({type: appActions.USER_UPDATED, user, staged});
 const updatingUserError      = error => ({type: appActions.UPDATING_USER_ERROR, error});
 
-const requestPasswordReset = ({userConfig}) => {
+const requestPasswordReset = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.RESET_PASSWORD_REQUEST});
         return fetch(`${BASE_URL}/users/auth/password/reset`,{
                     method: 'POST',
-                    body: JSON.stringify({...userConfig}),
+                    body: JSON.stringify({...auth}),
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then(__handleSuccessError)
@@ -297,16 +297,18 @@ const requestPasswordForgot = ({formConfig}) => {
 const passwordForgotRequest  = message => ({ type: appActions.RESET_PASSWORD_REQUEST_SUCCESS, message});
 const passwordForgotError    = error   => ({ type: appActions.RESET_PASSWORD_REQUEST_ERROR, error});
 
-const requestEmailValidateResend = ({userConfig}) => {
+const requestEmailValidateResend = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.EMAIL_VALIDATE_RESEND_REQUEST});
+        debugger;
         return fetch(`${BASE_URL}/users/auth/email/validate/resend`,{
                     method: 'POST',
-                    body: JSON.stringify({...userConfig}),
+                    body: JSON.stringify({...auth}),
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then(__handleSuccessError)
                 .then(json => {
+                    debugger;
                     console.log(json);
                     return dispatch(validateResendRequested(json))
                 })
