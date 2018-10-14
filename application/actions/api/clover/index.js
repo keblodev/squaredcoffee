@@ -112,7 +112,7 @@ const getUserOrders = ({auth}) => {
         // todo
         return fetch(`${BASE_URL}/users/orders`, {
             method: 'POST',
-            body: JSON.stringify({token: auth.token}),
+            body: JSON.stringify({...auth}),
             headers: {
                 'Content-Type': 'application/json',
             },
