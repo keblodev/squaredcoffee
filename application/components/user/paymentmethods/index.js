@@ -27,6 +27,7 @@ class PaymentMethods extends Component {
     componentWillMount = () => {}
 
     componentWillUpdate = () => {
+      // MAYBE NOT TODO: ApplePay
         // this.props.actions.getUserCards()
     }
 

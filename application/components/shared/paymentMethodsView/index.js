@@ -29,7 +29,8 @@ class PaymentMethodsView extends Component {
     componentWillMount() {
         const {auth} = this.props;
         if (auth) {
-            this.props.actions.getUserCards({auth});
+            // TODO for apple/google pay
+            // this.props.actions.getUserCards({auth});
         }
     }
 

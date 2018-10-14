@@ -10,8 +10,8 @@ const __handleSuccessError = function(response){
 const createUser = userConfig => {
     return dispatch => {
         dispatch({ type: appActions.CREATE_USER, userConfig });
-
-        return fetch(`${BASE_URL}/user/signup`, {
+        debugger;
+        return fetch(`${BASE_URL}/users/signup`, {
                     method: 'POST',
                     body: JSON.stringify({...userConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -57,31 +57,6 @@ const updateRemoteUser = remoteUserConfig => {
 	};
 };
 
-const loginUser = loginConfig => {
-    return dispatch => {
-        dispatch({ type: appActions.LOGIN_USER, loginConfig });
-        let cookie = '';
-        return fetch(`${BASE_URL}/user/login`, {
-                    method: 'POST',
-                    body: JSON.stringify({...loginConfig}),
-                    headers: { 'Content-Type': 'application/json' },
-                })
-                .then(__handleSuccessError)
-                .then(json => {
-                    return dispatch(userLoggedIn(
-                            json.data,
-                        //  cookie
-                        ))
-                })
-                .then(data => console.log(data))
-                .catch(({error}) => {
-                    return dispatch(userLoginError(error))
-                })
-	};
-};
-
-const userLoginError    = error => ({type: appActions.LOGIN_USER_ERROR, error});
-
 const createUserCard = ({nonce, auth}) => {
     return dispatch => {
         dispatch({ type: appActions.CREATE_USER_CARD, nonce });
@@ -121,11 +96,12 @@ const getUserCards = ({auth}) => {
     };
 };
 
+const gettingtUserCardsError        = error => ({type: appActions.GETTING_USER_CARDS_ERROR, error});
+
 const getUserAccountInfo = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.GET_USER_ACCOUNT_INFO });
-
-        return fetch(`${BASE_URL}/user/info`, {
+        return fetch(`${BASE_URL}/users/me`, {
             method: 'POST',
             body: JSON.stringify({token: auth.token}),
             headers: {
@@ -139,7 +115,7 @@ const getUserAccountInfo = ({auth}) => {
     };
 }
 
-const gotUserAccountInfo   = accountInfo    => ({type: appActions.GOT_USER_ACCOUNT_INFO, accountInfo});
+const gotUserAccountInfo   = ({user: data})    => ({type: appActions.GOT_USER_ACCOUNT_INFO, data});
 
 
 const deleteUserCard = ({cardRemoteId, auth}) => {
@@ -194,19 +170,34 @@ const chargeNonce = ({nonce}) => dispatch => {
         headers: { 'Content-Type': 'application/json' },
     })
         .then(__handleSuccessError)
-        .then(json =>
-            dispatch(nonceCharged(json))
-    )
-        .catch(({error}) => dispatch(chargeNonceError(error)));
+        .then(json =>dispatch(nonceCharged(json)))
+    .catch(({error}) => dispatch(chargeNonceError(error)));
 };
 
-const logoutUser = () => {
-    return dispatch => {
-        dispatch({ type: appActions.LOGOUT_USER, user });
+const loginUser = loginConfig => {
+  return dispatch => {
+      dispatch({ type: appActions.LOGIN_USER, loginConfig });
+      return fetch(`${BASE_URL}/users/auth/login`, {
+                  method: 'POST',
+                  body: JSON.stringify({...loginConfig}),
+                  headers: { 'Content-Type': 'application/json' },
+              })
+              .then(__handleSuccessError)
+              .then(json => dispatch(userLoggedIn(json.data,)))
+              .then(data => console.log(data))
+              .catch(({error}) => dispatch(userLoginError(error)))
+  };
+};
 
-        return fetch(`${BASE_URL}/user/logout`, {
+const userLoggedIn                  = auth => ({ type: appActions.USER_LOGGEDIN, auth });
+const userLoginError    = error => ({type: appActions.LOGIN_USER_ERROR, error});
+
+const logoutUser = ({auth}) => {
+    return dispatch => {
+        dispatch({ type: appActions.LOGOUT_USER });
+        return fetch(`${BASE_URL}/users/auth/logout`, {
                     method: 'POST',
-                    body: JSON.stringify({...user}),
+                    body: JSON.stringify({token: auth.token}),
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then(__handleSuccessError)
@@ -215,26 +206,26 @@ const logoutUser = () => {
                 .catch(error => dispatch(logoutUserError(error)));
 	};
 }
+const userLoggedOut        = (message = {}) => ({ type: appActions.USER_LOGGEDOUT, message });
+const logoutUserError       = error         => ({type: appActions.LOGOUT_USER_ERROR, error});
 
 const userRemoteCreated             = remoteResponse => ({ type: appActions.REMOTE_USER_CREATED, remoteResponse });
 const userRemoteUpdated             = remoteResponse => ({ type: appActions.REMOTE_USER_UPDATED, remoteResponse });
 const userCreated                   = auth => ({ type: appActions.USER_CREATED, auth });
-const userLoggedIn                  = auth => ({ type: appActions.USER_LOGGEDIN, auth });
 const userCardCreated               = card => ({ type: appActions.USER_CARD_CREATED, card });
 
 const createUserError               = error => ({type: appActions.CREATE_USER_ERROR, error});
 const userRemoteCreateError         = error => ({type: appActions.CREATE_REMOTE_USER_ERROR, error});
 const userRemoteUpdateError         = error => ({type: appActions.UPDATE_REMOTE_USER_ERROR, error});
-const userLogOutError               = error => ({type: appActions.LOGOUT_USER_ERROR, error});
 const chargeNonceError              = error => ({type: appActions.CHARGE_NONCE_ERROR, error});
 const chargeUserCardError           = error => ({type: appActions.CHARGE_USER_CARD_ERROR, error});
 const createUserCardError           = error => ({type: appActions.CREATE_USER_CARD_ERROR, error});
 
-const logoutUserError               = error => ({type: appActions.LOGOUT_USER_ERROR, error});
+
 
 const deletingUserCardError         = error => ({type: appActions.DELETING_USER_CARD_ERROR, error});
 const deletingUserError             = error => ({type: appActions.DELETING_USER_ERROR, error});
-const gettingtUserCardsError        = error => ({type: appActions.GETTING_USER_CARDS_ERROR, error});
+
 const gettingUserAccountInfoError   = cards => ({type: appActions.GETTING_USER_ACCOUNT_INFO_ERROR, cards});
 
 const gotUserCards                  = cards             => ({type: appActions.GOT_USER_CARDS, cards});
@@ -242,7 +233,6 @@ const deletedUser                   = ()                => ({type: appActions.DE
 const userCardCharged               = success           => ({ type: appActions.USER_CARD_CHARGED, success })
 const userCardDeleted               = success           => ({ type: appActions.USER_CARD_DELETED, success })
 const nonceCharged                  = success           => ({ type: appActions.NONCE_CHARGED, success })
-const userLoggedOut                 = (message = {})    => ({ type: appActions.USER_LOGGEDOUT, message });
 
 
 const updateUser = ({userConfig, config}) => {
@@ -250,7 +240,7 @@ const updateUser = ({userConfig, config}) => {
 
         dispatch({ type: appActions.UPDATING_USER});
 
-        return fetch(`${BASE_URL}/user/update/me`, {
+        return fetch(`${BASE_URL}/users/update/me`, {
             method: 'POST',
             body: JSON.stringify({...userConfig, config}),
             headers: { 'Content-Type': 'application/json' },
@@ -268,7 +258,7 @@ const updatingUserError      = error => ({type: appActions.UPDATING_USER_ERROR, 
 const requestPasswordReset = ({userConfig}) => {
     return dispatch => {
         dispatch({ type: appActions.RESET_PASSWORD_REQUEST});
-        return fetch(`${BASE_URL}/user/password/reset`,{
+        return fetch(`${BASE_URL}/users/auth/password/reset`,{
                     method: 'POST',
                     body: JSON.stringify({...userConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -289,7 +279,7 @@ const passwordResetError    = error   => ({ type: appActions.RESET_PASSWORD_REQU
 const requestPasswordForgot = ({formConfig}) => {
     return dispatch => {
         dispatch({ type: appActions.RESET_PASSWORD_REQUEST});
-        return fetch(`${BASE_URL}/user/password/forgot`,{
+        return fetch(`${BASE_URL}/users/auth/password/forgot`,{
                     method: 'POST',
                     body: JSON.stringify({...formConfig}),
                     headers: { 'Content-Type': 'application/json' },
@@ -310,7 +300,7 @@ const passwordForgotError    = error   => ({ type: appActions.RESET_PASSWORD_REQ
 const requestEmailValidateResend = ({userConfig}) => {
     return dispatch => {
         dispatch({ type: appActions.EMAIL_VALIDATE_RESEND_REQUEST});
-        return fetch(`${BASE_URL}/user/email/validate/resend`,{
+        return fetch(`${BASE_URL}/users/auth/email/validate/resend`,{
                     method: 'POST',
                     body: JSON.stringify({...userConfig}),
                     headers: { 'Content-Type': 'application/json' },

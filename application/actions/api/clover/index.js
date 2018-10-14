@@ -108,8 +108,9 @@ const placingNewOrderError  = error => ({type: appActions.PLACING_NEW_ORDER_ERRO
 const getUserOrders = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.GETTING_USER_ORDERS });
-
-        return fetch(`${BASE_URL}/user/shop/clover/orders`, {
+        debugger;
+        // todo
+        return fetch(`${BASE_URL}/users/orders`, {
             method: 'POST',
             body: JSON.stringify({token: auth.token}),
             headers: {

@@ -47,7 +47,8 @@ export default store => next => action => {
             case appActions.USER_LOGGEDIN:
             case appActions.USER_CREATED:
                 if (auth) {
-                    dispatch(actions.getUserCards({auth}));
+                    // TODO user ApplePay/Google
+                    // dispatch(actions.getUserCards({auth}));
                     dispatch(actions.getUserAccountInfo({auth}));
                 }
                 break;

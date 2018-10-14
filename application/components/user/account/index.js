@@ -115,7 +115,7 @@ class TabbedLogin extends PureComponent {
         const { navigation } = this.props;
         const {user} = this.props;
         const isLoggedIn = !!user.auth;
-        const is_verified = user.userAccount && user.userAccount.is_verified;
+        const isVerified = user.data && user.data.isVerified;
         //TODO -> unify routes to components
         // need to figure validation before that
         const AccountInfoRoute = () => <View style={[ styles.container ]} >
@@ -123,15 +123,15 @@ class TabbedLogin extends PureComponent {
                 action={{
                     actionCb:               this.handleUpdate.bind(this),
                     actionLabel:            'Change email',
-                    secondaryAction:        is_verified ? this.handlePasswordReset.bind(this) : this.handleEmailResend.bind(this),
-                    secondaryActionLabel:   is_verified ? 'Request Password Reset' : 'Resend Email Validation'
+                    secondaryAction:        isVerified ? this.handlePasswordReset.bind(this) : this.handleEmailResend.bind(this),
+                    secondaryActionLabel:   isVerified ? 'Request Password Reset' : 'Resend Email Validation'
                 }}
                 formDefaultValues={{
-                    email: user.userAccount && user.userAccount.email
+                    email: user.data && user.data.email
                 }}
                 formControls={[
                     {
-                        label: 'Email Address (' + (is_verified ? "" : "not ") + 'verified)',
+                        label: 'Email Address (' + (isVerified ? "" : "not ") + 'verified)',
                         name:  'email',
                         keyboardType: 'email-address',
                         pattern: new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/),

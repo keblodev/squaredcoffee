@@ -112,7 +112,7 @@ export default user = (state = initialState, action) => {
         case appActions.GOT_USER_ACCOUNT_INFO:
             return {
                 ...state,
-                ...action.accountInfo
+                data: action.data
             };
 
         case appActions.CREATE_REMOTE_USER:

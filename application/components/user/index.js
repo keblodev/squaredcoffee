@@ -26,8 +26,8 @@ class User extends Component {
 	}
 
 	handleLoginLogout(isLoggedIn) {
-		if (isLoggedIn) {
-			this.props.actions.logoutUser();
+		if (isLoggedIn && this.props.user.auth) {
+			this.props.actions.logoutUser({auth: this.props.user.auth});
 		} else {
 			//TODO: this currently signs up
 			this.props.actions.createUser({some: 'config'})
