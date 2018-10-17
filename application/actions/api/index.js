@@ -4,7 +4,8 @@ import appActions from '../../statics/actions';
 import {BASE_URL} from '../../statics/configs';
 
 const __handleSuccessError = function(response){
-    return response.status !== 200 ? response.json().then(Promise.reject) : response.json();
+  return response.status !== 200 ? response.json()
+    .then((error) => Promise.reject({...error, status: response.status})) : response.json();
 }
 
 const createUser = auth => {

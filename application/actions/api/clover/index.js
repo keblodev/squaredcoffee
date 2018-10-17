@@ -4,7 +4,8 @@ import appActions from '../../../statics/actions';
 import {BASE_URL, CLOVER_IMG_ROUTE} from '../../../statics/configs';
 
 const __handleSuccessError = function(response){
-    return response.status !== 200 ? response.json().then(Promise.reject) : response.json();
+    return response.status !== 200 ? response.json()
+      .then((error) => Promise.reject({...error, status: response.status})) : response.json();
 }
 
 // 1.
@@ -84,7 +85,6 @@ const gettingShopCategoriesError   = error => ({type: appActions.GETTING_SHOP_CA
 // 3.
 const placeNewOrder = ({auth, order, shopId, isDriveThrough}) => {
     return dispatch => {
-
         console.log("SENDING ORDER FOR SHOP: " + shopId);
         console.log(order);
 
@@ -108,9 +108,8 @@ const placingNewOrderError  = error => ({type: appActions.PLACING_NEW_ORDER_ERRO
 const getUserOrders = ({auth}) => {
     return dispatch => {
         dispatch({ type: appActions.GETTING_USER_ORDERS });
-        debugger;
         // todo
-        return fetch(`${BASE_URL}/users/orders`, {
+        return fetch(`${BASE_URL}/users/me/orders`, {
             method: 'POST',
             body: JSON.stringify({...auth}),
             headers: {
@@ -156,7 +155,7 @@ const cancelOrder = ({auth, merchant_id, order_id}) => {
 
         return fetch(`${BASE_URL}/shops/clover/${merchant_id}/order/${order_id}/cancel`, {
             method: 'POST',
-            body: JSON.stringify({auth}),
+            body: JSON.stringify({...auth}),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -171,21 +170,20 @@ const cancelOrder = ({auth, merchant_id, order_id}) => {
 const orderCancelled          = ({orders}) => ({type: appActions.ORDER_IS_CANCELLED, orders});
 const cancellingOrderError    = error => ({type: appActions.CANCELLING_ORDER_ERROR, error});
 
-const removeOrder = ({auth, merchant_id, order_id}) => {
+const removeOrder = ({auth, order_id}) => {
     return dispatch => {
         dispatch({ type: appActions.REMOVING_ORDER });
-
-        return fetch(`${BASE_URL}/shops/clover/${merchant_id}/order/${order_id}/remove`, {
+        return fetch(`${BASE_URL}/users/me/orders/${order_id}/delete`, {
             method: 'POST',
-            body: JSON.stringify({auth}),
+            body: JSON.stringify({...auth}),
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-                .then(__handleSuccessError)
-                .then(json => dispatch(orderRemoved(json.data)))
-                .then(data => console.log(data))
-                .catch(error => dispatch(removingOrderError(error)))
+        .then(__handleSuccessError)
+        .then(json => dispatch(orderRemoved(json.data)))
+        .then(data => console.log(data))
+        .catch(error => dispatch(removingOrderError(error)))
     };
 };
 

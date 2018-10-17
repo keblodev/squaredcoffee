@@ -114,6 +114,10 @@ export default store => next => action => {
                     dispatch(actions.appResetAction());
                     dispatch(actions.refetchAuthorizedShops());
                 }
+
+                if (action.error.status && action.error.status  === 401) {
+                  dispatch(actions.logoutUser({auth}));
+                }
                 break;
 
             case appActions.GOT_AUTHORIZED_SHOPS:

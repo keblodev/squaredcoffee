@@ -12,7 +12,7 @@ export default class ReceiptWebViewWrap extends Component {
         return <WebView
                 source={{
                         //html: this.htmlTxt
-                        uri: `${BASE_URL}/shops/clover/order/${id}/receipt`
+                        uri: `${BASE_URL}/shops/clover/orders/${id}/receipt`
                     }}
                 //localhost renders properly on emulator, but full address not
                 //most likely due to ATS

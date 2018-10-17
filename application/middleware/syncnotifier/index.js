@@ -175,8 +175,9 @@ export default store => next => action => {
             case appActions.PLACING_NEW_ORDER_ERROR:
             case appActions.REFETCHING_AUTHORIZED_SHOPS:
                 if (action.error) {
+                    const {message , error } = action.error;
                     var notifyConfig = {
-                        msg: action.error.message,
+                        msg: error || message,
                         popup: true,
                         error: true
                     }
